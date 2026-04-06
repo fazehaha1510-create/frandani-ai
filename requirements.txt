@@ -1,0 +1,7 @@
+fastapi 
+uvicorn 
+replicate 
+python-dotenv 
+python-multipart 
+httpx 
+stripe 
