@@ -4,8 +4,8 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Frandani AI — Your AI Character, Live</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root { --blue:#3A38FF; --blue-dim:rgba(58,56,255,0.15); --blue-border:rgba(58,56,255,0.35); --bg:#05040f; --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07); --text:#f0f0f0; --muted:rgba(255,255,255,0.4); }
@@ -139,8 +139,6 @@
     .social-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px; border-radius:10px; font-size:14px; font-family:'DM Sans',sans-serif; cursor:pointer; font-weight:500; border:0.5px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:var(--text); transition:background 0.2s,border-color 0.2s; }
     .social-btn:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.22); }
     .social-btn.google { }
-    .social-btn.facebook { }
-    .social-btn.apple { }
     .social-divider { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
     .social-divider::before,.social-divider::after { content:''; flex:1; height:0.5px; background:rgba(255,255,255,0.1); }
     .social-divider span { font-size:12px; color:var(--muted); }
@@ -168,8 +166,8 @@
 </head>
 <body>
 <script>
-  const BACKEND = "https://web-production-de79e.up.railway.app";
-  const GOOGLE_CLIENT_ID = "542473900421-8ousnq49ep8ih4pr4d5ku0dm58tfkdh5.apps.googleusercontent.com";
+  const BACKEND = 'https://web-production-de79e.up.railway.app';
+  const GOOGLE_CLIENT_ID = '542473900421-8ousnq49ep8ih4pr4d5ku0dm58tfkdh5.apps.googleusercontent.com';
   let currentUser = null;
   try { const s = localStorage.getItem('frandani_user'); if(s) currentUser = JSON.parse(s); } catch(e){}
 </script>
@@ -191,14 +189,6 @@
       <button class="social-btn google" onclick="socialLogin('Google')">
         <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
         Continue with Google
-      </button>
-      <button class="social-btn facebook" onclick="socialLogin('Facebook')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        Continue with Facebook
-      </button>
-      <button class="social-btn apple" onclick="socialLogin('Apple')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        Continue with Apple
       </button>
     </div>
     <div class="social-divider"><span>or use email</span></div>
@@ -522,116 +512,129 @@
 
 <script>
 // Toast
-function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',3500);}
-
+function showToast(msg,type){
+  type=type||'';
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show '+type;
+  setTimeout(function(){t.className='toast';},3500);
+}
 // Modal
 function openModal(){document.getElementById('authModal').classList.add('open');}
 function closeModal(){document.getElementById('authModal').classList.remove('open');}
-document.getElementById('authModal').addEventListener('click',e=>{if(e.target.id==='authModal')closeModal();});
-function switchTab(tab){document.getElementById('tab-registro').style.display=tab==='registro'?'block':'none';document.getElementById('tab-login').style.display=tab==='login'?'block':'none';document.querySelectorAll('.modal-tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&tab==='registro')||(i===1&&tab==='login')));document.getElementById('modal-msg').textContent='';}
-
-// Social login simulation
-function socialLogin(provider){showToast('Redirecting to '+provider+'...','');setTimeout(()=>{currentUser={nombre:'User',email:'user@'+provider.toLowerCase()+'.com',plan:'starter'};localStorage.setItem('frandani_user',JSON.stringify(currentUser));document.getElementById('navAuthBtn').textContent='Account';closeModal();showToast('Signed in with '+provider,'success');},1200);}
-
+document.getElementById('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeModal();});
+function switchTab(tab){
+  document.getElementById('tab-registro').style.display=tab==='registro'?'block':'none';
+  document.getElementById('tab-login').style.display=tab==='login'?'block':'none';
+  document.querySelectorAll('.modal-tab').forEach(function(t,i){t.classList.toggle('active',(i===0&&tab==='registro')||(i===1&&tab==='login'));});
+  document.getElementById('modal-msg').textContent='';
+}
+// Google OAuth
+function socialLogin(provider){
+  if(typeof google==='undefined'){showToast('Loading Google...','');setTimeout(function(){socialLogin(provider);},1000);return;}
+  google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:handleGoogleLogin,use_fedcm_for_prompt:true});
+  google.accounts.id.prompt();
+}
+function handleGoogleLogin(response){
+  try{
+    var payload=JSON.parse(atob(response.credential.split('.')[1]));
+    currentUser={nombre:payload.name,email:payload.email,plan:'starter',avatar:payload.picture};
+    localStorage.setItem('frandani_user',JSON.stringify(currentUser));
+    document.getElementById('navAuthBtn').textContent=payload.name.split(' ')[0];
+    closeModal();
+    showToast('Welcome, '+payload.name+'!','success');
+  }catch(e){showToast('Google login error. Try again.','error');}
+}
 // Register
-function registrar(){const nombre=document.getElementById('reg-nombre').value.trim();const email=document.getElementById('reg-email').value.trim();const pass=document.getElementById('reg-pass').value;if(!nombre||!email||!pass){document.getElementById('modal-msg').textContent='Please fill in all fields';return;}if(pass.length<6){document.getElementById('modal-msg').textContent='Password must be at least 6 characters';return;}currentUser={nombre,email,plan:'starter'};localStorage.setItem('frandani_user',JSON.stringify(currentUser));document.getElementById('navAuthBtn').textContent=nombre.split(' ')[0];closeModal();showToast('Account created! Welcome to Frandani AI','success');}
-
+function registrar(){
+  var nombre=document.getElementById('reg-nombre').value.trim();
+  var email=document.getElementById('reg-email').value.trim();
+  var pass=document.getElementById('reg-pass').value;
+  if(!nombre||!email||!pass){document.getElementById('modal-msg').textContent='Please fill in all fields';return;}
+  if(pass.length<6){document.getElementById('modal-msg').textContent='Password must be at least 6 characters';return;}
+  currentUser={nombre:nombre,email:email,plan:'starter'};
+  localStorage.setItem('frandani_user',JSON.stringify(currentUser));
+  document.getElementById('navAuthBtn').textContent=nombre.split(' ')[0];
+  closeModal();
+  showToast('Account created! Welcome to Frandani AI','success');
+}
 // Login
-function login(){const email=document.getElementById('login-email').value.trim();const pass=document.getElementById('login-pass').value;if(!email||!pass){document.getElementById('modal-msg').textContent='Please fill in all fields';return;}const saved=localStorage.getItem('frandani_user');if(saved){currentUser=JSON.parse(saved);document.getElementById('navAuthBtn').textContent=currentUser.nombre.split(' ')[0];closeModal();showToast('Welcome back, '+currentUser.nombre+'!','success');}else{document.getElementById('modal-msg').textContent='User not found. Create an account first.';}}
-
-// Buy credits (requires active paid plan)
-async function comprarCreditos(cantidad){
+function login(){
+  var email=document.getElementById('login-email').value.trim();
+  var pass=document.getElementById('login-pass').value;
+  if(!email||!pass){document.getElementById('modal-msg').textContent='Please fill in all fields';return;}
+  var saved=localStorage.getItem('frandani_user');
+  if(saved){
+    currentUser=JSON.parse(saved);
+    document.getElementById('navAuthBtn').textContent=currentUser.nombre.split(' ')[0];
+    closeModal();
+    showToast('Welcome back, '+currentUser.nombre+'!','success');
+  }else{document.getElementById('modal-msg').textContent='User not found. Create an account first.';}
+}
+// Buy credits
+function comprarCreditos(cantidad){
   if(!currentUser){openModal();showToast('Sign in to continue','');return;}
   if(!currentUser.plan||currentUser.plan==='starter'){showToast('You need a paid plan to buy extra credits','error');return;}
   showToast('Creating credit checkout...','');
-  try{
-    const res=await fetch(`${BACKEND}/comprar-creditos?cantidad=${cantidad}&email=${currentUser.email}`,{method:'POST'});
-    const data=await res.json();
-    if(data.checkout_url){window.open(data.checkout_url,'_blank');}
-    else{showToast('Error processing request','error');}
-  }catch(e){showToast('Could not connect to server','error');}
+  fetch(BACKEND+'/comprar-creditos?cantidad='+cantidad+'&email='+currentUser.email,{method:'POST'})
+    .then(function(r){return r.json();})
+    .then(function(data){if(data.checkout_url)window.open(data.checkout_url,'_blank');else showToast('Error processing request','error');})
+    .catch(function(){showToast('Could not connect to server','error');});
 }
-
 // Pay
-async function pagar(plan){if(!currentUser){openModal();showToast('Sign in to continue','');return;}showToast('Creating payment session...','');try{const res=await fetch(`${BACKEND}/crear-pago?plan_id=${plan}&email=${currentUser.email}`,{method:'POST'});const data=await res.json();if(data.checkout_url&&data.checkout_url!=='gratis'){window.open(data.checkout_url,'_blank');}else{showToast('Free plan activated','success');}}catch(e){showToast('Could not connect to server','error');}}
-
-// Before & After drag
-const baBox=document.getElementById('baBox');
-const baAfterClip=document.getElementById('baAfterClip');
-const baLine=document.getElementById('baLine');
-const baHandle=document.getElementById('baHandle');
-let baDrag=false;
-
+function pagar(plan){
+  if(!currentUser){openModal();showToast('Sign in to continue','');return;}
+  showToast('Creating payment session...','');
+  fetch(BACKEND+'/crear-pago?plan_id='+plan+'&email='+currentUser.email,{method:'POST'})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data.checkout_url&&data.checkout_url!=='gratis')window.open(data.checkout_url,'_blank');
+      else showToast('Free plan activated','success');
+    })
+    .catch(function(){showToast('Could not connect to server','error');});
+}
+// Before/After
+var baBox=document.getElementById('baBox');
+var baAfterClip=document.getElementById('baAfterClip');
+var baLine=document.getElementById('baLine');
+var baHandle=document.getElementById('baHandle');
+var baDrag=false;
 function baMove(x){
-  const r=baBox.getBoundingClientRect();
-  const p=Math.min(94,Math.max(6,(x-r.left)/r.width*100));
+  var r=baBox.getBoundingClientRect();
+  var p=Math.min(94,Math.max(6,(x-r.left)/r.width*100));
   baAfterClip.style.clipPath='inset(0 '+(100-p)+'% 0 0)';
   baLine.style.left=p+'%';
   baHandle.style.left=p+'%';
 }
-baBox.addEventListener('mousedown',e=>{baDrag=true;baMove(e.clientX);});
-window.addEventListener('mousemove',e=>{if(baDrag)baMove(e.clientX);});
-window.addEventListener('mouseup',()=>{baDrag=false;});
-baBox.addEventListener('touchstart',e=>{baDrag=true;baMove(e.touches[0].clientX);},{passive:true});
-window.addEventListener('touchmove',e=>{if(baDrag)baMove(e.touches[0].clientX);},{passive:true});
-window.addEventListener('touchend',()=>{baDrag=false;});
-
-// Style overlays per tab
-const baStyles={
+baBox.addEventListener('mousedown',function(e){baDrag=true;baMove(e.clientX);});
+window.addEventListener('mousemove',function(e){if(baDrag)baMove(e.clientX);});
+window.addEventListener('mouseup',function(){baDrag=false;});
+baBox.addEventListener('touchstart',function(e){baDrag=true;baMove(e.touches[0].clientX);},{passive:true});
+window.addEventListener('touchmove',function(e){if(baDrag)baMove(e.touches[0].clientX);},{passive:true});
+window.addEventListener('touchend',function(){baDrag=false;});
+var baStyles={
   profesional:{overlay:'linear-gradient(160deg,rgba(58,56,255,0.45),rgba(120,80,255,0.3))',label:'Professional · AI'},
   anime:{overlay:'linear-gradient(160deg,rgba(160,40,255,0.5),rgba(80,20,180,0.4))',label:'Anime Style · AI'},
   glam:{overlay:'linear-gradient(160deg,rgba(220,40,100,0.5),rgba(180,20,120,0.35))',label:'Glam / Fashion · AI'},
   casual:{overlay:'linear-gradient(160deg,rgba(20,160,160,0.45),rgba(10,120,180,0.35))',label:'Natural Casual · AI'}
 };
 function setBAStyle(tab,key){
-  document.querySelectorAll('.ba-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ba-tab').forEach(function(t){t.classList.remove('active');});
   tab.classList.add('active');
   document.getElementById('baStyleOverlay').style.background=baStyles[key].overlay;
   document.getElementById('baAfterLabel').textContent=baStyles[key].label;
-  // Reset divider to center
   baAfterClip.style.clipPath='inset(0 50% 0 0)';
   baLine.style.left='50%';
   baHandle.style.left='50%';
 }
-
-// Sync videos
-const vBefore=document.getElementById('baVideoBefore');
-const vAfter=document.getElementById('baVideoAfter');
-vBefore.addEventListener('timeupdate',()=>{if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});
-
-// Google OAuth
-function initGoogleLogin(){
-  if(typeof google===.undefined.){
-    showToast("Loading Google login...","");
-    setTimeout(initGoogleLogin,1000);
-    return;
-  }
-  google.accounts.id.initialize({
-    client_id:GOOGLE_CLIENT_ID,
-    callback:handleGoogleLogin,
-    use_fedcm_for_prompt:true
-  });
-  google.accounts.id.prompt();
-}
-function handleGoogleLogin(response){
-  try{
-    const payload=JSON.parse(atob(response.credential.split(".")[1]));
-    currentUser={nombre:payload.name,email:payload.email,plan:"starter",avatar:payload.picture};
-    localStorage.setItem("frandani_user",JSON.stringify(currentUser));
-    document.getElementById("navAuthBtn").textContent=payload.name.split(" ")[0];
-    closeModal();
-    showToast("Welcome, "+payload.name+"!","success");
-  }catch(e){
-    showToast("Google login error. Try again.","error");
-  }
-}
+var vBefore=document.getElementById('baVideoBefore');
+var vAfter=document.getElementById('baVideoAfter');
+vBefore.addEventListener('timeupdate',function(){if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});
 // Init nav
 if(currentUser)document.getElementById('navAuthBtn').textContent=currentUser.nombre.split(' ')[0];
-
 // Query params
-const params=new URLSearchParams(window.location.search);
-if(params.get('pago')==='exitoso')showToast('Payment successful! Welcome to your premium plan','success');
-if(params.get('pago')==='cancelado')showToast('Payment cancelled','');
+var params=new URLSearchParams(window.location.search);
+var _shown=sessionStorage.getItem('toast_shown');
+if(params.get('pago')==='exitoso'&&!_shown){showToast('Payment successful! Welcome to your premium plan','success');sessionStorage.setItem('toast_shown','1');}
+if(params.get('pago')==='cancelado'&&!_shown){showToast('Payment cancelled','');sessionStorage.setItem('toast_shown','1');}
 </script>
-</body>
-</html>
