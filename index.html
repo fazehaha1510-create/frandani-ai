@@ -216,7 +216,14 @@
     <a href="#para-quien">For who</a>
     <a href="#precios">Pricing</a>
   </div>
-  <button class="btn-nav" id="navAuthBtn" onclick="openModal()">Create my avatar</button>
+  <div style="position:relative;">
+  <button class="btn-nav" id="navAuthBtn" onclick="navBtnClick()">Create my avatar</button>
+  <div id="userMenu" style="display:none;position:absolute;right:0;top:48px;background:#0d0c1e;border:0.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:8px;min-width:180px;z-index:200;">
+    <div id="userMenuName" style="padding:10px 14px;font-size:13px;color:rgba(255,255,255,0.5);border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:6px;"></div>
+    <button onclick="irAPlanes()" style="display:block;width:100%;text-align:left;background:none;border:none;color:#f0f0f0;font-size:13px;padding:9px 14px;cursor:pointer;border-radius:8px;font-family:DM Sans,sans-serif;">My plan</button>
+    <button onclick="cerrarSesion()" style="display:block;width:100%;text-align:left;background:none;border:none;color:rgba(255,80,80,0.8);font-size:13px;padding:9px 14px;cursor:pointer;border-radius:8px;font-family:DM Sans,sans-serif;">Sign out</button>
+  </div>
+</div>
 </nav>
 
 <!-- HERO -->
@@ -556,6 +563,7 @@ function registrar(){
   localStorage.setItem('frandani_user',JSON.stringify(currentUser));
   document.getElementById('navAuthBtn').textContent=nombre.split(' ')[0];
   closeModal();
+  document.getElementById('navAuthBtn').textContent=nombre.split(' ')[0];
   showToast('Account created! Welcome to Frandani AI','success');
 }
 // Login
@@ -581,17 +589,48 @@ function comprarCreditos(cantidad){
     .then(function(data){if(data.checkout_url)window.open(data.checkout_url,'_blank');else showToast('Error processing request','error');})
     .catch(function(){showToast('Could not connect to server','error');});
 }
-// Pay
+// Nav button logic
+function navBtnClick(){
+  if(!currentUser){openModal();return;}
+  var menu=document.getElementById('userMenu');
+  document.getElementById('userMenuName').textContent=currentUser.email||'';
+  menu.style.display=menu.style.display==='none'?'block':'none';
+}
+document.addEventListener('click',function(e){
+  var menu=document.getElementById('userMenu');
+  var btn=document.getElementById('navAuthBtn');
+  if(menu&&!menu.contains(e.target)&&!btn.contains(e.target)){
+    menu.style.display='none';
+  }
+});
+function irAPlanes(){
+  document.getElementById('userMenu').style.display='none';
+  document.getElementById('precios').scrollIntoView({behavior:'smooth'});
+}
+function cerrarSesion(){
+  currentUser=null;
+  localStorage.removeItem('frandani_user');
+  document.getElementById('navAuthBtn').textContent='Create my avatar';
+  document.getElementById('userMenu').style.display='none';
+  showToast('Signed out successfully','');
+}
+// Pay - open Stripe checkout
 function pagar(plan){
   if(!currentUser){openModal();showToast('Sign in to continue','');return;}
-  showToast('Creating payment session...','');
+  if(plan==='starter'){openModal();return;}
+  showToast('Opening payment...','');
   fetch(BACKEND+'/crear-pago?plan_id='+plan+'&email='+currentUser.email,{method:'POST'})
     .then(function(r){return r.json();})
     .then(function(data){
-      if(data.checkout_url&&data.checkout_url!=='gratis')window.open(data.checkout_url,'_blank');
-      else showToast('Free plan activated','success');
+      if(data.checkout_url&&data.checkout_url!=='gratis'){
+        window.open(data.checkout_url,'_blank');
+      }else{
+        showToast('Error generating payment link','error');
+      }
     })
-    .catch(function(){showToast('Could not connect to server','error');});
+    .catch(function(){
+      showToast('Could not connect to server. Try again.','error');
+    });
 }
 // Before/After
 var baBox=document.getElementById('baBox');
@@ -631,7 +670,9 @@ var vBefore=document.getElementById('baVideoBefore');
 var vAfter=document.getElementById('baVideoAfter');
 vBefore.addEventListener('timeupdate',function(){if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});
 // Init nav
-if(currentUser)document.getElementById('navAuthBtn').textContent=currentUser.nombre.split(' ')[0];
+if(currentUser){
+  document.getElementById('navAuthBtn').textContent=currentUser.nombre?currentUser.nombre.split(' ')[0]:'Account';
+}
 // Query params
 var params=new URLSearchParams(window.location.search);
 var _shown=sessionStorage.getItem('toast_shown');
