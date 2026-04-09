@@ -350,6 +350,7 @@
     <button class="nav-tab" onclick="goTo('image')">Image</button>
     <button class="nav-tab" onclick="goTo('video')">Video</button>
     <button class="nav-tab" onclick="goTo('live')">Live swap</button>
+    <button class="nav-tab" onclick="goTo('home');setTimeout(function(){document.getElementById('precios').scrollIntoView({behavior:'smooth'});},100)">Pricing</button>
   </div>
   <div class="nav-right">
     <div class="user-menu-wrap">
@@ -367,67 +368,6 @@
 
 <!-- PAGE: HOME -->
 <div class="page active" id="page-home">
-
-<script>
-  const BACKEND = 'http://localhost:8000';
-  let currentUser = null;
-  try { const s = localStorage.getItem('frandani_user'); if(s) currentUser = JSON.parse(s); } catch(e){}
-</script>
-<div class="toast" id="toast"></div>
-
-<!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h2>Welcome to Frandani AI</h2>
-    <p class="modal-sub">Create your free account to get started</p>
-    <div class="modal-tabs">
-      <button class="modal-tab active" onclick="switchTab('registro')">Create account</button>
-      <button class="modal-tab" onclick="switchTab('login')">Sign in</button>
-    </div>
-
-    <!-- Social login buttons -->
-    <div class="social-btns">
-      <button class="social-btn google" onclick="socialLogin('Google')">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        Continue with Google
-      </button>
-      <button class="social-btn facebook" onclick="socialLogin('Facebook')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        Continue with Facebook
-      </button>
-      <button class="social-btn apple" onclick="socialLogin('Apple')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        Continue with Apple
-      </button>
-    </div>
-    <div class="social-divider"><span>or use email</span></div>
-
-    <div id="tab-registro">
-      <div class="form-group"><label>Full name</label><input type="text" id="reg-nombre" placeholder="Your name"/></div>
-      <div class="form-group"><label>Email</label><input type="email" id="reg-email" placeholder="you@email.com"/></div>
-      <div class="form-group"><label>Password</label><input type="password" id="reg-pass" placeholder="Minimum 6 characters"/></div>
-      <button class="btn-full" onclick="registrar()">Create free account</button>
-    </div>
-    <div id="tab-login" style="display:none">
-      <div class="form-group"><label>Email</label><input type="email" id="login-email" placeholder="you@email.com"/></div>
-      <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="Your password"/></div>
-      <button class="btn-full" onclick="login()">Sign in</button>
-    </div>
-    <div class="modal-msg" id="modal-msg"></div>
-  </div>
-</div>
-
-<!-- NAV -->
-<nav>
-  <div class="logo"><span>Fran</span>dani AI</div>
-  <div class="nav-links">
-    <a href="#como-funciona">How it works</a>
-    <a href="#para-quien">For who</a>
-    <a href="#precios">Pricing</a>
-  </div>
-  <button class="btn-nav" id="navAuthBtn" onclick="openModal()">Create my avatar</button>
-</nav>
 
 <!-- HERO -->
 <div class="hero-wrap">
@@ -545,86 +485,109 @@
   <div class="sec-title">Simple pricing</div>
   <div class="sec-sub">Pick a plan and start streaming live. Credits are included — use them to generate AI images or apply face swap to videos.</div>
 
-  <!-- Plans grid -->
-  <div class="plans" style="margin-bottom:20px;">
+  <!-- Billing toggle -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:40px;">
+    <div style="background:rgba(255,255,255,0.05);border:0.5px solid var(--border);border-radius:999px;padding:4px;display:flex;gap:2px;">
+      <button id="btn-monthly" onclick="setBilling('monthly')" style="background:var(--blue);color:#fff;border:none;padding:8px 22px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;">Monthly</button>
+      <button id="btn-annual" onclick="setBilling('annual')" style="background:transparent;color:var(--muted);border:none;padding:8px 22px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:8px;">Annual <span style="background:rgba(34,197,94,0.15);border:0.5px solid rgba(34,197,94,0.3);color:rgba(34,197,94,0.9);font-size:11px;padding:2px 8px;border-radius:999px;">Save 20%</span></button>
+    </div>
+  </div>
+
+  <!-- Plans grid — flex cards with bottom-aligned button -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;align-items:stretch;">
 
     <!-- Starter -->
-    <div class="plan">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price">$0 <sub>/mo</sub></div>
-      <div class="plan-desc">Just to explore</div>
-      <div class="plan-div"></div>
-      <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-      <div class="feat">1 AI avatar</div>
-      <div class="feat">2 hrs/mo live streaming</div>
-      <div class="feat">720p · watermark</div>
-      <div class="plan-div" style="margin-top:12px;"></div>
-      <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-      <div class="feat"><strong style="color:var(--text);">5 credits/mo</strong></div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 2 images · no video swap</div>
-      <div class="feat" style="color:rgba(255,80,80,0.45);">✕ Cannot buy extra credits</div>
-      <button class="plan-btn ghost" onclick="openModal()">Get started free</button>
+    <div class="plan" style="display:flex;flex-direction:column;">
+      <div>
+        <div class="plan-name">Starter</div>
+        <div class="plan-price" id="price-starter">$0 <sub>/mo</sub></div>
+        <div class="plan-desc">Just to explore</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat">1 AI avatar</div>
+        <div class="feat">2 hrs/mo live streaming</div>
+        <div class="feat">720p · watermark</div>
+        <div class="plan-div" style="margin-top:12px;"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat"><strong style="color:var(--text);">5 credits/mo</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 2 images · no video swap</div>
+        <div class="feat" style="color:rgba(255,80,80,0.45);">✕ Cannot buy extra credits</div>
+      </div>
+      <div style="flex:1;"></div>
+      <button class="plan-btn ghost" style="margin-top:24px;" onclick="openModal()">Get started free</button>
     </div>
 
     <!-- Creator -->
-    <div class="plan">
-      <div class="plan-name">Creator</div>
-      <div class="plan-price">$29.99 <sub>/mo</sub></div>
-      <div class="plan-desc">For creators getting started</div>
-      <div class="plan-div"></div>
-      <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-      <div class="feat">3 AI avatars</div>
-      <div class="feat">15 hrs/mo live streaming</div>
-      <div class="feat">1080p · no watermark</div>
-      <div class="plan-div" style="margin-top:12px;"></div>
-      <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-      <div class="feat"><strong style="color:var(--text);">30 credits/mo</strong></div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 15 images · no video swap</div>
-      <div class="feat">Can buy extra credits ✓</div>
-      <button class="plan-btn ghost" onclick="pagar('creator')">Choose Creator</button>
+    <div class="plan" style="display:flex;flex-direction:column;">
+      <div>
+        <div class="plan-name">Creator</div>
+        <div class="plan-price" id="price-creator">$29.99 <sub>/mo</sub></div>
+        <div id="annual-save-creator" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $287.90/yr · save $71.98</div>
+        <div class="plan-desc">For creators getting started</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat">3 AI avatars</div>
+        <div class="feat">15 hrs/mo live streaming</div>
+        <div class="feat">1080p · no watermark</div>
+        <div class="plan-div" style="margin-top:12px;"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat"><strong style="color:var(--text);">30 credits/mo</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 15 images · no video swap</div>
+        <div class="feat">Can buy extra credits ✓</div>
+      </div>
+      <div style="flex:1;"></div>
+      <button class="plan-btn ghost" style="margin-top:24px;" onclick="pagar('creator')">Choose Creator</button>
     </div>
 
     <!-- Pro — MOST POPULAR -->
-    <div class="plan featured">
+    <div class="plan featured" style="display:flex;flex-direction:column;">
       <div class="plan-badge">Most popular</div>
-      <div class="plan-name">Pro</div>
-      <div class="plan-price">$69.99 <sub>/mo</sub></div>
-      <div class="plan-desc">For serious active earners</div>
-      <div class="plan-div"></div>
-      <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-      <div class="feat">10 AI avatars</div>
-      <div class="feat">Unlimited live streaming</div>
-      <div class="feat">4K · no watermark · multi-stream</div>
-      <div class="plan-div" style="margin-top:12px;"></div>
-      <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-      <div class="feat"><strong style="color:var(--text);">120 credits/mo</strong></div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 60 images · or 15 min video swap</div>
-      <div class="feat">AI image generation ✓</div>
-      <div class="feat">Video face/body swap ✓</div>
-      <div class="feat">Can buy extra credits ✓</div>
-      <button class="plan-btn solid" onclick="pagar('pro')">Choose Pro</button>
+      <div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price" id="price-pro">$69.99 <sub>/mo</sub></div>
+        <div id="annual-save-pro" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $671.90/yr · save $167.98</div>
+        <div class="plan-desc">For serious active earners</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat">10 AI avatars</div>
+        <div class="feat">Unlimited live streaming</div>
+        <div class="feat">4K · no watermark · multi-stream</div>
+        <div class="plan-div" style="margin-top:12px;"></div>
+        <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat"><strong style="color:var(--text);">120 credits/mo</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 60 images · or 15 min video swap</div>
+        <div class="feat">AI image generation ✓</div>
+        <div class="feat">Video face/body swap ✓</div>
+        <div class="feat">Can buy extra credits ✓</div>
+      </div>
+      <div style="flex:1;"></div>
+      <button class="plan-btn solid" style="margin-top:24px;" onclick="pagar('pro')">Choose Pro</button>
     </div>
 
     <!-- Elite -->
-    <div class="plan elite elite-glow">
+    <div class="plan elite elite-glow" style="display:flex;flex-direction:column;">
       <div class="plan-badge elite-badge">⚡ Elite</div>
-      <div class="plan-name">Elite</div>
-      <div class="plan-price">$149.99 <sub>/mo</sub></div>
-      <div class="plan-desc">For full-time earners &amp; studios</div>
-      <div class="plan-div"></div>
-      <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-      <div class="feat elite-feat">Unlimited AI avatars</div>
-      <div class="feat elite-feat">Unlimited streaming · 8K</div>
-      <div class="feat elite-feat">AI voice changer included</div>
-      <div class="feat elite-feat">Custom avatar from your photo</div>
-      <div class="plan-div" style="margin-top:12px;border-color:rgba(168,85,247,0.2);"></div>
-      <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-      <div class="feat elite-feat bold-feat"><strong style="color:#e9d5ff;">300 credits/mo + rollover</strong></div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 150 images · or 37 min video swap</div>
-      <div class="feat elite-feat">AI image generation ✓</div>
-      <div class="feat elite-feat">Video face/body swap ✓</div>
-      <div class="feat elite-feat bold-feat">Buy credits at 20% discount ✓</div>
-      <button class="plan-btn solid-elite" onclick="pagar('elite')">Go Elite</button>
+      <div>
+        <div class="plan-name">Elite</div>
+        <div class="plan-price" id="price-elite">$149.99 <sub>/mo</sub></div>
+        <div id="annual-save-elite" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $1,439.90/yr · save $359.98</div>
+        <div class="plan-desc">For full-time earners &amp; studios</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat elite-feat">Unlimited AI avatars</div>
+        <div class="feat elite-feat">Unlimited streaming · 8K</div>
+        <div class="feat elite-feat">AI voice changer included</div>
+        <div class="feat elite-feat">Custom avatar from your photo</div>
+        <div class="plan-div" style="margin-top:12px;border-color:rgba(168,85,247,0.2);"></div>
+        <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat elite-feat bold-feat"><strong style="color:#e9d5ff;">300 credits/mo + rollover</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 150 images · or 37 min video swap</div>
+        <div class="feat elite-feat">AI image generation ✓</div>
+        <div class="feat elite-feat">Video face/body swap ✓</div>
+        <div class="feat elite-feat bold-feat">Buy credits at 20% discount ✓</div>
+      </div>
+      <div style="flex:1;"></div>
+      <button class="plan-btn solid-elite" style="margin-top:24px;" onclick="pagar('elite')">Go Elite</button>
     </div>
 
   </div>
@@ -966,6 +929,33 @@ function cerrarSesion(){
   document.getElementById('navAuthBtn').textContent='Create my avatar';
   closeUserMenu();
   showToast('Signed out successfully','');
+}
+
+// Billing toggle
+var currentBilling = 'monthly';
+var prices = {
+  monthly:  { creator: '$29.99', pro: '$69.99',  elite: '$149.99' },
+  annual:   { creator: '$23.99', pro: '$55.99',  elite: '$119.99' }
+};
+function setBilling(mode) {
+  currentBilling = mode;
+  var btnM = document.getElementById('btn-monthly');
+  var btnA = document.getElementById('btn-annual');
+  if (mode === 'monthly') {
+    btnM.style.background = 'var(--blue)'; btnM.style.color = '#fff';
+    btnA.style.background = 'transparent'; btnA.style.color = 'var(--muted)';
+    document.getElementById('price-creator').innerHTML = '$29.99 <sub>/mo</sub>';
+    document.getElementById('price-pro').innerHTML     = '$69.99 <sub>/mo</sub>';
+    document.getElementById('price-elite').innerHTML   = '$149.99 <sub>/mo</sub>';
+    ['creator','pro','elite'].forEach(function(p){ document.getElementById('annual-save-'+p).style.display='none'; });
+  } else {
+    btnA.style.background = 'var(--blue)'; btnA.style.color = '#fff';
+    btnM.style.background = 'transparent'; btnM.style.color = 'var(--muted)';
+    document.getElementById('price-creator').innerHTML = '$23.99 <sub>/mo</sub>';
+    document.getElementById('price-pro').innerHTML     = '$55.99 <sub>/mo</sub>';
+    document.getElementById('price-elite').innerHTML   = '$119.99 <sub>/mo</sub>';
+    ['creator','pro','elite'].forEach(function(p){ document.getElementById('annual-save-'+p).style.display='block'; });
+  }
 }
 
 // Pay
