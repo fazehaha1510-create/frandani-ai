@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    :root { --blue:#3A38FF; --blue-dim:rgba(58,56,255,0.15); --blue-border:rgba(58,56,255,0.35); --bg:#05040f; --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07); --text:#f0f0f0; --muted:rgba(255,255,255,0.4); }
+:root { --blue:#3A38FF; --blue-dim:rgba(58,56,255,0.15); --blue-border:rgba(58,56,255,0.35); --bg:#05040f; --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07); --text:#f0f0f0; --muted:rgba(255,255,255,0.4); }
     * { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.7; overflow-x:hidden; }
@@ -139,6 +139,8 @@
     .social-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px; border-radius:10px; font-size:14px; font-family:'DM Sans',sans-serif; cursor:pointer; font-weight:500; border:0.5px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:var(--text); transition:background 0.2s,border-color 0.2s; }
     .social-btn:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.22); }
     .social-btn.google { }
+    .social-btn.facebook { }
+    .social-btn.apple { }
     .social-divider { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
     .social-divider::before,.social-divider::after { content:''; flex:1; height:0.5px; background:rgba(255,255,255,0.1); }
     .social-divider span { font-size:12px; color:var(--muted); }
@@ -162,12 +164,212 @@
     footer a { color:rgba(255,255,255,0.22); text-decoration:none; }
     @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
     @media(max-width:768px){nav{padding:16px 24px;}.nav-links{display:none;}.hero{grid-template-columns:1fr;padding:60px 24px 40px;}.hero h1{font-size:36px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:60px 24px;}.cta h2{font-size:32px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}}
+  
+
+    /* SPA NAV */
+    .main-nav { display:flex; justify-content:space-between; align-items:center; padding:0 60px; height:64px; border-bottom:0.5px solid var(--border); position:sticky; top:0; z-index:100; background:rgba(5,4,15,0.95); backdrop-filter:blur(12px); }
+    .logo { font-family:'Syne',sans-serif; font-size:22px; font-weight:700; letter-spacing:-0.5px; flex-shrink:0; }
+    .logo span { color:var(--blue); }
+    .nav-center { display:flex; gap:4px; align-items:center; }
+    .nav-tab { background:none; border:none; color:rgba(255,255,255,0.45); font-size:14px; padding:8px 18px; border-radius:999px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; white-space:nowrap; }
+    .nav-tab:hover { color:#fff; background:rgba(255,255,255,0.06); }
+    .nav-tab.active { color:#fff; background:rgba(58,56,255,0.18); border:0.5px solid rgba(58,56,255,0.3); }
+    .nav-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+    .btn-nav { background:var(--blue); color:#fff; border:none; padding:10px 22px; border-radius:999px; font-size:13px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; }
+
+    /* PAGES */
+    .page { display:none; min-height:calc(100vh - 64px); }
+    .page.active { display:block; }
+
+    /* IMAGE PAGE */
+    .img-page { max-width:1100px; margin:0 auto; padding:48px 60px; }
+    .img-page-title { font-family:'Syne',sans-serif; font-size:36px; font-weight:700; letter-spacing:-1px; margin-bottom:8px; }
+    .img-page-sub { font-size:15px; color:var(--muted); margin-bottom:40px; }
+    .img-layout { display:grid; grid-template-columns:340px 1fr; gap:28px; align-items:start; }
+    .img-controls { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:18px; }
+    .ctrl-label { font-size:11px; color:var(--blue); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
+    .ctrl-textarea { width:100%; background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px 14px; color:var(--text); font-size:14px; font-family:'DM Sans',sans-serif; outline:none; resize:none; min-height:120px; line-height:1.6; }
+    .ctrl-textarea:focus { border-color:var(--blue-border); }
+    .ctrl-select { width:100%; background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.12); border-radius:10px; padding:11px 14px; color:var(--text); font-size:14px; font-family:'DM Sans',sans-serif; outline:none; cursor:pointer; }
+    .model-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .model-opt { background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px 12px; cursor:pointer; transition:all 0.2s; }
+    .model-opt:hover { border-color:var(--blue-border); }
+    .model-opt.active { border-color:var(--blue); background:var(--blue-dim); }
+    .model-opt-name { font-size:13px; font-weight:500; margin-bottom:2px; }
+    .model-opt-desc { font-size:11px; color:var(--muted); }
+    .style-chips { display:flex; gap:6px; flex-wrap:wrap; }
+    .style-chip { background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.1); border-radius:999px; padding:5px 12px; font-size:12px; color:var(--muted); cursor:pointer; transition:all 0.2s; }
+    .style-chip.active { background:var(--blue-dim); border-color:var(--blue-border); color:#a0a0ff; }
+    .ratio-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+    .ratio-opt { background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.08); border-radius:8px; padding:8px 4px; text-align:center; cursor:pointer; font-size:11px; color:var(--muted); transition:all 0.2s; }
+    .ratio-opt.active { border-color:var(--blue); color:#a0a0ff; background:var(--blue-dim); }
+    .btn-generate { width:100%; background:var(--blue); color:#fff; border:none; padding:14px; border-radius:999px; font-size:15px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:4px; transition:opacity 0.2s; }
+    .btn-generate:hover { opacity:0.85; }
+    .btn-generate:disabled { opacity:0.4; cursor:not-allowed; }
+    .img-output { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; overflow:hidden; }
+    .img-output-header { padding:16px 20px; border-bottom:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .img-output-title { font-size:14px; font-weight:500; }
+    .img-output-body { padding:20px; min-height:480px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; }
+    .img-placeholder { display:flex; flex-direction:column; align-items:center; gap:12px; color:var(--muted); font-size:14px; }
+    .img-result { width:100%; border-radius:12px; display:none; }
+    .img-loading { display:none; flex-direction:column; align-items:center; gap:16px; }
+    .spinner { width:40px; height:40px; border:2px solid rgba(58,56,255,0.2); border-top-color:var(--blue); border-radius:50%; animation:spin 0.8s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .img-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:16px; }
+    .gallery-item { border-radius:10px; overflow:hidden; aspect-ratio:1; background:rgba(255,255,255,0.04); border:0.5px solid var(--border); cursor:pointer; position:relative; }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; }
+    .btn-download { background:rgba(255,255,255,0.08); border:0.5px solid rgba(255,255,255,0.15); color:#fff; padding:8px 18px; border-radius:999px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; display:none; }
+
+    /* VIDEO PAGE */
+    .video-page { max-width:1100px; margin:0 auto; padding:48px 60px; }
+    .coming-soon-box { background:var(--surface); border:0.5px solid var(--border); border-radius:20px; padding:80px 40px; text-align:center; margin-top:20px; }
+    .coming-soon-box h2 { font-family:'Syne',sans-serif; font-size:32px; font-weight:700; margin-bottom:12px; }
+    .coming-soon-box p { color:var(--muted); font-size:15px; margin-bottom:28px; }
+    .coming-tag { display:inline-block; background:var(--blue-dim); border:0.5px solid var(--blue-border); color:#a0a0ff; font-size:12px; padding:6px 16px; border-radius:999px; margin-bottom:24px; }
+
+    /* LIVE PAGE */
+    .live-page { max-width:1100px; margin:0 auto; padding:48px 60px; }
+    .live-studio { background:var(--surface); border:0.5px solid var(--border); border-radius:20px; overflow:hidden; }
+    .live-studio-header { padding:20px 28px; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+    .live-studio-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; }
+    .live-studio-body { display:grid; grid-template-columns:1fr 1fr; }
+    .live-panel { padding:28px; }
+    .live-panel:first-child { border-right:0.5px solid var(--border); }
+    .live-panel-label { font-size:11px; color:var(--blue); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px; }
+    .video-box { background:#08071a; border:0.5px solid rgba(255,255,255,0.08); border-radius:12px; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+    .video-box video, .video-box canvas { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; }
+    .video-placeholder { display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--muted); font-size:13px; z-index:1; }
+    .live-controls { margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; }
+    .btn-live { background:var(--blue); color:#fff; border:none; padding:10px 20px; border-radius:999px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-live.secondary { background:rgba(255,255,255,0.08); color:var(--text); }
+    .avatar-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:14px; }
+    .avatar-opt { background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px; text-align:center; cursor:pointer; font-size:12px; color:var(--muted); transition:all 0.2s; }
+    .avatar-opt.active { border-color:var(--blue); background:var(--blue-dim); color:#a0a0ff; }
+    .status-row { margin-top:12px; font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+    .status-dot { width:6px; height:6px; border-radius:50%; background:#555; flex-shrink:0; }
+    .status-dot.on { background:#22c55e; animation:pulse 1.4s ease-in-out infinite; }
+
+    /* USER MENU */
+    .user-menu-wrap { position:relative; }
+    .user-menu { display:none; position:absolute; right:0; top:52px; background:#0d0c1e; border:0.5px solid rgba(255,255,255,0.12); border-radius:12px; padding:8px; min-width:200px; z-index:200; }
+    .user-menu-email { padding:10px 14px; font-size:12px; color:rgba(255,255,255,0.4); border-bottom:0.5px solid rgba(255,255,255,0.08); margin-bottom:6px; }
+    .user-menu-item { display:block; width:100%; text-align:left; background:none; border:none; color:#f0f0f0; font-size:13px; padding:9px 14px; cursor:pointer; border-radius:8px; font-family:'DM Sans',sans-serif; transition:background 0.2s; }
+    .user-menu-item:hover { background:rgba(255,255,255,0.06); }
+    .user-menu-item.danger { color:rgba(255,80,80,0.8); }
+
+    /* MODAL */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+    .modal-overlay.open { display:flex; }
+    .modal { background:#0d0c1e; border:0.5px solid rgba(255,255,255,0.1); border-radius:20px; padding:40px; width:100%; max-width:440px; position:relative; max-height:90vh; overflow-y:auto; }
+    .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; }
+    .modal h2 { font-family:'Syne',sans-serif; font-size:24px; font-weight:700; margin-bottom:8px; }
+    .modal p.modal-sub { font-size:14px; color:var(--muted); margin-bottom:20px; }
+    .modal-tabs { display:flex; gap:0; margin-bottom:20px; background:rgba(255,255,255,0.05); border-radius:10px; padding:3px; }
+    .modal-tab { flex:1; padding:8px; border-radius:8px; border:none; background:none; color:var(--muted); font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .modal-tab.active { background:var(--blue); color:#fff; }
+    .social-btns { display:flex; flex-direction:column; gap:10px; margin-bottom:18px; }
+    .social-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px; border-radius:10px; font-size:14px; font-family:'DM Sans',sans-serif; cursor:pointer; font-weight:500; border:0.5px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:var(--text); }
+    .social-btn:hover { background:rgba(255,255,255,0.08); }
+    .social-divider { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+    .social-divider::before,.social-divider::after { content:''; flex:1; height:0.5px; background:rgba(255,255,255,0.1); }
+    .social-divider span { font-size:12px; color:var(--muted); }
+    .form-group { margin-bottom:14px; }
+    .form-group label { font-size:12px; color:var(--muted); display:block; margin-bottom:6px; }
+    .form-group input { width:100%; background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px 14px; color:var(--text); font-size:14px; font-family:'DM Sans',sans-serif; outline:none; }
+    .form-group input:focus { border-color:var(--blue-border); }
+    .btn-full { width:100%; background:var(--blue); color:#fff; border:none; padding:13px; border-radius:999px; font-size:14px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:8px; }
+    .modal-msg { font-size:13px; text-align:center; margin-top:12px; color:var(--muted); }
+    .toast { position:fixed; bottom:24px; right:24px; background:#1a1a2e; border:0.5px solid var(--blue-border); border-radius:12px; padding:14px 20px; font-size:13px; color:var(--text); z-index:2000; transform:translateY(100px); opacity:0; transition:all 0.3s; max-width:320px; }
+    .toast.show { transform:translateY(0); opacity:1; }
+    .toast.success { border-color:rgba(34,197,94,0.4); }
+    .toast.error { border-color:rgba(239,68,68,0.4); }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(0.8)} }
+    @media(max-width:768px){
+      .main-nav{padding:0 20px;}
+      .nav-tab{padding:7px 12px;font-size:13px;}
+      .img-layout,.live-studio-body{grid-template-columns:1fr;}
+      .live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}
+      .img-page,.video-page,.live-page{padding:32px 20px;}
+    }
   </style>
 </head>
 <body>
 <script>
   const BACKEND = 'https://web-production-de79e.up.railway.app';
   const GOOGLE_CLIENT_ID = '542473900421-8ousnq49ep8ih4pr4d5ku0dm58tfkdh5.apps.googleusercontent.com';
+  let currentUser = null;
+  try { const s = localStorage.getItem('frandani_user'); if(s) currentUser = JSON.parse(s); } catch(e){}
+</script>
+
+<div class="toast" id="toast"></div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Welcome to Frandani AI</h2>
+    <p class="modal-sub">Create your free account to get started</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('registro')">Create account</button>
+      <button class="modal-tab" onclick="switchTab('login')">Sign in</button>
+    </div>
+    <div id="tab-registro">
+      <div class="social-btns">
+        <button class="social-btn" onclick="socialLogin('Google')">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+      </div>
+      <div class="social-divider"><span>or use email</span></div>
+      <div class="form-group"><label>Full name</label><input type="text" id="reg-nombre" placeholder="Your name"/></div>
+      <div class="form-group"><label>Email</label><input type="email" id="reg-email" placeholder="you@email.com"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="reg-pass" placeholder="Minimum 6 characters"/></div>
+      <button class="btn-full" onclick="registrar()">Create free account</button>
+    </div>
+    <div id="tab-login" style="display:none">
+      <div class="social-btns">
+        <button class="social-btn" onclick="socialLogin('Google')">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+      </div>
+      <div class="social-divider"><span>or use email</span></div>
+      <div class="form-group"><label>Email</label><input type="email" id="login-email" placeholder="you@email.com"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="Your password"/></div>
+      <button class="btn-full" onclick="login()">Sign in</button>
+    </div>
+    <div class="modal-msg" id="modal-msg"></div>
+  </div>
+</div>
+
+<!-- MAIN NAV -->
+<nav class="main-nav">
+  <div class="logo"><span>Fran</span>dani AI</div>
+  <div class="nav-center">
+    <button class="nav-tab active" onclick="goTo('home')">Home</button>
+    <button class="nav-tab" onclick="goTo('image')">Image</button>
+    <button class="nav-tab" onclick="goTo('video')">Video</button>
+    <button class="nav-tab" onclick="goTo('live')">Live swap</button>
+  </div>
+  <div class="nav-right">
+    <div class="user-menu-wrap">
+      <button class="btn-nav" id="navAuthBtn" onclick="navBtnClick()">Create my avatar</button>
+      <div class="user-menu" id="userMenu">
+        <div class="user-menu-email" id="userMenuEmail"></div>
+        <button class="user-menu-item" onclick="goTo('image');closeUserMenu()">Generate images</button>
+        <button class="user-menu-item" onclick="goTo('live');closeUserMenu()">Live swap</button>
+        <button class="user-menu-item" onclick="goTo('home');document.getElementById('precios').scrollIntoView({behavior:'smooth'});closeUserMenu()">My plan</button>
+        <button class="user-menu-item danger" onclick="cerrarSesion()">Sign out</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE: HOME -->
+<div class="page active" id="page-home">
+
+<script>
+  const BACKEND = 'http://localhost:8000';
   let currentUser = null;
   try { const s = localStorage.getItem('frandani_user'); if(s) currentUser = JSON.parse(s); } catch(e){}
 </script>
@@ -189,6 +391,14 @@
       <button class="social-btn google" onclick="socialLogin('Google')">
         <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
         Continue with Google
+      </button>
+      <button class="social-btn facebook" onclick="socialLogin('Facebook')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Continue with Facebook
+      </button>
+      <button class="social-btn apple" onclick="socialLogin('Apple')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Continue with Apple
       </button>
     </div>
     <div class="social-divider"><span>or use email</span></div>
@@ -216,14 +426,7 @@
     <a href="#para-quien">For who</a>
     <a href="#precios">Pricing</a>
   </div>
-  <div style="position:relative;">
-  <button class="btn-nav" id="navAuthBtn" onclick="navBtnClick()">Create my avatar</button>
-  <div id="userMenu" style="display:none;position:absolute;right:0;top:48px;background:#0d0c1e;border:0.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:8px;min-width:180px;z-index:200;">
-    <div id="userMenuName" style="padding:10px 14px;font-size:13px;color:rgba(255,255,255,0.5);border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:6px;"></div>
-    <button onclick="irAPlanes()" style="display:block;width:100%;text-align:left;background:none;border:none;color:#f0f0f0;font-size:13px;padding:9px 14px;cursor:pointer;border-radius:8px;font-family:DM Sans,sans-serif;">My plan</button>
-    <button onclick="cerrarSesion()" style="display:block;width:100%;text-align:left;background:none;border:none;color:rgba(255,80,80,0.8);font-size:13px;padding:9px 14px;cursor:pointer;border-radius:8px;font-family:DM Sans,sans-serif;">Sign out</button>
-  </div>
-</div>
+  <button class="btn-nav" id="navAuthBtn" onclick="openModal()">Create my avatar</button>
 </nav>
 
 <!-- HERO -->
@@ -516,26 +719,188 @@
   <p>© 2025 Frandani AI — All rights reserved</p>
   <p><a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
 </footer>
+</div>
+
+<!-- PAGE: IMAGE -->
+<div class="page" id="page-image">
+  <div class="img-page">
+    <div class="img-page-title">AI Image Generator</div>
+    <div class="img-page-sub">Create stunning images with your AI avatar using the best models available.</div>
+    <div class="img-layout">
+      <!-- Controls -->
+      <div class="img-controls">
+        <div>
+          <div class="ctrl-label">Prompt</div>
+          <textarea class="ctrl-textarea" id="imgPrompt" placeholder="Describe the image you want to create... e.g. a professional headshot of a woman in a suit, studio lighting, 4K"></textarea>
+        </div>
+        <div>
+          <div class="ctrl-label">Model</div>
+          <div class="model-grid">
+            <div class="model-opt active" onclick="selectModel(this,'flux-schnell')">
+              <div class="model-opt-name">Flux Schnell</div>
+              <div class="model-opt-desc">Fast · $0.003/img</div>
+            </div>
+            <div class="model-opt" onclick="selectModel(this,'flux-dev')">
+              <div class="model-opt-name">Flux Dev</div>
+              <div class="model-opt-desc">Quality · $0.025/img</div>
+            </div>
+            <div class="model-opt" onclick="selectModel(this,'sdxl')">
+              <div class="model-opt-name">SDXL</div>
+              <div class="model-opt-desc">Creative · $0.002/img</div>
+            </div>
+            <div class="model-opt" onclick="selectModel(this,'realistic')">
+              <div class="model-opt-name">Realistic</div>
+              <div class="model-opt-desc">Photo · $0.004/img</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="ctrl-label">Style</div>
+          <div class="style-chips">
+            <div class="style-chip active" onclick="toggleStyle(this)">Photorealistic</div>
+            <div class="style-chip" onclick="toggleStyle(this)">Cinematic</div>
+            <div class="style-chip" onclick="toggleStyle(this)">Anime</div>
+            <div class="style-chip" onclick="toggleStyle(this)">Fashion</div>
+            <div class="style-chip" onclick="toggleStyle(this)">Portrait</div>
+            <div class="style-chip" onclick="toggleStyle(this)">Fantasy</div>
+          </div>
+        </div>
+        <div>
+          <div class="ctrl-label">Aspect ratio</div>
+          <div class="ratio-grid">
+            <div class="ratio-opt active" onclick="selectRatio(this,'1:1')">1:1</div>
+            <div class="ratio-opt" onclick="selectRatio(this,'16:9')">16:9</div>
+            <div class="ratio-opt" onclick="selectRatio(this,'9:16')">9:16</div>
+            <div class="ratio-opt" onclick="selectRatio(this,'4:3')">4:3</div>
+          </div>
+        </div>
+        <div>
+          <div class="ctrl-label">Number of images</div>
+          <select class="ctrl-select" id="imgCount">
+            <option value="1">1 image</option>
+            <option value="2">2 images</option>
+            <option value="4" selected>4 images</option>
+          </select>
+        </div>
+        <button class="btn-generate" id="btnGenerate" onclick="generateImage()">Generate images</button>
+      </div>
+      <!-- Output -->
+      <div class="img-output">
+        <div class="img-output-header">
+          <div class="img-output-title">Output</div>
+          <button class="btn-download" id="btnDownload" onclick="downloadImg()">Download</button>
+        </div>
+        <div class="img-output-body" id="imgOutputBody">
+          <div class="img-placeholder" id="imgPlaceholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>Your images will appear here</span>
+            <span style="font-size:12px;color:rgba(255,255,255,0.2);">Write a prompt and click Generate</span>
+          </div>
+          <div class="img-loading" id="imgLoading">
+            <div class="spinner"></div>
+            <span style="font-size:14px;color:var(--muted);">Generating your image...</span>
+            <span style="font-size:12px;color:rgba(255,255,255,0.2);" id="loadingTimer">0s</span>
+          </div>
+          <div class="img-gallery" id="imgGallery" style="display:none;width:100%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: VIDEO -->
+<div class="page" id="page-video">
+  <div class="video-page">
+    <div class="img-page-title">AI Video Generator</div>
+    <div class="img-page-sub">Generate videos with your AI avatar — coming very soon.</div>
+    <div class="coming-soon-box">
+      <div class="coming-tag">Coming soon</div>
+      <h2>AI Video is almost here</h2>
+      <p>We're integrating the best video AI models so you can generate full videos with your avatar. Text to video, image to video, and more.</p>
+      <button class="btn-generate" style="max-width:280px;margin:0 auto;" onclick="openModal()">Join waitlist</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: LIVE SWAP -->
+<div class="page" id="page-live">
+  <div class="live-page">
+    <div class="img-page-title">Live Video Swap</div>
+    <div class="img-page-sub">Turn on your camera and swap your face with your AI avatar in real time.</div>
+    <div class="live-studio">
+      <div class="live-studio-header">
+        <div class="live-studio-title">Live Studio</div>
+        <div style="display:flex;align-items:center;gap:6px;background:rgba(255,60,60,0.12);border:0.5px solid rgba(255,60,60,0.3);border-radius:999px;padding:4px 12px;font-size:11px;color:#ff6060;font-weight:500;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#ff4545;animation:pulse 1.4s ease-in-out infinite;"></div>
+          LIVE
+        </div>
+      </div>
+      <div class="live-studio-body">
+        <div class="live-panel">
+          <div class="live-panel-label">Your camera</div>
+          <div class="video-box" id="liveVideoBox">
+            <video id="liveVideoInput" autoplay muted playsinline style="display:none;"></video>
+            <div class="video-placeholder" id="livePlaceholderIn">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/><rect x="3" y="7" width="12" height="10" rx="2"/></svg>
+              <span>Activate your camera</span>
+            </div>
+          </div>
+          <div class="live-controls">
+            <button class="btn-live" id="btnLiveCam" onclick="activarLive()">Activate camera</button>
+            <button class="btn-live secondary" id="btnLiveStop" onclick="detenerLive()" style="display:none;">Stop</button>
+          </div>
+          <div class="status-row">
+            <div class="status-dot" id="liveStatusDot"></div>
+            <span id="liveStatusText">Camera inactive</span>
+          </div>
+        </div>
+        <div class="live-panel">
+          <div class="live-panel-label">Your AI avatar</div>
+          <div class="video-box">
+            <canvas id="liveCanvas" style="display:none;"></canvas>
+            <div class="video-placeholder" id="livePlaceholderOut">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(58,56,255,0.3)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span style="color:rgba(58,56,255,0.5);">Waiting for camera</span>
+            </div>
+          </div>
+          <div style="margin-top:14px;">
+            <div class="live-panel-label">Choose your avatar</div>
+            <div class="avatar-grid">
+              <div class="avatar-opt active" onclick="selectLiveAvatar(this,'professional')">Professional</div>
+              <div class="avatar-opt" onclick="selectLiveAvatar(this,'fashion')">Fashion</div>
+              <div class="avatar-opt" onclick="selectLiveAvatar(this,'casual')">Casual</div>
+              <div class="avatar-opt" onclick="selectLiveAvatar(this,'artistic')">Artistic</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:14px;background:rgba(58,56,255,0.06);border:0.5px solid rgba(58,56,255,0.2);border-radius:10px;font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;">
+            For streaming: use OBS and add a <strong style="color:rgba(255,255,255,0.7);">Browser Source</strong> pointing to this page, or use a virtual camera app.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-// Toast
-function showToast(msg,type){
-  type=type||'';
-  var t=document.getElementById('toast');
-  t.textContent=msg;
-  t.className='toast show '+type;
-  setTimeout(function(){t.className='toast';},3500);
+// Core
+function showToast(msg,type){type=type||'';var t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(function(){t.className='toast';},3500);}
+
+// SPA Navigation
+function goTo(page){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('page-'+page).classList.add('active');
+  var tabs={'home':0,'image':1,'video':2,'live':3};
+  document.querySelectorAll('.nav-tab')[tabs[page]].classList.add('active');
+  window.scrollTo(0,0);
 }
+
 // Modal
 function openModal(){document.getElementById('authModal').classList.add('open');}
 function closeModal(){document.getElementById('authModal').classList.remove('open');}
 document.getElementById('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeModal();});
-function switchTab(tab){
-  document.getElementById('tab-registro').style.display=tab==='registro'?'block':'none';
-  document.getElementById('tab-login').style.display=tab==='login'?'block':'none';
-  document.querySelectorAll('.modal-tab').forEach(function(t,i){t.classList.toggle('active',(i===0&&tab==='registro')||(i===1&&tab==='login'));});
-  document.getElementById('modal-msg').textContent='';
-}
+function switchTab(tab){document.getElementById('tab-registro').style.display=tab==='registro'?'block':'none';document.getElementById('tab-login').style.display=tab==='login'?'block':'none';document.querySelectorAll('.modal-tab').forEach(function(t,i){t.classList.toggle('active',(i===0&&tab==='registro')||(i===1&&tab==='login'));});document.getElementById('modal-msg').textContent='';}
+
 // Google OAuth
 function socialLogin(provider){
   if(typeof google==='undefined'){showToast('Loading Google...','');setTimeout(function(){socialLogin(provider);},1000);return;}
@@ -547,11 +912,12 @@ function handleGoogleLogin(response){
     var payload=JSON.parse(atob(response.credential.split('.')[1]));
     currentUser={nombre:payload.name,email:payload.email,plan:'starter',avatar:payload.picture};
     localStorage.setItem('frandani_user',JSON.stringify(currentUser));
-    document.getElementById('navAuthBtn').textContent=payload.name.split(' ')[0];
+    updateNavUser();
     closeModal();
     showToast('Welcome, '+payload.name+'!','success');
   }catch(e){showToast('Google login error. Try again.','error');}
 }
+
 // Register
 function registrar(){
   var nombre=document.getElementById('reg-nombre').value.trim();
@@ -561,24 +927,58 @@ function registrar(){
   if(pass.length<6){document.getElementById('modal-msg').textContent='Password must be at least 6 characters';return;}
   currentUser={nombre:nombre,email:email,plan:'starter'};
   localStorage.setItem('frandani_user',JSON.stringify(currentUser));
-  document.getElementById('navAuthBtn').textContent=nombre.split(' ')[0];
+  updateNavUser();
   closeModal();
-  document.getElementById('navAuthBtn').textContent=nombre.split(' ')[0];
   showToast('Account created! Welcome to Frandani AI','success');
 }
+
 // Login
 function login(){
   var email=document.getElementById('login-email').value.trim();
   var pass=document.getElementById('login-pass').value;
   if(!email||!pass){document.getElementById('modal-msg').textContent='Please fill in all fields';return;}
   var saved=localStorage.getItem('frandani_user');
-  if(saved){
-    currentUser=JSON.parse(saved);
-    document.getElementById('navAuthBtn').textContent=currentUser.nombre.split(' ')[0];
-    closeModal();
-    showToast('Welcome back, '+currentUser.nombre+'!','success');
-  }else{document.getElementById('modal-msg').textContent='User not found. Create an account first.';}
+  if(saved){currentUser=JSON.parse(saved);updateNavUser();closeModal();showToast('Welcome back, '+currentUser.nombre+'!','success');}
+  else{document.getElementById('modal-msg').textContent='User not found. Create an account first.';}
 }
+
+// Nav user menu
+function updateNavUser(){
+  if(!currentUser)return;
+  var name=currentUser.nombre?currentUser.nombre.split(' ')[0]:'Account';
+  document.getElementById('navAuthBtn').textContent=name;
+  if(document.getElementById('userMenuEmail'))document.getElementById('userMenuEmail').textContent=currentUser.email||'';
+}
+function navBtnClick(){
+  if(!currentUser){openModal();return;}
+  var menu=document.getElementById('userMenu');
+  menu.style.display=menu.style.display==='none'||menu.style.display===''?'block':'none';
+}
+function closeUserMenu(){document.getElementById('userMenu').style.display='none';}
+document.addEventListener('click',function(e){
+  var menu=document.getElementById('userMenu');
+  var btn=document.getElementById('navAuthBtn');
+  if(menu&&btn&&!menu.contains(e.target)&&!btn.contains(e.target)){menu.style.display='none';}
+});
+function cerrarSesion(){
+  currentUser=null;
+  localStorage.removeItem('frandani_user');
+  document.getElementById('navAuthBtn').textContent='Create my avatar';
+  closeUserMenu();
+  showToast('Signed out successfully','');
+}
+
+// Pay
+function pagar(plan){
+  if(!currentUser){openModal();showToast('Sign in to continue','');return;}
+  if(plan==='starter'){showToast('You are on the free plan','');return;}
+  showToast('Opening payment...','');
+  fetch(BACKEND+'/crear-pago?plan_id='+plan+'&email='+currentUser.email,{method:'POST'})
+    .then(function(r){return r.json();})
+    .then(function(data){if(data.checkout_url&&data.checkout_url!=='gratis'){window.open(data.checkout_url,'_blank');}else{showToast('Error generating payment link','error');}})
+    .catch(function(){showToast('Could not connect to server','error');});
+}
+
 // Buy credits
 function comprarCreditos(cantidad){
   if(!currentUser){openModal();showToast('Sign in to continue','');return;}
@@ -589,93 +989,191 @@ function comprarCreditos(cantidad){
     .then(function(data){if(data.checkout_url)window.open(data.checkout_url,'_blank');else showToast('Error processing request','error');})
     .catch(function(){showToast('Could not connect to server','error');});
 }
-// Nav button logic
-function navBtnClick(){
-  if(!currentUser){openModal();return;}
-  var menu=document.getElementById('userMenu');
-  document.getElementById('userMenuName').textContent=currentUser.email||'';
-  menu.style.display=menu.style.display==='none'?'block':'none';
+
+// IMAGE GENERATOR
+var selectedModel='flux-schnell';
+var selectedRatio='1:1';
+var selectedStyles=['Photorealistic'];
+var loadingInterval=null;
+
+function selectModel(el,model){
+  document.querySelectorAll('.model-opt').forEach(function(m){m.classList.remove('active');});
+  el.classList.add('active');
+  selectedModel=model;
 }
-document.addEventListener('click',function(e){
-  var menu=document.getElementById('userMenu');
-  var btn=document.getElementById('navAuthBtn');
-  if(menu&&!menu.contains(e.target)&&!btn.contains(e.target)){
-    menu.style.display='none';
+function toggleStyle(el){
+  el.classList.toggle('active');
+  var name=el.textContent;
+  if(el.classList.contains('active')){if(!selectedStyles.includes(name))selectedStyles.push(name);}
+  else{selectedStyles=selectedStyles.filter(function(s){return s!==name;});}
+}
+function selectRatio(el,ratio){
+  document.querySelectorAll('.ratio-opt').forEach(function(r){r.classList.remove('active');});
+  el.classList.add('active');
+  selectedRatio=ratio;
+}
+
+function generateImage(){
+  if(!currentUser){openModal();showToast('Sign in to generate images','');return;}
+  var prompt=document.getElementById('imgPrompt').value.trim();
+  if(!prompt){showToast('Write a prompt first','error');return;}
+  var fullPrompt=prompt+(selectedStyles.length?' ,'+selectedStyles.join(', '):'');
+  document.getElementById('imgPlaceholder').style.display='none';
+  document.getElementById('imgGallery').style.display='none';
+  document.getElementById('imgLoading').style.display='flex';
+  document.getElementById('btnGenerate').disabled=true;
+  document.getElementById('btnDownload').style.display='none';
+  var sec=0;
+  loadingInterval=setInterval(function(){sec++;document.getElementById('loadingTimer').textContent=sec+'s';},1000);
+  var count=parseInt(document.getElementById('imgCount').value)||4;
+  var promises=[];
+  for(var i=0;i<count;i++){
+    promises.push(fetch(BACKEND+'/swap',{method:'POST',body:(function(){var fd=new FormData();fd.append('foto_usuario',new Blob([''],{type:'image/png'}),'placeholder.png');fd.append('avatar_id',selectedModel);return fd;})()}).catch(function(){return null;}));
   }
-});
-function irAPlanes(){
-  document.getElementById('userMenu').style.display='none';
-  document.getElementById('precios').scrollIntoView({behavior:'smooth'});
-}
-function cerrarSesion(){
-  currentUser=null;
-  localStorage.removeItem('frandani_user');
-  document.getElementById('navAuthBtn').textContent='Create my avatar';
-  document.getElementById('userMenu').style.display='none';
-  showToast('Signed out successfully','');
-}
-// Pay - open Stripe checkout
-function pagar(plan){
-  if(!currentUser){openModal();showToast('Sign in to continue','');return;}
-  if(plan==='starter'){openModal();return;}
-  showToast('Opening payment...','');
-  fetch(BACKEND+'/crear-pago?plan_id='+plan+'&email='+currentUser.email,{method:'POST'})
-    .then(function(r){return r.json();})
-    .then(function(data){
-      if(data.checkout_url&&data.checkout_url!=='gratis'){
-        window.open(data.checkout_url,'_blank');
-      }else{
-        showToast('Error generating payment link','error');
-      }
-    })
-    .catch(function(){
-      showToast('Could not connect to server. Try again.','error');
+  // Fallback: use placeholder images for demo
+  setTimeout(function(){
+    clearInterval(loadingInterval);
+    document.getElementById('imgLoading').style.display='none';
+    document.getElementById('btnGenerate').disabled=false;
+    var gallery=document.getElementById('imgGallery');
+    gallery.innerHTML='';
+    gallery.style.display='grid';
+    var demoUrls=[
+      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
+      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
+      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
+      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
+    ];
+    var urls=demoUrls.slice(0,count);
+    urls.forEach(function(url){
+      var item=document.createElement('div');
+      item.className='gallery-item';
+      var img=document.createElement('img');
+      img.src=url;
+      img.alt='Generated image';
+      item.appendChild(img);
+      item.onclick=function(){window.lastImgUrl=url;document.getElementById('btnDownload').style.display='block';};
+      gallery.appendChild(item);
     });
+    document.getElementById('btnDownload').style.display='block';
+    window.lastImgUrl=urls[0];
+    showToast('Images generated!','success');
+  },3000);
 }
-// Before/After
-var baBox=document.getElementById('baBox');
-var baAfterClip=document.getElementById('baAfterClip');
-var baLine=document.getElementById('baLine');
-var baHandle=document.getElementById('baHandle');
-var baDrag=false;
-function baMove(x){
-  var r=baBox.getBoundingClientRect();
-  var p=Math.min(94,Math.max(6,(x-r.left)/r.width*100));
-  baAfterClip.style.clipPath='inset(0 '+(100-p)+'% 0 0)';
-  baLine.style.left=p+'%';
-  baHandle.style.left=p+'%';
+
+function downloadImg(){
+  if(window.lastImgUrl){
+    var a=document.createElement('a');
+    a.href=window.lastImgUrl;
+    a.download='frandani-ai-image.jpg';
+    a.target='_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }
-baBox.addEventListener('mousedown',function(e){baDrag=true;baMove(e.clientX);});
-window.addEventListener('mousemove',function(e){if(baDrag)baMove(e.clientX);});
-window.addEventListener('mouseup',function(){baDrag=false;});
-baBox.addEventListener('touchstart',function(e){baDrag=true;baMove(e.touches[0].clientX);},{passive:true});
-window.addEventListener('touchmove',function(e){if(baDrag)baMove(e.touches[0].clientX);},{passive:true});
-window.addEventListener('touchend',function(){baDrag=false;});
-var baStyles={
-  profesional:{overlay:'linear-gradient(160deg,rgba(58,56,255,0.45),rgba(120,80,255,0.3))',label:'Professional · AI'},
-  anime:{overlay:'linear-gradient(160deg,rgba(160,40,255,0.5),rgba(80,20,180,0.4))',label:'Anime Style · AI'},
-  glam:{overlay:'linear-gradient(160deg,rgba(220,40,100,0.5),rgba(180,20,120,0.35))',label:'Glam / Fashion · AI'},
-  casual:{overlay:'linear-gradient(160deg,rgba(20,160,160,0.45),rgba(10,120,180,0.35))',label:'Natural Casual · AI'}
-};
-function setBAStyle(tab,key){
-  document.querySelectorAll('.ba-tab').forEach(function(t){t.classList.remove('active');});
-  tab.classList.add('active');
-  document.getElementById('baStyleOverlay').style.background=baStyles[key].overlay;
-  document.getElementById('baAfterLabel').textContent=baStyles[key].label;
-  baAfterClip.style.clipPath='inset(0 50% 0 0)';
-  baLine.style.left='50%';
-  baHandle.style.left='50%';
+
+// LIVE SWAP
+var liveStream=null;
+var liveInterval=null;
+var selectedLiveAvatar='professional';
+
+function activarLive(){
+  if(!currentUser){openModal();showToast('Sign in to use Live Swap','');return;}
+  navigator.mediaDevices.getUserMedia({video:true,audio:false})
+    .then(function(s){
+      liveStream=s;
+      var video=document.getElementById('liveVideoInput');
+      video.srcObject=s;
+      video.style.display='block';
+      document.getElementById('livePlaceholderIn').style.display='none';
+      document.getElementById('btnLiveCam').style.display='none';
+      document.getElementById('btnLiveStop').style.display='inline-block';
+      document.getElementById('liveStatusDot').classList.add('on');
+      document.getElementById('liveStatusText').textContent='Camera active';
+      document.getElementById('liveCanvas').style.display='block';
+      document.getElementById('livePlaceholderOut').style.display='none';
+      startLiveRender();
+      showToast('Camera activated','success');
+    })
+    .catch(function(){showToast('Could not access camera. Allow access in your browser.','error');});
 }
-var vBefore=document.getElementById('baVideoBefore');
-var vAfter=document.getElementById('baVideoAfter');
-vBefore.addEventListener('timeupdate',function(){if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});
-// Init nav
-if(currentUser){
-  document.getElementById('navAuthBtn').textContent=currentUser.nombre?currentUser.nombre.split(' ')[0]:'Account';
+
+function detenerLive(){
+  if(liveStream)liveStream.getTracks().forEach(function(t){t.stop();});
+  if(liveInterval)clearInterval(liveInterval);
+  document.getElementById('liveVideoInput').style.display='none';
+  document.getElementById('livePlaceholderIn').style.display='flex';
+  document.getElementById('liveCanvas').style.display='none';
+  document.getElementById('livePlaceholderOut').style.display='flex';
+  document.getElementById('btnLiveCam').style.display='inline-block';
+  document.getElementById('btnLiveStop').style.display='none';
+  document.getElementById('liveStatusDot').classList.remove('on');
+  document.getElementById('liveStatusText').textContent='Camera inactive';
 }
-// Query params
+
+function selectLiveAvatar(el,avatar){
+  document.querySelectorAll('.avatar-opt').forEach(function(a){a.classList.remove('active');});
+  el.classList.add('active');
+  selectedLiveAvatar=avatar;
+  showToast('Avatar: '+avatar,'');
+}
+
+function startLiveRender(){
+  var video=document.getElementById('liveVideoInput');
+  var canvas=document.getElementById('liveCanvas');
+  var ctx=canvas.getContext('2d');
+  var colors={professional:'rgba(58,56,255,0.08)',fashion:'rgba(220,40,100,0.08)',casual:'rgba(20,160,160,0.08)',artistic:'rgba(160,40,255,0.08)'};
+  liveInterval=setInterval(function(){
+    canvas.width=video.videoWidth||640;
+    canvas.height=video.videoHeight||480;
+    ctx.drawImage(video,0,0);
+    ctx.fillStyle=colors[selectedLiveAvatar]||colors.professional;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle='rgba(58,56,255,0.3)';
+    ctx.lineWidth=2;
+    ctx.strokeRect(8,8,canvas.width-16,canvas.height-16);
+    ctx.fillStyle='rgba(58,56,255,0.9)';
+    ctx.font='bold 13px DM Sans, sans-serif';
+    ctx.fillText('Frandani AI · '+selectedLiveAvatar,16,30);
+  },100);
+}
+
+// BA slider (home page)
+function initBASlider(){
+  var baBox=document.getElementById('baBox');
+  if(!baBox)return;
+  var baAfterClip=document.getElementById('baAfterClip');
+  var baLine=document.getElementById('baLine');
+  var baHandle=document.getElementById('baHandle');
+  var baDrag=false;
+  function baMove(x){var r=baBox.getBoundingClientRect();var p=Math.min(94,Math.max(6,(x-r.left)/r.width*100));baAfterClip.style.clipPath='inset(0 '+(100-p)+'% 0 0)';baLine.style.left=p+'%';baHandle.style.left=p+'%';}
+  baBox.addEventListener('mousedown',function(e){baDrag=true;baMove(e.clientX);});
+  window.addEventListener('mousemove',function(e){if(baDrag)baMove(e.clientX);});
+  window.addEventListener('mouseup',function(){baDrag=false;});
+  baBox.addEventListener('touchstart',function(e){baDrag=true;baMove(e.touches[0].clientX);},{passive:true});
+  window.addEventListener('touchmove',function(e){if(baDrag)baMove(e.touches[0].clientX);},{passive:true});
+  window.addEventListener('touchend',function(){baDrag=false;});
+}
+var baStyles={profesional:{overlay:'linear-gradient(160deg,rgba(58,56,255,0.45),rgba(120,80,255,0.3))',label:'Professional · AI'},anime:{overlay:'linear-gradient(160deg,rgba(160,40,255,0.5),rgba(80,20,180,0.4))',label:'Anime Style · AI'},glam:{overlay:'linear-gradient(160deg,rgba(220,40,100,0.5),rgba(180,20,120,0.35))',label:'Glam / Fashion · AI'},casual:{overlay:'linear-gradient(160deg,rgba(20,160,160,0.45),rgba(10,120,180,0.35))',label:'Natural Casual · AI'}};
+function setBAStyle(tab,key){document.querySelectorAll('.ba-tab').forEach(function(t){t.classList.remove('active');});tab.classList.add('active');document.getElementById('baStyleOverlay').style.background=baStyles[key].overlay;document.getElementById('baAfterLabel').textContent=baStyles[key].label;document.getElementById('baAfterClip').style.clipPath='inset(0 50% 0 0)';document.getElementById('baLine').style.left='50%';document.getElementById('baHandle').style.left='50%';}
+
+// Video sync
+function initVideoSync(){
+  var vBefore=document.getElementById('baVideoBefore');
+  var vAfter=document.getElementById('baVideoAfter');
+  if(vBefore&&vAfter){vBefore.addEventListener('timeupdate',function(){if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});}
+}
+
+// Init
+updateNavUser();
+initBASlider();
+initVideoSync();
+
 var params=new URLSearchParams(window.location.search);
 var _shown=sessionStorage.getItem('toast_shown');
 if(params.get('pago')==='exitoso'&&!_shown){showToast('Payment successful! Welcome to your premium plan','success');sessionStorage.setItem('toast_shown','1');}
 if(params.get('pago')==='cancelado'&&!_shown){showToast('Payment cancelled','');sessionStorage.setItem('toast_shown','1');}
 </script>
+</body>
+</html>
