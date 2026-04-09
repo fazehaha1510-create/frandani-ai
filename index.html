@@ -8,297 +8,240 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-:root { --blue:#3A38FF; --blue-dim:rgba(58,56,255,0.15); --blue-border:rgba(58,56,255,0.35); --bg:#05040f; --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07); --text:#f0f0f0; --muted:rgba(255,255,255,0.4); }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.7; overflow-x:hidden; }
-    nav { display:flex; justify-content:space-between; align-items:center; padding:20px 60px; border-bottom:0.5px solid var(--border); position:sticky; top:0; z-index:100; background:rgba(5,4,15,0.9); backdrop-filter:blur(12px); }
-    .logo { font-family:'Syne',sans-serif; font-size:22px; font-weight:700; letter-spacing:-0.5px; }
-    .logo span { color:var(--blue); }
-    .nav-links { display:flex; gap:28px; align-items:center; }
-    .nav-links a { color:var(--muted); font-size:14px; text-decoration:none; transition:color 0.2s; }
-    .nav-links a:hover { color:var(--text); }
-    .btn-nav { background:var(--blue); color:#fff; border:none; padding:10px 24px; border-radius:999px; font-size:13px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .hero-wrap { position:relative; overflow:hidden; }
-    .hero-wrap::before { content:''; position:absolute; top:-200px; right:-100px; width:700px; height:700px; background:radial-gradient(circle,rgba(58,56,255,0.2) 0%,transparent 65%); pointer-events:none; border-radius:50%; }
-    .hero { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; max-width:1100px; margin:0 auto; padding:100px 60px 80px; position:relative; z-index:1; }
-    .hero-badge { display:inline-flex; align-items:center; gap:8px; background:var(--blue-dim); border:0.5px solid var(--blue-border); color:#a0a0ff; font-size:12px; padding:6px 14px; border-radius:999px; margin-bottom:24px; }
-    .live-dot,.live-red { width:7px; height:7px; border-radius:50%; background:#ff4545; animation:pulse 1.4s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(0.8)} }
-    .hero h1 { font-family:'Syne',sans-serif; font-size:54px; font-weight:700; line-height:1.05; letter-spacing:-2px; margin-bottom:20px; }
-    .hero h1 em { font-style:normal; color:var(--blue); }
-    .hero p { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:36px; max-width:440px; }
-    .hero-btns { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
-    .btn-primary { background:var(--blue); color:#fff; border:none; padding:14px 32px; border-radius:999px; font-size:15px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .btn-outline { background:transparent; color:var(--text); border:0.5px solid rgba(255,255,255,0.2); padding:13px 30px; border-radius:999px; font-size:15px; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .trust-row { display:flex; gap:20px; flex-wrap:wrap; }
-    .trust-item { font-size:12px; color:rgba(255,255,255,0.28); display:flex; align-items:center; gap:6px; }
-    .trust-dot { width:5px; height:5px; border-radius:50%; background:var(--blue); flex-shrink:0; }
-    .live-card { background:rgba(255,255,255,0.03); border:0.5px solid var(--border); border-radius:20px; overflow:hidden; }
-    .live-topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:0.5px solid var(--border); }
-    .live-badge { display:flex; align-items:center; gap:6px; background:rgba(255,60,60,0.12); border:0.5px solid rgba(255,60,60,0.3); border-radius:999px; padding:4px 12px; font-size:11px; color:#ff6060; font-weight:500; letter-spacing:1px; }
-    .viewers { font-size:12px; color:var(--muted); }
-    .cams { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); min-height:220px; position:relative; }
-    .cam { background:#08071a; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:24px; position:relative; }
-    .cam.output { background:#060520; }
-    .cam-lbl { position:absolute; bottom:10px; left:12px; font-size:10px; color:var(--muted); background:rgba(0,0,0,0.5); padding:3px 8px; border-radius:4px; }
-    .ai-chip { position:absolute; top:10px; right:10px; background:rgba(58,56,255,0.2); border:0.5px solid var(--blue-border); border-radius:4px; padding:2px 8px; font-size:9px; color:rgba(130,128,255,0.9); }
-    .swap-arrow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:38px; height:38px; background:var(--blue); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; z-index:5; }
-    .live-footer { padding:12px 18px; border-top:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
-    .chips { display:flex; gap:6px; }
-    .chip { font-size:10px; color:var(--muted); background:rgba(255,255,255,0.05); border:0.5px solid var(--border); padding:3px 10px; border-radius:999px; }
-    .latency { font-size:10px; color:rgba(58,56,255,0.7); }
-    .stats { display:grid; grid-template-columns:repeat(4,1fr); border-top:0.5px solid var(--border); border-bottom:0.5px solid var(--border); }
-    .stat { padding:28px 20px; text-align:center; border-right:0.5px solid var(--border); }
-    .stat:last-child { border-right:none; }
-    .stat-num { font-family:'Syne',sans-serif; font-size:30px; font-weight:700; color:var(--blue); }
-    .stat-lbl { font-size:12px; color:var(--muted); margin-top:4px; }
-    .section { padding:80px 60px; max-width:1100px; margin:0 auto; }
-    .sec-tag { font-size:11px; color:var(--blue); letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; }
-    .sec-title { font-family:'Syne',sans-serif; font-size:36px; font-weight:700; letter-spacing:-1px; margin-bottom:12px; }
-    .sec-sub { font-size:15px; color:var(--muted); margin-bottom:48px; max-width:500px; line-height:1.7; }
-    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-    .step { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; position:relative; overflow:hidden; }
-    .step-top { height:2px; background:var(--blue); opacity:0.5; position:absolute; top:0; left:0; right:0; }
-    .step-num { font-family:'Syne',sans-serif; font-size:38px; font-weight:700; color:rgba(58,56,255,0.18); margin-bottom:16px; }
-    .step-icon { width:38px; height:38px; background:var(--blue-dim); border:0.5px solid var(--blue-border); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
-    .step h3 { font-family:'Syne',sans-serif; font-size:16px; margin-bottom:8px; }
-    .step p { font-size:13px; color:var(--muted); line-height:1.65; }
+    :root{--blue:#3A38FF;--blue-dim:rgba(58,56,255,0.15);--blue-border:rgba(58,56,255,0.35);--bg:#05040f;--surface:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.07);--text:#f0f0f0;--muted:rgba(255,255,255,0.4);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
 
-    /* Before/After VIDEO section */
-    .ba-section { padding:0 60px 80px; max-width:1100px; margin:0 auto; }
-    .ba-title { font-family:'Syne',sans-serif; font-size:24px; font-weight:700; margin-bottom:6px; }
-    .ba-desc { font-size:14px; color:var(--muted); margin-bottom:24px; }
-    .ba-tabs { display:flex; gap:10px; margin-bottom:22px; flex-wrap:wrap; }
-    .ba-tab { background:var(--surface); border:0.5px solid var(--border); color:var(--muted); padding:8px 18px; border-radius:999px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
-    .ba-tab.active { background:var(--blue); border-color:var(--blue); color:#fff; }
-    .ba-video-wrapper { position:relative; width:100%; max-width:680px; border-radius:20px; overflow:hidden; border:0.5px solid var(--border); background:#08071a; aspect-ratio:16/9; }
-    .ba-video-wrapper video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-    .ba-video-before, .ba-video-after { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-    .ba-video-after { clip-path:inset(0 50% 0 0); transition:none; }
-    .ba-line { position:absolute; top:0; bottom:0; width:2px; background:#fff; left:50%; transform:translateX(-50%); z-index:10; pointer-events:none; }
-    .ba-handle { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:42px; height:42px; background:#fff; border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; pointer-events:none; }
-    .ba-arrows { display:flex; gap:3px; }
-    .arr-l { border-top:5px solid transparent; border-bottom:5px solid transparent; border-right:6px solid var(--blue); }
-    .arr-r { border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:6px solid var(--blue); }
-    .ba-lbl { position:absolute; top:14px; padding:4px 12px; border-radius:999px; font-size:11px; z-index:12; pointer-events:none; font-weight:500; }
-    .ba-lbl.b { left:14px; background:rgba(0,0,0,0.55); color:rgba(255,255,255,0.6); }
-    .ba-lbl.a { right:14px; background:rgba(58,56,255,0.65); color:#fff; }
-    .ba-hint { font-size:12px; color:rgba(255,255,255,0.2); margin-top:12px; }
-    /* Fallback gradient when video not loaded */
-    .ba-before-fallback { position:absolute; inset:0; background:linear-gradient(160deg,#0a0818,#0d0a20); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px; }
-    .ba-after-fallback { position:absolute; inset:0; clip-path:inset(0 50% 0 0); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px; transition:none; }
-    .ba-after-fallback.style-profesional { background:linear-gradient(160deg,#08082e,rgba(58,56,255,0.4)); }
-    .ba-after-fallback.style-anime { background:linear-gradient(160deg,#0e0520,rgba(160,40,255,0.45)); }
-    .ba-after-fallback.style-glam { background:linear-gradient(160deg,#1a0818,rgba(220,40,100,0.42)); }
-    .ba-after-fallback.style-casual { background:linear-gradient(160deg,#081518,rgba(20,160,160,0.42)); }
+    /* ── SPA NAV ── */
+    .main-nav{display:flex;justify-content:space-between;align-items:center;padding:0 60px;height:64px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(5,4,15,0.95);backdrop-filter:blur(12px);}
+    .logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.5px;flex-shrink:0;cursor:pointer;}
+    .logo span{color:var(--blue);}
+    .nav-center{display:flex;gap:4px;align-items:center;}
+    .nav-tab{background:none;border:none;color:rgba(255,255,255,0.45);font-size:14px;padding:8px 18px;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;white-space:nowrap;}
+    .nav-tab:hover{color:#fff;background:rgba(255,255,255,0.06);}
+    .nav-tab.active{color:#fff;background:rgba(58,56,255,0.18);border:0.5px solid rgba(58,56,255,0.3);}
+    .nav-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+    .btn-nav{background:var(--blue);color:#fff;border:none;padding:10px 22px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
 
-    /* Audience */
-    .audience { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-    .aud-card { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:28px; }
-    .aud-icon { width:40px; height:40px; background:var(--blue-dim); border:0.5px solid var(--blue-border); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
-    .aud-card h3 { font-family:'Syne',sans-serif; font-size:16px; margin-bottom:8px; }
-    .aud-card p { font-size:13px; color:var(--muted); line-height:1.65; }
-    .aud-tag { display:inline-block; margin-top:14px; font-size:11px; color:rgba(58,56,255,0.8); background:var(--blue-dim); border:0.5px solid var(--blue-border); padding:3px 10px; border-radius:999px; }
+    /* ── PAGES ── */
+    .page{display:none;min-height:calc(100vh - 64px);}
+    .page.active{display:block;}
 
-    /* Pricing - 4 plans */
-    .plans { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-    .plan { background:var(--surface); border:0.5px solid var(--border); border-radius:18px; padding:28px; position:relative; }
-    .plan.featured { border:1.5px solid var(--blue); background:rgba(58,56,255,0.06); }
-    .plan.elite { border:1.5px solid #a855f7; background:rgba(168,85,247,0.06); }
-    .plan-badge { position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:var(--blue); color:#fff; font-size:11px; padding:4px 16px; border-radius:999px; white-space:nowrap; }
-    .plan-badge.elite-badge { background:linear-gradient(90deg,#7c3aed,#a855f7); }
-    .plan-name { font-size:13px; color:var(--muted); margin-bottom:10px; }
-    .plan-price { font-family:'Syne',sans-serif; font-size:34px; font-weight:700; letter-spacing:-1.5px; margin-bottom:4px; }
-    .plan-price sub { font-size:13px; color:var(--muted); font-weight:400; }
-    .plan-desc { font-size:12px; color:var(--muted); margin-bottom:20px; }
-    .plan-div { height:0.5px; background:var(--border); margin-bottom:16px; }
-    .feat { font-size:12px; color:rgba(255,255,255,0.5); padding:5px 0; display:flex; align-items:center; gap:10px; }
-    .feat::before { content:''; display:inline-block; width:5px; height:5px; background:var(--blue); border-radius:50%; flex-shrink:0; }
-    .feat.elite-feat::before { background:#a855f7; }
-    .feat.bold-feat { color:rgba(255,255,255,0.8); font-weight:500; }
-    .feat.bold-feat::before { background:#a855f7; width:7px; height:7px; }
-    .plan-btn { width:100%; margin-top:20px; padding:12px; border-radius:999px; font-size:13px; cursor:pointer; font-weight:500; font-family:'DM Sans',sans-serif; }
-    .plan-btn.solid { background:var(--blue); color:#fff; border:none; }
-    .plan-btn.solid-elite { background:linear-gradient(90deg,#7c3aed,#a855f7); color:#fff; border:none; }
-    .plan-btn.ghost { background:transparent; color:var(--text); border:0.5px solid rgba(255,255,255,0.18); }
-    .elite-glow { box-shadow:0 0 30px rgba(168,85,247,0.25); }
+    /* ── HOME STYLES ── */
+    .hero-wrap{position:relative;overflow:hidden;}
+    .hero-wrap::before{content:'';position:absolute;top:-200px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(58,56,255,0.2) 0%,transparent 65%);pointer-events:none;border-radius:50%;}
+    .hero{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto;padding:100px 60px 80px;position:relative;z-index:1;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;font-size:12px;padding:6px 14px;border-radius:999px;margin-bottom:24px;}
+    .live-dot,.live-red{width:7px;height:7px;border-radius:50%;background:#ff4545;animation:pulse 1.4s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.8)}}
+    .hero h1{font-family:'Syne',sans-serif;font-size:54px;font-weight:700;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;}
+    .hero h1 em{font-style:normal;color:var(--blue);}
+    .hero p{font-size:17px;color:var(--muted);line-height:1.75;margin-bottom:36px;max-width:440px;}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px;}
+    .btn-primary{background:var(--blue);color:#fff;border:none;padding:14px 32px;border-radius:999px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .btn-outline{background:transparent;color:var(--text);border:0.5px solid rgba(255,255,255,0.2);padding:13px 30px;border-radius:999px;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .trust-row{display:flex;gap:20px;flex-wrap:wrap;}
+    .trust-item{font-size:12px;color:rgba(255,255,255,0.28);display:flex;align-items:center;gap:6px;}
+    .trust-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+    .live-card{background:rgba(255,255,255,0.03);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;}
+    .live-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:0.5px solid var(--border);}
+    .live-badge{display:flex;align-items:center;gap:6px;background:rgba(255,60,60,0.12);border:0.5px solid rgba(255,60,60,0.3);border-radius:999px;padding:4px 12px;font-size:11px;color:#ff6060;font-weight:500;letter-spacing:1px;}
+    .viewers{font-size:12px;color:var(--muted);}
+    .cams{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);min-height:220px;position:relative;}
+    .cam{background:#08071a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;position:relative;}
+    .cam.output{background:#060520;}
+    .cam-lbl{position:absolute;bottom:10px;left:12px;font-size:10px;color:var(--muted);background:rgba(0,0,0,0.5);padding:3px 8px;border-radius:4px;}
+    .ai-chip{position:absolute;top:10px;right:10px;background:rgba(58,56,255,0.2);border:0.5px solid var(--blue-border);border-radius:4px;padding:2px 8px;font-size:9px;color:rgba(130,128,255,0.9);}
+    .swap-arrow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;z-index:5;}
+    .live-footer{padding:12px 18px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .chips{display:flex;gap:6px;}
+    .chip{font-size:10px;color:var(--muted);background:rgba(255,255,255,0.05);border:0.5px solid var(--border);padding:3px 10px;border-radius:999px;}
+    .latency{font-size:10px;color:rgba(58,56,255,0.7);}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);}
+    .stat{padding:28px 20px;text-align:center;border-right:0.5px solid var(--border);}
+    .stat:last-child{border-right:none;}
+    .stat-num{font-family:'Syne',sans-serif;font-size:30px;font-weight:700;color:var(--blue);}
+    .stat-lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+    .section{padding:80px 60px;max-width:1100px;margin:0 auto;}
+    .sec-tag{font-size:11px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+    .sec-title{font-family:'Syne',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:12px;}
+    .sec-sub{font-size:15px;color:var(--muted);margin-bottom:48px;max-width:500px;line-height:1.7;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .step{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden;}
+    .step-top{height:2px;background:var(--blue);opacity:0.5;position:absolute;top:0;left:0;right:0;}
+    .step-num{font-family:'Syne',sans-serif;font-size:38px;font-weight:700;color:rgba(58,56,255,0.18);margin-bottom:16px;}
+    .step-icon{width:38px;height:38px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+    .step h3{font-family:'Syne',sans-serif;font-size:16px;margin-bottom:8px;}
+    .step p{font-size:13px;color:var(--muted);line-height:1.65;}
+    .ba-section{padding:0 60px 80px;max-width:1100px;margin:0 auto;}
+    .ba-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:6px;}
+    .ba-desc{font-size:14px;color:var(--muted);margin-bottom:24px;}
+    .ba-tabs{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+    .ba-tab{background:var(--surface);border:0.5px solid var(--border);color:var(--muted);padding:8px 18px;border-radius:999px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+    .ba-tab.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+    .ba-video-wrapper{position:relative;width:100%;max-width:680px;border-radius:20px;overflow:hidden;border:0.5px solid var(--border);background:#08071a;aspect-ratio:16/9;}
+    .ba-video-before,.ba-video-after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+    .ba-line{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;}
+    .ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:#fff;border-radius:50%;z-index:11;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+    .ba-arrows{display:flex;gap:3px;}
+    .arr-l{border-top:5px solid transparent;border-bottom:5px solid transparent;border-right:6px solid var(--blue);}
+    .arr-r{border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:6px solid var(--blue);}
+    .ba-lbl{position:absolute;top:14px;padding:4px 12px;border-radius:999px;font-size:11px;z-index:12;pointer-events:none;font-weight:500;}
+    .ba-lbl.b{left:14px;background:rgba(0,0,0,0.55);color:rgba(255,255,255,0.6);}
+    .ba-lbl.a{right:14px;background:rgba(58,56,255,0.65);color:#fff;}
+    .ba-hint{font-size:12px;color:rgba(255,255,255,0.2);margin-top:12px;}
+    .audience{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+    .aud-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:28px;}
+    .aud-icon{width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+    .aud-card h3{font-family:'Syne',sans-serif;font-size:16px;margin-bottom:8px;}
+    .aud-card p{font-size:13px;color:var(--muted);line-height:1.65;}
+    .aud-tag{display:inline-block;margin-top:14px;font-size:11px;color:rgba(58,56,255,0.8);background:var(--blue-dim);border:0.5px solid var(--blue-border);padding:3px 10px;border-radius:999px;}
+    .cta{text-align:center;padding:100px 60px;position:relative;overflow:hidden;}
+    .cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:300px;background:radial-gradient(ellipse,rgba(58,56,255,0.18) 0%,transparent 70%);pointer-events:none;}
+    .cta h2{font-family:'Syne',sans-serif;font-size:48px;font-weight:700;letter-spacing:-1.5px;margin-bottom:14px;position:relative;}
+    .cta h2 em{font-style:normal;color:var(--blue);}
+    .cta p{color:var(--muted);font-size:15px;margin-bottom:32px;position:relative;}
+    footer{padding:26px 60px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    footer p{font-size:13px;color:rgba(255,255,255,0.22);}
+    footer a{color:rgba(255,255,255,0.22);text-decoration:none;}
 
-    /* Modal */
-    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
-    .modal-overlay.open { display:flex; }
-    .modal { background:#0d0c1e; border:0.5px solid rgba(255,255,255,0.1); border-radius:20px; padding:40px; width:100%; max-width:440px; position:relative; max-height:90vh; overflow-y:auto; }
-    .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; }
-    .modal h2 { font-family:'Syne',sans-serif; font-size:24px; font-weight:700; margin-bottom:8px; }
-    .modal p.modal-sub { font-size:14px; color:var(--muted); margin-bottom:20px; }
-    .modal-tabs { display:flex; gap:0; margin-bottom:20px; background:rgba(255,255,255,0.05); border-radius:10px; padding:3px; }
-    .modal-tab { flex:1; padding:8px; border-radius:8px; border:none; background:none; color:var(--muted); font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .modal-tab.active { background:var(--blue); color:#fff; }
-    /* Social login */
-    .social-btns { display:flex; flex-direction:column; gap:10px; margin-bottom:18px; }
-    .social-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px; border-radius:10px; font-size:14px; font-family:'DM Sans',sans-serif; cursor:pointer; font-weight:500; border:0.5px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:var(--text); transition:background 0.2s,border-color 0.2s; }
-    .social-btn:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.22); }
-    .social-btn.google { }
-    .social-btn.facebook { }
-    .social-btn.apple { }
-    .social-divider { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
-    .social-divider::before,.social-divider::after { content:''; flex:1; height:0.5px; background:rgba(255,255,255,0.1); }
-    .social-divider span { font-size:12px; color:var(--muted); }
-    .form-group { margin-bottom:14px; }
-    .form-group label { font-size:12px; color:var(--muted); display:block; margin-bottom:6px; }
-    .form-group input { width:100%; background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px 14px; color:var(--text); font-size:14px; font-family:'DM Sans',sans-serif; outline:none; }
-    .form-group input:focus { border-color:var(--blue-border); }
-    .btn-full { width:100%; background:var(--blue); color:#fff; border:none; padding:13px; border-radius:999px; font-size:14px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:8px; }
-    .modal-msg { font-size:13px; text-align:center; margin-top:12px; color:var(--muted); }
-    .toast { position:fixed; bottom:24px; right:24px; background:#1a1a2e; border:0.5px solid var(--blue-border); border-radius:12px; padding:14px 20px; font-size:13px; color:var(--text); z-index:2000; transform:translateY(100px); opacity:0; transition:all 0.3s; max-width:320px; }
-    .toast.show { transform:translateY(0); opacity:1; }
-    .toast.success { border-color:rgba(34,197,94,0.4); }
-    .toast.error { border-color:rgba(239,68,68,0.4); }
-    .cta { text-align:center; padding:100px 60px; position:relative; overflow:hidden; }
-    .cta::before { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:700px; height:300px; background:radial-gradient(ellipse,rgba(58,56,255,0.18) 0%,transparent 70%); pointer-events:none; }
-    .cta h2 { font-family:'Syne',sans-serif; font-size:48px; font-weight:700; letter-spacing:-1.5px; margin-bottom:14px; position:relative; }
-    .cta h2 em { font-style:normal; color:var(--blue); }
-    .cta p { color:var(--muted); font-size:15px; margin-bottom:32px; position:relative; }
-    footer { padding:26px 60px; border-top:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
-    footer p { font-size:13px; color:rgba(255,255,255,0.22); }
-    footer a { color:rgba(255,255,255,0.22); text-decoration:none; }
+    /* ── PRICING STYLES ── */
+    .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    .plan{background:var(--surface);border:0.5px solid var(--border);border-radius:18px;padding:28px;position:relative;display:flex;flex-direction:column;}
+    .plan.featured{border:1.5px solid var(--blue);background:rgba(58,56,255,0.06);}
+    .plan.elite{border:1.5px solid #a855f7;background:rgba(168,85,247,0.06);}
+    .plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;padding:4px 16px;border-radius:999px;white-space:nowrap;}
+    .plan-badge.elite-badge{background:linear-gradient(90deg,#7c3aed,#a855f7);}
+    .plan-name{font-size:13px;color:var(--muted);margin-bottom:10px;}
+    .plan-price{font-family:'Syne',sans-serif;font-size:34px;font-weight:700;letter-spacing:-1.5px;margin-bottom:4px;}
+    .plan-price sub{font-size:13px;color:var(--muted);font-weight:400;}
+    .plan-desc{font-size:12px;color:var(--muted);margin-bottom:20px;}
+    .plan-div{height:0.5px;background:var(--border);margin-bottom:16px;}
+    .feat{font-size:12px;color:rgba(255,255,255,0.5);padding:5px 0;display:flex;align-items:center;gap:10px;}
+    .feat::before{content:'';display:inline-block;width:5px;height:5px;background:var(--blue);border-radius:50%;flex-shrink:0;}
+    .feat.elite-feat::before{background:#a855f7;}
+    .feat.bold-feat{color:rgba(255,255,255,0.8);font-weight:500;}
+    .feat.bold-feat::before{background:#a855f7;width:7px;height:7px;}
+    .plan-spacer{flex:1;}
+    .plan-btn{width:100%;margin-top:20px;padding:12px;border-radius:999px;font-size:13px;cursor:pointer;font-weight:500;font-family:'DM Sans',sans-serif;}
+    .plan-btn.solid{background:var(--blue);color:#fff;border:none;}
+    .plan-btn.solid-elite{background:linear-gradient(90deg,#7c3aed,#a855f7);color:#fff;border:none;}
+    .plan-btn.ghost{background:transparent;color:var(--text);border:0.5px solid rgba(255,255,255,0.18);}
+    .elite-glow{box-shadow:0 0 30px rgba(168,85,247,0.25);}
+
+    /* ── IMAGE PAGE ── */
+    .img-page{max-width:1100px;margin:0 auto;padding:48px 60px;}
+    .img-page-title{font-family:'Syne',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:8px;}
+    .img-page-sub{font-size:15px;color:var(--muted);margin-bottom:40px;}
+    .img-layout{display:grid;grid-template-columns:340px 1fr;gap:28px;align-items:start;}
+    .img-controls{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:18px;}
+    .ctrl-label{font-size:11px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+    .ctrl-textarea{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:none;min-height:120px;line-height:1.6;}
+    .ctrl-textarea:focus{border-color:var(--blue-border);}
+    .ctrl-select{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:11px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
+    .model-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .model-opt{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all 0.2s;}
+    .model-opt:hover{border-color:var(--blue-border);}
+    .model-opt.active{border-color:var(--blue);background:var(--blue-dim);}
+    .model-opt-name{font-size:13px;font-weight:500;margin-bottom:2px;}
+    .model-opt-desc{font-size:11px;color:var(--muted);}
+    .style-chips{display:flex;gap:6px;flex-wrap:wrap;}
+    .style-chip{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px 12px;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+    .style-chip.active{background:var(--blue-dim);border-color:var(--blue-border);color:#a0a0ff;}
+    .ratio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+    .ratio-opt{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;font-size:11px;color:var(--muted);transition:all 0.2s;}
+    .ratio-opt.active{border-color:var(--blue);color:#a0a0ff;background:var(--blue-dim);}
+    .btn-generate{width:100%;background:var(--blue);color:#fff;border:none;padding:14px;border-radius:999px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:4px;transition:opacity 0.2s;}
+    .btn-generate:hover{opacity:0.85;}
+    .btn-generate:disabled{opacity:0.4;cursor:not-allowed;}
+    .img-output{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+    .img-output-header{padding:16px 20px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .img-output-title{font-size:14px;font-weight:500;}
+    .img-output-body{padding:20px;min-height:480px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+    .img-placeholder{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--muted);font-size:14px;}
+    .img-loading{display:none;flex-direction:column;align-items:center;gap:16px;}
+    .spinner{width:40px;height:40px;border:2px solid rgba(58,56,255,0.2);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .img-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;}
+    .gallery-item{border-radius:10px;overflow:hidden;aspect-ratio:1;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);cursor:pointer;}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;}
+    .btn-download{background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.15);color:#fff;padding:8px 18px;border-radius:999px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;display:none;}
+
+    /* ── VIDEO PAGE ── */
+    .video-page{max-width:1100px;margin:0 auto;padding:48px 60px;}
+    .coming-soon-box{background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:80px 40px;text-align:center;margin-top:20px;}
+    .coming-soon-box h2{font-family:'Syne',sans-serif;font-size:32px;font-weight:700;margin-bottom:12px;}
+    .coming-soon-box p{color:var(--muted);font-size:15px;margin-bottom:28px;}
+    .coming-tag{display:inline-block;background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;font-size:12px;padding:6px 16px;border-radius:999px;margin-bottom:24px;}
+
+    /* ── LIVE PAGE ── */
+    .live-page{max-width:1100px;margin:0 auto;padding:48px 60px;}
+    .live-studio{background:var(--surface);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;}
+    .live-studio-header{padding:20px 28px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .live-studio-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;}
+    .live-studio-body{display:grid;grid-template-columns:1fr 1fr;}
+    .live-panel{padding:28px;}
+    .live-panel:first-child{border-right:0.5px solid var(--border);}
+    .live-panel-label{font-size:11px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+    .video-box{background:#08071a;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+    .video-box video,.video-box canvas{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;}
+    .video-placeholder{display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);font-size:13px;z-index:1;}
+    .live-controls{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+    .btn-live{background:var(--blue);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .btn-live.secondary{background:rgba(255,255,255,0.08);color:var(--text);}
+    .avatar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px;}
+    .avatar-opt{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;text-align:center;cursor:pointer;font-size:12px;color:var(--muted);transition:all 0.2s;}
+    .avatar-opt.active{border-color:var(--blue);background:var(--blue-dim);color:#a0a0ff;}
+    .status-row{margin-top:12px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+    .status-dot{width:6px;height:6px;border-radius:50%;background:#555;flex-shrink:0;}
+    .status-dot.on{background:#22c55e;animation:pulse 1.4s ease-in-out infinite;}
+
+    /* ── USER MENU ── */
+    .user-menu-wrap{position:relative;}
+    .user-menu{display:none;position:absolute;right:0;top:52px;background:#0d0c1e;border:0.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:8px;min-width:200px;z-index:200;}
+    .user-menu-email{padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.4);border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:6px;}
+    .user-menu-item{display:block;width:100%;text-align:left;background:none;border:none;color:#f0f0f0;font-size:13px;padding:9px 14px;cursor:pointer;border-radius:8px;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
+    .user-menu-item:hover{background:rgba(255,255,255,0.06);}
+    .user-menu-item.danger{color:rgba(255,80,80,0.8);}
+
+    /* ── MODAL ── */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+    .modal-overlay.open{display:flex;}
+    .modal{background:#0d0c1e;border:0.5px solid rgba(255,255,255,0.1);border-radius:20px;padding:40px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto;}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
+    .modal h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:8px;}
+    .modal p.modal-sub{font-size:14px;color:var(--muted);margin-bottom:20px;}
+    .modal-tabs{display:flex;gap:0;margin-bottom:20px;background:rgba(255,255,255,0.05);border-radius:10px;padding:3px;}
+    .modal-tab{flex:1;padding:8px;border-radius:8px;border:none;background:none;color:var(--muted);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .modal-tab.active{background:var(--blue);color:#fff;}
+    .social-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+    .social-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;border:0.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:var(--text);}
+    .social-btn:hover{background:rgba(255,255,255,0.08);}
+    .social-divider{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+    .social-divider::before,.social-divider::after{content:'';flex:1;height:0.5px;background:rgba(255,255,255,0.1);}
+    .social-divider span{font-size:12px;color:var(--muted);}
+    .form-group{margin-bottom:14px;}
+    .form-group label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px;}
+    .form-group input{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;}
+    .form-group input:focus{border-color:var(--blue-border);}
+    .btn-full{width:100%;background:var(--blue);color:#fff;border:none;padding:13px;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px;}
+    .modal-msg{font-size:13px;text-align:center;margin-top:12px;color:var(--muted);}
+    .toast{position:fixed;bottom:24px;right:24px;background:#1a1a2e;border:0.5px solid var(--blue-border);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--text);z-index:2000;transform:translateY(100px);opacity:0;transition:all 0.3s;max-width:320px;}
+    .toast.show{transform:translateY(0);opacity:1;}
+    .toast.success{border-color:rgba(34,197,94,0.4);}
+    .toast.error{border-color:rgba(239,68,68,0.4);}
+
     @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:768px){nav{padding:16px 24px;}.nav-links{display:none;}.hero{grid-template-columns:1fr;padding:60px 24px 40px;}.hero h1{font-size:36px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:60px 24px;}.cta h2{font-size:32px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}}
-  
-
-    /* SPA NAV */
-    .main-nav { display:flex; justify-content:space-between; align-items:center; padding:0 60px; height:64px; border-bottom:0.5px solid var(--border); position:sticky; top:0; z-index:100; background:rgba(5,4,15,0.95); backdrop-filter:blur(12px); }
-    .logo { font-family:'Syne',sans-serif; font-size:22px; font-weight:700; letter-spacing:-0.5px; flex-shrink:0; }
-    .logo span { color:var(--blue); }
-    .nav-center { display:flex; gap:4px; align-items:center; }
-    .nav-tab { background:none; border:none; color:rgba(255,255,255,0.45); font-size:14px; padding:8px 18px; border-radius:999px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; white-space:nowrap; }
-    .nav-tab:hover { color:#fff; background:rgba(255,255,255,0.06); }
-    .nav-tab.active { color:#fff; background:rgba(58,56,255,0.18); border:0.5px solid rgba(58,56,255,0.3); }
-    .nav-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
-    .btn-nav { background:var(--blue); color:#fff; border:none; padding:10px 22px; border-radius:999px; font-size:13px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; }
-
-    /* PAGES */
-    .page { display:none; min-height:calc(100vh - 64px); }
-    .page.active { display:block; }
-
-    /* IMAGE PAGE */
-    .img-page { max-width:1100px; margin:0 auto; padding:48px 60px; }
-    .img-page-title { font-family:'Syne',sans-serif; font-size:36px; font-weight:700; letter-spacing:-1px; margin-bottom:8px; }
-    .img-page-sub { font-size:15px; color:var(--muted); margin-bottom:40px; }
-    .img-layout { display:grid; grid-template-columns:340px 1fr; gap:28px; align-items:start; }
-    .img-controls { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:18px; }
-    .ctrl-label { font-size:11px; color:var(--blue); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
-    .ctrl-textarea { width:100%; background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px 14px; color:var(--text); font-size:14px; font-family:'DM Sans',sans-serif; outline:none; resize:none; min-height:120px; line-height:1.6; }
-    .ctrl-textarea:focus { border-color:var(--blue-border); }
-    .ctrl-select { width:100%; background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.12); border-radius:10px; padding:11px 14px; color:var(--text); font-size:14px; font-family:'DM Sans',sans-serif; outline:none; cursor:pointer; }
-    .model-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-    .model-opt { background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px 12px; cursor:pointer; transition:all 0.2s; }
-    .model-opt:hover { border-color:var(--blue-border); }
-    .model-opt.active { border-color:var(--blue); background:var(--blue-dim); }
-    .model-opt-name { font-size:13px; font-weight:500; margin-bottom:2px; }
-    .model-opt-desc { font-size:11px; color:var(--muted); }
-    .style-chips { display:flex; gap:6px; flex-wrap:wrap; }
-    .style-chip { background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.1); border-radius:999px; padding:5px 12px; font-size:12px; color:var(--muted); cursor:pointer; transition:all 0.2s; }
-    .style-chip.active { background:var(--blue-dim); border-color:var(--blue-border); color:#a0a0ff; }
-    .ratio-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
-    .ratio-opt { background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.08); border-radius:8px; padding:8px 4px; text-align:center; cursor:pointer; font-size:11px; color:var(--muted); transition:all 0.2s; }
-    .ratio-opt.active { border-color:var(--blue); color:#a0a0ff; background:var(--blue-dim); }
-    .btn-generate { width:100%; background:var(--blue); color:#fff; border:none; padding:14px; border-radius:999px; font-size:15px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:4px; transition:opacity 0.2s; }
-    .btn-generate:hover { opacity:0.85; }
-    .btn-generate:disabled { opacity:0.4; cursor:not-allowed; }
-    .img-output { background:var(--surface); border:0.5px solid var(--border); border-radius:16px; overflow:hidden; }
-    .img-output-header { padding:16px 20px; border-bottom:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
-    .img-output-title { font-size:14px; font-weight:500; }
-    .img-output-body { padding:20px; min-height:480px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; }
-    .img-placeholder { display:flex; flex-direction:column; align-items:center; gap:12px; color:var(--muted); font-size:14px; }
-    .img-result { width:100%; border-radius:12px; display:none; }
-    .img-loading { display:none; flex-direction:column; align-items:center; gap:16px; }
-    .spinner { width:40px; height:40px; border:2px solid rgba(58,56,255,0.2); border-top-color:var(--blue); border-radius:50%; animation:spin 0.8s linear infinite; }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    .img-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:16px; }
-    .gallery-item { border-radius:10px; overflow:hidden; aspect-ratio:1; background:rgba(255,255,255,0.04); border:0.5px solid var(--border); cursor:pointer; position:relative; }
-    .gallery-item img { width:100%; height:100%; object-fit:cover; }
-    .btn-download { background:rgba(255,255,255,0.08); border:0.5px solid rgba(255,255,255,0.15); color:#fff; padding:8px 18px; border-radius:999px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; display:none; }
-
-    /* VIDEO PAGE */
-    .video-page { max-width:1100px; margin:0 auto; padding:48px 60px; }
-    .coming-soon-box { background:var(--surface); border:0.5px solid var(--border); border-radius:20px; padding:80px 40px; text-align:center; margin-top:20px; }
-    .coming-soon-box h2 { font-family:'Syne',sans-serif; font-size:32px; font-weight:700; margin-bottom:12px; }
-    .coming-soon-box p { color:var(--muted); font-size:15px; margin-bottom:28px; }
-    .coming-tag { display:inline-block; background:var(--blue-dim); border:0.5px solid var(--blue-border); color:#a0a0ff; font-size:12px; padding:6px 16px; border-radius:999px; margin-bottom:24px; }
-
-    /* LIVE PAGE */
-    .live-page { max-width:1100px; margin:0 auto; padding:48px 60px; }
-    .live-studio { background:var(--surface); border:0.5px solid var(--border); border-radius:20px; overflow:hidden; }
-    .live-studio-header { padding:20px 28px; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
-    .live-studio-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; }
-    .live-studio-body { display:grid; grid-template-columns:1fr 1fr; }
-    .live-panel { padding:28px; }
-    .live-panel:first-child { border-right:0.5px solid var(--border); }
-    .live-panel-label { font-size:11px; color:var(--blue); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px; }
-    .video-box { background:#08071a; border:0.5px solid rgba(255,255,255,0.08); border-radius:12px; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
-    .video-box video, .video-box canvas { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; }
-    .video-placeholder { display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--muted); font-size:13px; z-index:1; }
-    .live-controls { margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; }
-    .btn-live { background:var(--blue); color:#fff; border:none; padding:10px 20px; border-radius:999px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .btn-live.secondary { background:rgba(255,255,255,0.08); color:var(--text); }
-    .avatar-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:14px; }
-    .avatar-opt { background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px; text-align:center; cursor:pointer; font-size:12px; color:var(--muted); transition:all 0.2s; }
-    .avatar-opt.active { border-color:var(--blue); background:var(--blue-dim); color:#a0a0ff; }
-    .status-row { margin-top:12px; font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; }
-    .status-dot { width:6px; height:6px; border-radius:50%; background:#555; flex-shrink:0; }
-    .status-dot.on { background:#22c55e; animation:pulse 1.4s ease-in-out infinite; }
-
-    /* USER MENU */
-    .user-menu-wrap { position:relative; }
-    .user-menu { display:none; position:absolute; right:0; top:52px; background:#0d0c1e; border:0.5px solid rgba(255,255,255,0.12); border-radius:12px; padding:8px; min-width:200px; z-index:200; }
-    .user-menu-email { padding:10px 14px; font-size:12px; color:rgba(255,255,255,0.4); border-bottom:0.5px solid rgba(255,255,255,0.08); margin-bottom:6px; }
-    .user-menu-item { display:block; width:100%; text-align:left; background:none; border:none; color:#f0f0f0; font-size:13px; padding:9px 14px; cursor:pointer; border-radius:8px; font-family:'DM Sans',sans-serif; transition:background 0.2s; }
-    .user-menu-item:hover { background:rgba(255,255,255,0.06); }
-    .user-menu-item.danger { color:rgba(255,80,80,0.8); }
-
-    /* MODAL */
-    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
-    .modal-overlay.open { display:flex; }
-    .modal { background:#0d0c1e; border:0.5px solid rgba(255,255,255,0.1); border-radius:20px; padding:40px; width:100%; max-width:440px; position:relative; max-height:90vh; overflow-y:auto; }
-    .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; }
-    .modal h2 { font-family:'Syne',sans-serif; font-size:24px; font-weight:700; margin-bottom:8px; }
-    .modal p.modal-sub { font-size:14px; color:var(--muted); margin-bottom:20px; }
-    .modal-tabs { display:flex; gap:0; margin-bottom:20px; background:rgba(255,255,255,0.05); border-radius:10px; padding:3px; }
-    .modal-tab { flex:1; padding:8px; border-radius:8px; border:none; background:none; color:var(--muted); font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .modal-tab.active { background:var(--blue); color:#fff; }
-    .social-btns { display:flex; flex-direction:column; gap:10px; margin-bottom:18px; }
-    .social-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px; border-radius:10px; font-size:14px; font-family:'DM Sans',sans-serif; cursor:pointer; font-weight:500; border:0.5px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:var(--text); }
-    .social-btn:hover { background:rgba(255,255,255,0.08); }
-    .social-divider { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
-    .social-divider::before,.social-divider::after { content:''; flex:1; height:0.5px; background:rgba(255,255,255,0.1); }
-    .social-divider span { font-size:12px; color:var(--muted); }
-    .form-group { margin-bottom:14px; }
-    .form-group label { font-size:12px; color:var(--muted); display:block; margin-bottom:6px; }
-    .form-group input { width:100%; background:rgba(255,255,255,0.05); border:0.5px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px 14px; color:var(--text); font-size:14px; font-family:'DM Sans',sans-serif; outline:none; }
-    .form-group input:focus { border-color:var(--blue-border); }
-    .btn-full { width:100%; background:var(--blue); color:#fff; border:none; padding:13px; border-radius:999px; font-size:14px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:8px; }
-    .modal-msg { font-size:13px; text-align:center; margin-top:12px; color:var(--muted); }
-    .toast { position:fixed; bottom:24px; right:24px; background:#1a1a2e; border:0.5px solid var(--blue-border); border-radius:12px; padding:14px 20px; font-size:13px; color:var(--text); z-index:2000; transform:translateY(100px); opacity:0; transition:all 0.3s; max-width:320px; }
-    .toast.show { transform:translateY(0); opacity:1; }
-    .toast.success { border-color:rgba(34,197,94,0.4); }
-    .toast.error { border-color:rgba(239,68,68,0.4); }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(0.8)} }
-    @media(max-width:768px){
-      .main-nav{padding:0 20px;}
-      .nav-tab{padding:7px 12px;font-size:13px;}
-      .img-layout,.live-studio-body{grid-template-columns:1fr;}
-      .live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}
-      .img-page,.video-page,.live-page{padding:32px 20px;}
-    }
+    @media(max-width:768px){.main-nav{padding:0 20px;}.nav-tab{padding:7px 12px;font-size:12px;}.img-layout,.live-studio-body{grid-template-columns:1fr;}.live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}.img-page,.video-page,.live-page{padding:32px 20px;}.hero{grid-template-columns:1fr;padding:60px 24px 40px;}.hero h1{font-size:36px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:60px 24px;}.cta h2{font-size:32px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}}
   </style>
 </head>
 <body>
 <script>
-  const BACKEND = 'https://web-production-de79e.up.railway.app';
-  const GOOGLE_CLIENT_ID = '542473900421-8ousnq49ep8ih4pr4d5ku0dm58tfkdh5.apps.googleusercontent.com';
-  let currentUser = null;
-  try { const s = localStorage.getItem('frandani_user'); if(s) currentUser = JSON.parse(s); } catch(e){}
+  const BACKEND='https://web-production-de79e.up.railway.app';
+  const GOOGLE_CLIENT_ID='542473900421-8ousnq49ep8ih4pr4d5ku0dm58tfkdh5.apps.googleusercontent.com';
+  let currentUser=null;
+  try{const s=localStorage.getItem('frandani_user');if(s)currentUser=JSON.parse(s);}catch(e){}
 </script>
 
 <div class="toast" id="toast"></div>
@@ -344,13 +287,13 @@
 
 <!-- MAIN NAV -->
 <nav class="main-nav">
-  <div class="logo"><span>Fran</span>dani AI</div>
+  <div class="logo" onclick="goTo('home')"><span>Fran</span>dani AI</div>
   <div class="nav-center">
     <button class="nav-tab active" onclick="goTo('home')">Home</button>
     <button class="nav-tab" onclick="goTo('image')">Image</button>
     <button class="nav-tab" onclick="goTo('video')">Video</button>
     <button class="nav-tab" onclick="goTo('live')">Live swap</button>
-    <button class="nav-tab" onclick="goTo('home');setTimeout(function(){document.getElementById('precios').scrollIntoView({behavior:'smooth'});},100)">Pricing</button>
+    <button class="nav-tab" onclick="goTo('pricing')">Pricing</button>
   </div>
   <div class="nav-right">
     <div class="user-menu-wrap">
@@ -359,338 +302,104 @@
         <div class="user-menu-email" id="userMenuEmail"></div>
         <button class="user-menu-item" onclick="goTo('image');closeUserMenu()">Generate images</button>
         <button class="user-menu-item" onclick="goTo('live');closeUserMenu()">Live swap</button>
-        <button class="user-menu-item" onclick="goTo('home');document.getElementById('precios').scrollIntoView({behavior:'smooth'});closeUserMenu()">My plan</button>
+        <button class="user-menu-item" onclick="goTo('pricing');closeUserMenu()">My plan</button>
         <button class="user-menu-item danger" onclick="cerrarSesion()">Sign out</button>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- PAGE: HOME -->
+<!-- ════════════ PAGE: HOME ════════════ -->
 <div class="page active" id="page-home">
-
-<!-- HERO -->
-<div class="hero-wrap">
-  <div class="hero">
-    <div>
-      <div class="hero-badge"><div class="live-dot"></div>Real-time streaming · Generative AI</div>
-      <h1>Your AI character.<br><em>Live.</em><br>100% anonymous.</h1>
-      <p>Create your fictional AI avatar and stream live. You bring the performance — the AI brings the face and body, in real time. Also generate AI images with your avatar or apply face swap to any video.</p>
-      <div class="hero-btns">
-        <button class="btn-primary" onclick="openModal()">Create my avatar free</button>
-        <button class="btn-outline" onclick="document.getElementById('ba-section-anchor').scrollIntoView({behavior:'smooth'})">See demo</button>
-      </div>
-      <div class="trust-row">
-        <div class="trust-item"><div class="trust-dot"></div>OBS Compatible</div>
-        <div class="trust-item"><div class="trust-dot"></div>OnlyFans · Fansly · Twitch</div>
-        <div class="trust-item"><div class="trust-dot"></div>Under 50ms latency</div>
-        <div class="trust-item"><div class="trust-dot"></div>AI image generation</div>
-        <div class="trust-item"><div class="trust-dot"></div>Video face/body swap</div>
-      </div>
-    </div>
-    <div>
-      <div class="live-card">
-        <div class="live-topbar"><div class="live-badge"><div class="live-red"></div>LIVE</div><div class="viewers">1,402 watching</div></div>
-        <div class="cams">
-          <div class="cam">
-            <svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><circle cx="21" cy="19" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="35" cy="19" r="3" fill="rgba(255,255,255,0.1)"/><path d="M22 30 Q28 35 34 30" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-            <div class="cam-lbl">Your camera</div>
-          </div>
-          <div class="cam output">
-            <svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(58,56,255,0.22)" stroke="rgba(58,56,255,0.55)" stroke-width="1.5"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(58,56,255,0.14)" stroke="rgba(58,56,255,0.4)" stroke-width="1.5"/><circle cx="21" cy="19" r="3" fill="rgba(58,56,255,0.85)"/><circle cx="35" cy="19" r="3" fill="rgba(58,56,255,0.85)"/><path d="M22 30 Q28 36 34 30" stroke="rgba(100,98,255,0.9)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-            <div class="ai-chip">AI active</div><div class="cam-lbl">Your AI avatar</div>
-          </div>
-          <div class="swap-arrow">→</div>
+  <div class="hero-wrap">
+    <div class="hero">
+      <div>
+        <div class="hero-badge"><div class="live-dot"></div>Real-time streaming · Generative AI</div>
+        <h1>Your AI character.<br><em>Live.</em><br>100% anonymous.</h1>
+        <p>Create your fictional AI avatar and stream live. You bring the performance — the AI brings the face and body, in real time. Also generate AI images with your avatar or apply face swap to any video.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="openModal()">Create my avatar free</button>
+          <button class="btn-outline" onclick="document.getElementById('ba-section-anchor').scrollIntoView({behavior:'smooth'})">See demo</button>
         </div>
-        <div class="live-footer"><div class="chips"><div class="chip">OnlyFans</div><div class="chip">Fansly</div><div class="chip">Twitch</div></div><div class="latency">48ms</div></div>
+        <div class="trust-row">
+          <div class="trust-item"><div class="trust-dot"></div>OBS Compatible</div>
+          <div class="trust-item"><div class="trust-dot"></div>OnlyFans · Fansly · Twitch</div>
+          <div class="trust-item"><div class="trust-dot"></div>Under 50ms latency</div>
+          <div class="trust-item"><div class="trust-dot"></div>AI image generation</div>
+          <div class="trust-item"><div class="trust-dot"></div>Video face/body swap</div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- STATS -->
-<div class="stats">
-  <div class="stat"><div class="stat-num">50K+</div><div class="stat-lbl">Avatars created</div></div>
-  <div class="stat"><div class="stat-num">&lt;50ms</div><div class="stat-lbl">Live latency</div></div>
-  <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Anonymous</div></div>
-  <div class="stat"><div class="stat-num">4K</div><div class="stat-lbl">Max resolution</div></div>
-</div>
-
-<!-- HOW IT WORKS -->
-<div id="como-funciona" class="section">
-  <div class="sec-tag">Process</div>
-  <div class="sec-title">How it works</div>
-  <div class="sec-sub">Three steps and your AI avatar is ready to stream on any platform.</div>
-  <div class="steps">
-    <div class="step"><div class="step-top"></div><div class="step-num">01</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Design your character</h3><p>Choose the face, body, hair, and style of your avatar. It's 100% fictional and completely yours.</p></div>
-    <div class="step"><div class="step-top"></div><div class="step-num">02</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/></svg></div><h3>Connect your camera</h3><p>Open Frandani AI, activate your camera and the face swap happens instantly in real time.</p></div>
-    <div class="step"><div class="step-top"></div><div class="step-num">03</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 2l-4 5-4-5"/></svg></div><h3>Stream and earn</h3><p>Use the virtual camera in OBS and stream to OnlyFans, Fansly, Twitch, or wherever you want.</p></div>
-  </div>
-</div>
-
-<!-- BEFORE & AFTER (video-based) -->
-<div class="ba-section" id="ba-section-anchor">
-  <div class="ba-title">Before &amp; After</div>
-  <div class="ba-desc">Drag the divider to compare your real camera with the AI avatar</div>
-  <div class="ba-tabs">
-    <div class="ba-tab active" onclick="setBAStyle(this,'profesional')">Professional model</div>
-    <div class="ba-tab" onclick="setBAStyle(this,'anime')">Anime style</div>
-    <div class="ba-tab" onclick="setBAStyle(this,'glam')">Glam / fashion</div>
-    <div class="ba-tab" onclick="setBAStyle(this,'casual')">Natural casual</div>
-  </div>
-  <!-- Video comparison container -->
-  <div class="ba-video-wrapper" id="baBox" style="cursor:col-resize;user-select:none;">
-    <!-- Before side: same video (raw look) with dark overlay -->
-    <video id="baVideoBefore" class="ba-video-before" autoplay muted loop playsinline
-      src="https://www.w3schools.com/html/mov_bbb.mp4"
-      style="filter:grayscale(0.6) brightness(0.7);">
-    </video>
-    <!-- After side: same video with AI color grading overlay, clipped -->
-    <div id="baAfterClip" style="position:absolute;inset:0;clip-path:inset(0 50% 0 0);z-index:2;">
-      <video id="baVideoAfter" class="ba-video-after" autoplay muted loop playsinline
-        src="https://www.w3schools.com/html/mov_bbb.mp4"
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-      </video>
-      <!-- Color grade overlay per style -->
-      <div id="baStyleOverlay" style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(58,56,255,0.35),rgba(120,80,255,0.25));mix-blend-mode:color;pointer-events:none;"></div>
-      <div style="position:absolute;inset:0;background:rgba(58,56,255,0.1);pointer-events:none;"></div>
-    </div>
-    <!-- Labels -->
-    <div class="ba-lbl b" style="z-index:13;">Before</div>
-    <div class="ba-lbl a" style="z-index:13;" id="baAfterLabel">Professional · AI</div>
-    <!-- Line and handle -->
-    <div class="ba-line" id="baLine" style="z-index:10;"></div>
-    <div class="ba-handle" id="baHandle" style="z-index:11;">
-      <div class="ba-arrows"><div class="arr-l"></div><div class="arr-r"></div></div>
-    </div>
-  </div>
-  <div class="ba-hint">Drag to compare</div>
-</div>
-
-<!-- FOR WHO -->
-<div id="para-quien" class="section">
-  <div class="sec-tag">Audience</div>
-  <div class="sec-title">Who is it for?</div>
-  <div class="sec-sub">Frandani AI is built for creators who want to monetize without exposing their identity.</div>
-  <div class="audience">
-    <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="2"/></svg></div><h3>OnlyFans Creators</h3><p>Launch your account with an AI character. Earn money from subscriptions and tips without showing your real face.</p><div class="aud-tag">OnlyFans · Fansly</div></div>
-    <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/><rect x="3" y="7" width="12" height="10" rx="2"/></svg></div><h3>Streamers &amp; VTubers</h3><p>Stream on Twitch, YouTube or Kick with your AI avatar. Keep your privacy and build a real audience.</p><div class="aud-tag">Twitch · Kick · YouTube</div></div>
-    <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Webcam Models</h3><p>Work on webcam sites with complete anonymity. Your AI character replicates your expressions in real time.</p><div class="aud-tag">Cam sites</div></div>
-  </div>
-</div>
-
-<!-- PRICING - 4 plans -->
-<div id="precios" class="section">
-  <div class="sec-tag">Plans</div>
-  <div class="sec-title">Simple pricing</div>
-  <div class="sec-sub">Pick a plan and start streaming live. Credits are included — use them to generate AI images or apply face swap to videos.</div>
-
-  <!-- Billing toggle -->
-  <div style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:40px;">
-    <div style="background:rgba(255,255,255,0.05);border:0.5px solid var(--border);border-radius:999px;padding:4px;display:flex;gap:2px;">
-      <button id="btn-monthly" onclick="setBilling('monthly')" style="background:var(--blue);color:#fff;border:none;padding:8px 22px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;">Monthly</button>
-      <button id="btn-annual" onclick="setBilling('annual')" style="background:transparent;color:var(--muted);border:none;padding:8px 22px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:8px;">Annual <span style="background:rgba(34,197,94,0.15);border:0.5px solid rgba(34,197,94,0.3);color:rgba(34,197,94,0.9);font-size:11px;padding:2px 8px;border-radius:999px;">Save 20%</span></button>
-    </div>
-  </div>
-
-  <!-- Plans grid — flex cards with bottom-aligned button -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;align-items:stretch;">
-
-    <!-- Starter -->
-    <div class="plan" style="display:flex;flex-direction:column;">
       <div>
-        <div class="plan-name">Starter</div>
-        <div class="plan-price" id="price-starter">$0 <sub>/mo</sub></div>
-        <div class="plan-desc">Just to explore</div>
-        <div class="plan-div"></div>
-        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-        <div class="feat">1 AI avatar</div>
-        <div class="feat">2 hrs/mo live streaming</div>
-        <div class="feat">720p · watermark</div>
-        <div class="plan-div" style="margin-top:12px;"></div>
-        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-        <div class="feat"><strong style="color:var(--text);">5 credits/mo</strong></div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 2 images · no video swap</div>
-        <div class="feat" style="color:rgba(255,80,80,0.45);">✕ Cannot buy extra credits</div>
+        <div class="live-card">
+          <div class="live-topbar"><div class="live-badge"><div class="live-red"></div>LIVE</div><div class="viewers">1,402 watching</div></div>
+          <div class="cams">
+            <div class="cam"><svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><circle cx="21" cy="19" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="35" cy="19" r="3" fill="rgba(255,255,255,0.1)"/><path d="M22 30 Q28 35 34 30" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><div class="cam-lbl">Your camera</div></div>
+            <div class="cam output"><svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(58,56,255,0.22)" stroke="rgba(58,56,255,0.55)" stroke-width="1.5"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(58,56,255,0.14)" stroke="rgba(58,56,255,0.4)" stroke-width="1.5"/><circle cx="21" cy="19" r="3" fill="rgba(58,56,255,0.85)"/><circle cx="35" cy="19" r="3" fill="rgba(58,56,255,0.85)"/><path d="M22 30 Q28 36 34 30" stroke="rgba(100,98,255,0.9)" stroke-width="2" fill="none" stroke-linecap="round"/></svg><div class="ai-chip">AI active</div><div class="cam-lbl">Your AI avatar</div></div>
+            <div class="swap-arrow">→</div>
+          </div>
+          <div class="live-footer"><div class="chips"><div class="chip">OnlyFans</div><div class="chip">Fansly</div><div class="chip">Twitch</div></div><div class="latency">48ms</div></div>
+        </div>
       </div>
-      <div style="flex:1;"></div>
-      <button class="plan-btn ghost" style="margin-top:24px;" onclick="openModal()">Get started free</button>
-    </div>
-
-    <!-- Creator -->
-    <div class="plan" style="display:flex;flex-direction:column;">
-      <div>
-        <div class="plan-name">Creator</div>
-        <div class="plan-price" id="price-creator">$29.99 <sub>/mo</sub></div>
-        <div id="annual-save-creator" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $287.90/yr · save $71.98</div>
-        <div class="plan-desc">For creators getting started</div>
-        <div class="plan-div"></div>
-        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-        <div class="feat">3 AI avatars</div>
-        <div class="feat">15 hrs/mo live streaming</div>
-        <div class="feat">1080p · no watermark</div>
-        <div class="plan-div" style="margin-top:12px;"></div>
-        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-        <div class="feat"><strong style="color:var(--text);">30 credits/mo</strong></div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 15 images · no video swap</div>
-        <div class="feat">Can buy extra credits ✓</div>
-      </div>
-      <div style="flex:1;"></div>
-      <button class="plan-btn ghost" style="margin-top:24px;" onclick="pagar('creator')">Choose Creator</button>
-    </div>
-
-    <!-- Pro — MOST POPULAR -->
-    <div class="plan featured" style="display:flex;flex-direction:column;">
-      <div class="plan-badge">Most popular</div>
-      <div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price" id="price-pro">$69.99 <sub>/mo</sub></div>
-        <div id="annual-save-pro" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $671.90/yr · save $167.98</div>
-        <div class="plan-desc">For serious active earners</div>
-        <div class="plan-div"></div>
-        <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-        <div class="feat">10 AI avatars</div>
-        <div class="feat">Unlimited live streaming</div>
-        <div class="feat">4K · no watermark · multi-stream</div>
-        <div class="plan-div" style="margin-top:12px;"></div>
-        <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-        <div class="feat"><strong style="color:var(--text);">120 credits/mo</strong></div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 60 images · or 15 min video swap</div>
-        <div class="feat">AI image generation ✓</div>
-        <div class="feat">Video face/body swap ✓</div>
-        <div class="feat">Can buy extra credits ✓</div>
-      </div>
-      <div style="flex:1;"></div>
-      <button class="plan-btn solid" style="margin-top:24px;" onclick="pagar('pro')">Choose Pro</button>
-    </div>
-
-    <!-- Elite -->
-    <div class="plan elite elite-glow" style="display:flex;flex-direction:column;">
-      <div class="plan-badge elite-badge">⚡ Elite</div>
-      <div>
-        <div class="plan-name">Elite</div>
-        <div class="plan-price" id="price-elite">$149.99 <sub>/mo</sub></div>
-        <div id="annual-save-elite" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $1,439.90/yr · save $359.98</div>
-        <div class="plan-desc">For full-time earners &amp; studios</div>
-        <div class="plan-div"></div>
-        <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-        <div class="feat elite-feat">Unlimited AI avatars</div>
-        <div class="feat elite-feat">Unlimited streaming · 8K</div>
-        <div class="feat elite-feat">AI voice changer included</div>
-        <div class="feat elite-feat">Custom avatar from your photo</div>
-        <div class="plan-div" style="margin-top:12px;border-color:rgba(168,85,247,0.2);"></div>
-        <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
-        <div class="feat elite-feat bold-feat"><strong style="color:#e9d5ff;">300 credits/mo + rollover</strong></div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 150 images · or 37 min video swap</div>
-        <div class="feat elite-feat">AI image generation ✓</div>
-        <div class="feat elite-feat">Video face/body swap ✓</div>
-        <div class="feat elite-feat bold-feat">Buy credits at 20% discount ✓</div>
-      </div>
-      <div style="flex:1;"></div>
-      <button class="plan-btn solid-elite" style="margin-top:24px;" onclick="pagar('elite')">Go Elite</button>
-    </div>
-
-  </div>
-
-  <!-- Credit cost note -->
-  <div style="font-size:12px;color:rgba(255,255,255,0.2);text-align:center;margin-bottom:60px;">
-    🪙 Credits reset monthly. Purchased top-up credits never expire. · Live streaming always free, no credits needed.
-  </div>
-
-  <!-- CREDIT TOP-UP — separator -->
-  <div style="border-top:0.5px solid var(--border);padding-top:60px;" id="creditos">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:12px;">
-      <div>
-        <div style="font-size:11px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Add-on</div>
-        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.5px;">Need more credits?</div>
-      </div>
-      <div style="font-size:13px;color:var(--muted);max-width:340px;text-align:right;">Available on Creator, Pro and Elite plans. Credits never expire and stack with your monthly allowance.</div>
-    </div>
-
-    <!-- What costs what -->
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 32px;">
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:18px;">🖼️</span>
-        <span style="color:var(--muted);">AI image with avatar</span>
-        <span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">2 credits</span>
-      </div>
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:18px;">🎬</span>
-        <span style="color:var(--muted);">Video swap (per minute)</span>
-        <span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">8 credits</span>
-      </div>
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:18px;">📹</span>
-        <span style="color:var(--muted);">HD export (up to 5 min)</span>
-        <span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">15 credits</span>
-      </div>
-    </div>
-
-    <!-- Credit packs grid -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
-
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:20px;">
-        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:2px;">50 <span style="font-size:13px;font-weight:400;color:var(--muted);">credits</span></div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">≈ 25 images or 6 min video</div>
-        <div style="font-size:22px;font-weight:700;font-family:'Syne',sans-serif;margin-bottom:4px;">$7.99</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.2);margin-bottom:16px;">$0.16 per credit</div>
-        <button class="plan-btn ghost" style="margin-top:0;font-size:12px;padding:9px;" onclick="comprarCreditos(50)">Buy Spark</button>
-      </div>
-
-      <div style="background:rgba(58,56,255,0.07);border:1px solid var(--blue-border);border-radius:14px;padding:20px;position:relative;">
-        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:10px;padding:3px 12px;border-radius:999px;font-weight:600;white-space:nowrap;">BEST VALUE</div>
-        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:2px;">150 <span style="font-size:13px;font-weight:400;color:var(--muted);">credits</span></div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">≈ 75 images or 18 min video</div>
-        <div style="font-size:22px;font-weight:700;font-family:'Syne',sans-serif;margin-bottom:4px;">$19.99</div>
-        <div style="font-size:11px;color:rgba(34,197,94,0.7);margin-bottom:16px;">save 16% · $0.13/credit</div>
-        <button class="plan-btn solid" style="margin-top:0;font-size:12px;padding:9px;" onclick="comprarCreditos(150)">Buy Boost</button>
-      </div>
-
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:20px;">
-        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:2px;">400 <span style="font-size:13px;font-weight:400;color:var(--muted);">credits</span></div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">≈ 200 images or 50 min video</div>
-        <div style="font-size:22px;font-weight:700;font-family:'Syne',sans-serif;margin-bottom:4px;">$44.99</div>
-        <div style="font-size:11px;color:rgba(34,197,94,0.7);margin-bottom:16px;">save 25% · $0.11/credit</div>
-        <button class="plan-btn ghost" style="margin-top:0;font-size:12px;padding:9px;" onclick="comprarCreditos(400)">Buy Power</button>
-      </div>
-
-      <div style="background:rgba(168,85,247,0.06);border:0.5px solid rgba(168,85,247,0.3);border-radius:14px;padding:20px;">
-        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:2px;">1,000 <span style="font-size:13px;font-weight:400;color:var(--muted);">credits</span></div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">≈ 500 images or 125 min video</div>
-        <div style="font-size:22px;font-weight:700;font-family:'Syne',sans-serif;color:#c084fc;margin-bottom:4px;">$99.99</div>
-        <div style="font-size:11px;color:rgba(34,197,94,0.7);margin-bottom:16px;">save 37% · $0.10/credit</div>
-        <button class="plan-btn ghost" style="margin-top:0;font-size:12px;padding:9px;border-color:rgba(168,85,247,0.4);color:#c084fc;" onclick="comprarCreditos(1000)">Buy Studio</button>
-      </div>
-
-    </div>
-
-    <div style="margin-top:16px;font-size:12px;color:rgba(255,255,255,0.15);text-align:center;">
-      You need an active paid plan to purchase credit top-ups. Elite plan members get an additional 20% discount applied at checkout.
     </div>
   </div>
-
+  <div class="stats">
+    <div class="stat"><div class="stat-num">50K+</div><div class="stat-lbl">Avatars created</div></div>
+    <div class="stat"><div class="stat-num">&lt;50ms</div><div class="stat-lbl">Live latency</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Anonymous</div></div>
+    <div class="stat"><div class="stat-num">4K</div><div class="stat-lbl">Max resolution</div></div>
+  </div>
+  <div id="como-funciona" class="section">
+    <div class="sec-tag">Process</div><div class="sec-title">How it works</div><div class="sec-sub">Three steps and your AI avatar is ready to stream on any platform.</div>
+    <div class="steps">
+      <div class="step"><div class="step-top"></div><div class="step-num">01</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Design your character</h3><p>Choose the face, body, hair, and style of your avatar. It's 100% fictional and completely yours.</p></div>
+      <div class="step"><div class="step-top"></div><div class="step-num">02</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/></svg></div><h3>Connect your camera</h3><p>Open Frandani AI, activate your camera and the face swap happens instantly in real time.</p></div>
+      <div class="step"><div class="step-top"></div><div class="step-num">03</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 2l-4 5-4-5"/></svg></div><h3>Stream and earn</h3><p>Use the virtual camera in OBS and stream to OnlyFans, Fansly, Twitch, or wherever you want.</p></div>
+    </div>
+  </div>
+  <div class="ba-section" id="ba-section-anchor">
+    <div class="ba-title">Before &amp; After</div><div class="ba-desc">Drag the divider to compare your real camera with the AI avatar</div>
+    <div class="ba-tabs">
+      <div class="ba-tab active" onclick="setBAStyle(this,'profesional')">Professional model</div>
+      <div class="ba-tab" onclick="setBAStyle(this,'anime')">Anime style</div>
+      <div class="ba-tab" onclick="setBAStyle(this,'glam')">Glam / fashion</div>
+      <div class="ba-tab" onclick="setBAStyle(this,'casual')">Natural casual</div>
+    </div>
+    <div class="ba-video-wrapper" id="baBox" style="cursor:col-resize;user-select:none;">
+      <video id="baVideoBefore" class="ba-video-before" autoplay muted loop playsinline src="https://www.w3schools.com/html/mov_bbb.mp4" style="filter:grayscale(0.6) brightness(0.7);"></video>
+      <div id="baAfterClip" style="position:absolute;inset:0;clip-path:inset(0 50% 0 0);z-index:2;">
+        <video id="baVideoAfter" class="ba-video-after" autoplay muted loop playsinline src="https://www.w3schools.com/html/mov_bbb.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
+        <div id="baStyleOverlay" style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(58,56,255,0.35),rgba(120,80,255,0.25));mix-blend-mode:color;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0;background:rgba(58,56,255,0.1);pointer-events:none;"></div>
+      </div>
+      <div class="ba-lbl b" style="z-index:13;">Before</div>
+      <div class="ba-lbl a" style="z-index:13;" id="baAfterLabel">Professional · AI</div>
+      <div class="ba-line" id="baLine" style="z-index:10;"></div>
+      <div class="ba-handle" id="baHandle" style="z-index:11;"><div class="ba-arrows"><div class="arr-l"></div><div class="arr-r"></div></div></div>
+    </div>
+    <div class="ba-hint">Drag to compare</div>
+  </div>
+  <div id="para-quien" class="section">
+    <div class="sec-tag">Audience</div><div class="sec-title">Who is it for?</div><div class="sec-sub">Frandani AI is built for creators who want to monetize without exposing their identity.</div>
+    <div class="audience">
+      <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="2"/></svg></div><h3>OnlyFans Creators</h3><p>Launch your account with an AI character. Earn money from subscriptions and tips without showing your real face.</p><div class="aud-tag">OnlyFans · Fansly</div></div>
+      <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/><rect x="3" y="7" width="12" height="10" rx="2"/></svg></div><h3>Streamers &amp; VTubers</h3><p>Stream on Twitch, YouTube or Kick with your AI avatar. Keep your privacy and build a real audience.</p><div class="aud-tag">Twitch · Kick · YouTube</div></div>
+      <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Webcam Models</h3><p>Work on webcam sites with complete anonymity. Your AI character replicates your expressions in real time.</p><div class="aud-tag">Cam sites</div></div>
+    </div>
+  </div>
+  <div class="cta">
+    <h2>Your identity, <em>protected.</em><br>Your income, real.</h2>
+    <p>Create your AI avatar free today. No credit card required.</p>
+    <button class="btn-primary" style="font-size:16px;padding:16px 44px;" onclick="openModal()">Create my avatar now</button>
+  </div>
+  <footer><p>© 2025 Frandani AI — All rights reserved</p><p><a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p></footer>
 </div>
 
-<!-- CTA -->
-<div class="cta">
-  <h2>Your identity, <em>protected.</em><br>Your income, real.</h2>
-  <p>Create your AI avatar free today. No credit card required.</p>
-  <button class="btn-primary" style="font-size:16px;padding:16px 44px;" onclick="openModal()">Create my avatar now</button>
-</div>
-
-<footer>
-  <p>© 2025 Frandani AI — All rights reserved</p>
-  <p><a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
-</footer>
-</div>
-
-<!-- PAGE: IMAGE -->
+<!-- ════════════ PAGE: IMAGE ════════════ -->
 <div class="page" id="page-image">
   <div class="img-page">
     <div class="img-page-title">AI Image Generator</div>
     <div class="img-page-sub">Create stunning images with your AI avatar using the best models available.</div>
     <div class="img-layout">
-      <!-- Controls -->
       <div class="img-controls">
         <div>
           <div class="ctrl-label">Prompt</div>
@@ -699,22 +408,10 @@
         <div>
           <div class="ctrl-label">Model</div>
           <div class="model-grid">
-            <div class="model-opt active" onclick="selectModel(this,'flux-schnell')">
-              <div class="model-opt-name">Flux Schnell</div>
-              <div class="model-opt-desc">Fast · $0.003/img</div>
-            </div>
-            <div class="model-opt" onclick="selectModel(this,'flux-dev')">
-              <div class="model-opt-name">Flux Dev</div>
-              <div class="model-opt-desc">Quality · $0.025/img</div>
-            </div>
-            <div class="model-opt" onclick="selectModel(this,'sdxl')">
-              <div class="model-opt-name">SDXL</div>
-              <div class="model-opt-desc">Creative · $0.002/img</div>
-            </div>
-            <div class="model-opt" onclick="selectModel(this,'realistic')">
-              <div class="model-opt-name">Realistic</div>
-              <div class="model-opt-desc">Photo · $0.004/img</div>
-            </div>
+            <div class="model-opt active" onclick="selectModel(this,'flux-schnell')"><div class="model-opt-name">Flux Schnell</div><div class="model-opt-desc">Fast · $0.003/img</div></div>
+            <div class="model-opt" onclick="selectModel(this,'flux-dev')"><div class="model-opt-name">Flux Dev</div><div class="model-opt-desc">Quality · $0.025/img</div></div>
+            <div class="model-opt" onclick="selectModel(this,'sdxl')"><div class="model-opt-name">SDXL</div><div class="model-opt-desc">Creative · $0.002/img</div></div>
+            <div class="model-opt" onclick="selectModel(this,'realistic')"><div class="model-opt-name">Realistic</div><div class="model-opt-desc">Photo · $0.004/img</div></div>
           </div>
         </div>
         <div>
@@ -747,7 +444,6 @@
         </div>
         <button class="btn-generate" id="btnGenerate" onclick="generateImage()">Generate images</button>
       </div>
-      <!-- Output -->
       <div class="img-output">
         <div class="img-output-header">
           <div class="img-output-title">Output</div>
@@ -771,7 +467,7 @@
   </div>
 </div>
 
-<!-- PAGE: VIDEO -->
+<!-- ════════════ PAGE: VIDEO ════════════ -->
 <div class="page" id="page-video">
   <div class="video-page">
     <div class="img-page-title">AI Video Generator</div>
@@ -785,7 +481,7 @@
   </div>
 </div>
 
-<!-- PAGE: LIVE SWAP -->
+<!-- ════════════ PAGE: LIVE SWAP ════════════ -->
 <div class="page" id="page-live">
   <div class="live-page">
     <div class="img-page-title">Live Video Swap</div>
@@ -794,14 +490,13 @@
       <div class="live-studio-header">
         <div class="live-studio-title">Live Studio</div>
         <div style="display:flex;align-items:center;gap:6px;background:rgba(255,60,60,0.12);border:0.5px solid rgba(255,60,60,0.3);border-radius:999px;padding:4px 12px;font-size:11px;color:#ff6060;font-weight:500;">
-          <div style="width:6px;height:6px;border-radius:50%;background:#ff4545;animation:pulse 1.4s ease-in-out infinite;"></div>
-          LIVE
+          <div style="width:6px;height:6px;border-radius:50%;background:#ff4545;animation:pulse 1.4s ease-in-out infinite;"></div>LIVE
         </div>
       </div>
       <div class="live-studio-body">
         <div class="live-panel">
           <div class="live-panel-label">Your camera</div>
-          <div class="video-box" id="liveVideoBox">
+          <div class="video-box">
             <video id="liveVideoInput" autoplay muted playsinline style="display:none;"></video>
             <div class="video-placeholder" id="livePlaceholderIn">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/><rect x="3" y="7" width="12" height="10" rx="2"/></svg>
@@ -812,10 +507,7 @@
             <button class="btn-live" id="btnLiveCam" onclick="activarLive()">Activate camera</button>
             <button class="btn-live secondary" id="btnLiveStop" onclick="detenerLive()" style="display:none;">Stop</button>
           </div>
-          <div class="status-row">
-            <div class="status-dot" id="liveStatusDot"></div>
-            <span id="liveStatusText">Camera inactive</span>
-          </div>
+          <div class="status-row"><div class="status-dot" id="liveStatusDot"></div><span id="liveStatusText">Camera inactive</span></div>
         </div>
         <div class="live-panel">
           <div class="live-panel-label">Your AI avatar</div>
@@ -844,44 +536,217 @@
   </div>
 </div>
 
-<script>
-// Core
-function showToast(msg,type){type=type||'';var t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(function(){t.className='toast';},3500);}
+<!-- ════════════ PAGE: PRICING ════════════ -->
+<div class="page" id="page-pricing">
+  <div style="max-width:1100px;margin:0 auto;padding:48px 60px;">
+    <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:8px;">Simple pricing</div>
+    <div style="font-size:15px;color:var(--muted);margin-bottom:32px;">Pick a plan and start streaming live. Credits are included — use them to generate AI images or apply face swap to videos.</div>
 
-// SPA Navigation
+    <!-- Monthly / Annual toggle -->
+    <div style="display:flex;align-items:center;justify-content:center;margin-bottom:40px;">
+      <div style="background:rgba(255,255,255,0.05);border:0.5px solid var(--border);border-radius:999px;padding:4px;display:flex;gap:2px;">
+        <button id="btn-monthly" onclick="setBilling('monthly')" style="background:var(--blue);color:#fff;border:none;padding:8px 24px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;">Monthly</button>
+        <button id="btn-annual" onclick="setBilling('annual')" style="background:transparent;color:var(--muted);border:none;padding:8px 24px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:8px;">Annual <span style="background:rgba(34,197,94,0.15);border:0.5px solid rgba(34,197,94,0.3);color:rgba(34,197,94,0.9);font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;">Save 20%</span></button>
+      </div>
+    </div>
+
+    <!-- Plans -->
+    <div class="plans" style="margin-bottom:20px;">
+
+      <div class="plan">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$0 <sub>/mo</sub></div>
+        <div class="plan-desc">Just to explore</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat">1 AI avatar</div>
+        <div class="feat">2 hrs/mo live streaming</div>
+        <div class="feat">720p · watermark</div>
+        <div class="plan-div" style="margin-top:12px;"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat"><strong style="color:var(--text);">5 credits/mo</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 2 images · no video swap</div>
+        <div class="feat" style="color:rgba(255,80,80,0.45);">✕ Cannot buy extra credits</div>
+        <div class="plan-spacer"></div>
+        <button class="plan-btn ghost" onclick="openModal()">Get started free</button>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Creator</div>
+        <div style="font-size:13px;color:rgba(255,100,100,0.7);text-decoration:line-through;margin-bottom:2px;" id="strike-creator">$49.99/mo</div>
+        <div class="plan-price" id="price-creator">$29.99 <sub>/mo</sub></div>
+        <div id="annual-note-creator" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $287.90/yr · save $71.98</div>
+        <div class="plan-desc">For creators getting started</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat">3 AI avatars</div>
+        <div class="feat">15 hrs/mo live streaming</div>
+        <div class="feat">1080p · no watermark</div>
+        <div class="plan-div" style="margin-top:12px;"></div>
+        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat"><strong style="color:var(--text);">30 credits/mo</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 15 images · no video swap</div>
+        <div class="feat">Can buy extra credits ✓</div>
+        <div class="plan-spacer"></div>
+        <button class="plan-btn ghost" onclick="pagar('creator')">Choose Creator</button>
+      </div>
+
+      <div class="plan featured">
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div style="font-size:13px;color:rgba(255,100,100,0.7);text-decoration:line-through;margin-bottom:2px;" id="strike-pro">$99.99/mo</div>
+        <div class="plan-price" id="price-pro">$69.99 <sub>/mo</sub></div>
+        <div id="annual-note-pro" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $671.90/yr · save $167.98</div>
+        <div class="plan-desc">For serious active earners</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat">10 AI avatars</div>
+        <div class="feat">Unlimited live streaming</div>
+        <div class="feat">4K · no watermark · multi-stream</div>
+        <div class="plan-div" style="margin-top:12px;"></div>
+        <div style="font-size:10px;color:rgba(130,128,255,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat"><strong style="color:var(--text);">120 credits/mo</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 60 images · or 15 min video swap</div>
+        <div class="feat">AI image generation ✓</div>
+        <div class="feat">Video face/body swap ✓</div>
+        <div class="feat">Can buy extra credits ✓</div>
+        <div class="plan-spacer"></div>
+        <button class="plan-btn solid" onclick="pagar('pro')">Choose Pro</button>
+      </div>
+
+      <div class="plan elite elite-glow">
+        <div class="plan-badge elite-badge">⚡ Elite</div>
+        <div class="plan-name">Elite</div>
+        <div style="font-size:13px;color:rgba(255,100,100,0.7);text-decoration:line-through;margin-bottom:2px;" id="strike-elite">$199.99/mo</div>
+        <div class="plan-price" id="price-elite">$149.99 <sub>/mo</sub></div>
+        <div id="annual-note-elite" style="display:none;font-size:11px;color:rgba(34,197,94,0.8);margin-bottom:8px;">billed $1,439.90/yr · save $359.98</div>
+        <div class="plan-desc">For full-time earners &amp; studios</div>
+        <div class="plan-div"></div>
+        <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
+        <div class="feat elite-feat">Unlimited AI avatars</div>
+        <div class="feat elite-feat">Unlimited streaming · 8K</div>
+        <div class="feat elite-feat">AI voice changer included</div>
+        <div class="feat elite-feat">Custom avatar from your photo</div>
+        <div class="plan-div" style="margin-top:12px;border-color:rgba(168,85,247,0.2);"></div>
+        <div style="font-size:10px;color:rgba(192,132,252,0.8);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
+        <div class="feat elite-feat bold-feat"><strong style="color:#e9d5ff;">300 credits/mo + rollover</strong></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 150 images · or 37 min video swap</div>
+        <div class="feat elite-feat">AI image generation ✓</div>
+        <div class="feat elite-feat">Video face/body swap ✓</div>
+        <div class="feat elite-feat bold-feat">Buy credits at 20% discount ✓</div>
+        <div class="plan-spacer"></div>
+        <button class="plan-btn solid-elite" onclick="pagar('elite')">Go Elite</button>
+      </div>
+
+    </div>
+
+    <div style="font-size:12px;color:rgba(255,255,255,0.2);text-align:center;margin-bottom:56px;">
+      🪙 Credits reset monthly. Purchased top-up credits never expire. · Live streaming always free, no credits needed.
+    </div>
+
+    <!-- ── CREDIT TOP-UP SLIDER ── -->
+    <div style="border-top:0.5px solid var(--border);padding-top:56px;">
+
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
+        <div>
+          <div style="font-size:11px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Add-on credits</div>
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px;">Need more credits?</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.35);max-width:420px;line-height:1.6;">Credits are for top-ups only. A subscription gives you far more value — credits are for when you run out mid-month.</div>
+        </div>
+        <div style="background:rgba(58,56,255,0.08);border:0.5px solid rgba(58,56,255,0.3);border-radius:12px;padding:14px 20px;text-align:center;">
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Best value</div>
+          <div style="font-size:14px;font-weight:500;color:#a0a0ff;">Subscribe instead</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:2px;">From $0.10/credit with Elite</div>
+        </div>
+      </div>
+
+      <!-- What each credit does -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;">
+        <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🖼️</span><span style="color:var(--muted);">AI image with avatar</span><span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">2 credits</span></div>
+        <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🎬</span><span style="color:var(--muted);">Video swap (per min)</span><span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">8 credits</span></div>
+        <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📹</span><span style="color:var(--muted);">HD export (up to 5 min)</span><span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">15 credits</span></div>
+      </div>
+
+      <!-- Slider card -->
+      <div style="background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.1);border-radius:20px;padding:36px 40px;">
+
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px;">
+          <div style="font-family:'Syne',sans-serif;font-size:42px;font-weight:700;" id="creditAmount">100</div>
+          <div style="font-size:18px;color:rgba(255,255,255,0.4);">credits</div>
+          <div style="margin-left:auto;text-align:right;">
+            <div style="font-size:13px;color:rgba(255,255,255,0.3);text-decoration:line-through;margin-bottom:2px;" id="creditPriceOld">$150.00</div>
+            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:700;color:#fff;" id="creditPriceNew">$75.00</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);" id="creditPerUnit">$0.75/credit</div>
+          </div>
+        </div>
+
+        <div style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:28px;" id="creditUsage">≈ 50 images or 12 min video</div>
+
+        <div style="margin-bottom:8px;">
+          <input type="range" id="creditSlider" min="10" max="1000" value="100" step="10"
+            style="width:100%;height:6px;accent-color:var(--blue);cursor:pointer;"
+            oninput="updateCreditPrice(this.value)"/>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.2);margin-bottom:32px;">
+          <span>10 credits</span><span>500 credits</span><span>1,000 credits</span>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;" id="discountBadges">
+          <div style="background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.35);">10–99: $0.90/cr</div>
+          <div style="background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.25);border-radius:999px;padding:5px 12px;font-size:11px;color:#a0a0ff;">100–299: $0.75/cr</div>
+          <div style="background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.35);">300–599: $0.65/cr</div>
+          <div style="background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.35);">600–1000: $0.55/cr</div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <button onclick="comprarCreditosSlider()" style="background:var(--blue);color:#fff;border:none;padding:14px 36px;border-radius:999px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">
+            Buy <span id="btnCreditAmt">100</span> credits — <span id="btnCreditPrice">$75.00</span>
+          </button>
+          <div style="font-size:12px;color:rgba(255,255,255,0.25);line-height:1.5;">Credits never expire · Available on paid plans</div>
+        </div>
+
+        <div style="margin-top:24px;padding:14px 18px;background:rgba(58,56,255,0.05);border:0.5px solid rgba(58,56,255,0.15);border-radius:10px;font-size:12px;color:rgba(255,255,255,0.3);line-height:1.7;">
+          Compare: Elite plan gives you <strong style="color:rgba(255,255,255,0.6);">300 credits/mo for $149.99</strong> — that's just <strong style="color:rgba(100,200,100,0.8);">$0.50/credit</strong>, plus unlimited streaming, 8K quality, voice changer and more.
+        </div>
+      </div>
+
+      <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.15);text-align:center;">
+        Credits reset monthly on subscription. Purchased top-up credits never expire and stack with your monthly allowance.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── NAVIGATION ──
 function goTo(page){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
   document.getElementById('page-'+page).classList.add('active');
-  var tabs={'home':0,'image':1,'video':2,'live':3};
-  document.querySelectorAll('.nav-tab')[tabs[page]].classList.add('active');
+  var tabs={'home':0,'image':1,'video':2,'live':3,'pricing':4};
+  if(tabs[page]!==undefined) document.querySelectorAll('.nav-tab')[tabs[page]].classList.add('active');
   window.scrollTo(0,0);
 }
 
-// Modal
+// ── TOAST ──
+function showToast(msg,type){type=type||'';var t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(function(){t.className='toast';},3500);}
+
+// ── MODAL ──
 function openModal(){document.getElementById('authModal').classList.add('open');}
 function closeModal(){document.getElementById('authModal').classList.remove('open');}
 document.getElementById('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeModal();});
 function switchTab(tab){document.getElementById('tab-registro').style.display=tab==='registro'?'block':'none';document.getElementById('tab-login').style.display=tab==='login'?'block':'none';document.querySelectorAll('.modal-tab').forEach(function(t,i){t.classList.toggle('active',(i===0&&tab==='registro')||(i===1&&tab==='login'));});document.getElementById('modal-msg').textContent='';}
 
-// Google OAuth
+// ── AUTH ──
 function socialLogin(provider){
   if(typeof google==='undefined'){showToast('Loading Google...','');setTimeout(function(){socialLogin(provider);},1000);return;}
   google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:handleGoogleLogin,use_fedcm_for_prompt:true});
   google.accounts.id.prompt();
 }
 function handleGoogleLogin(response){
-  try{
-    var payload=JSON.parse(atob(response.credential.split('.')[1]));
-    currentUser={nombre:payload.name,email:payload.email,plan:'starter',avatar:payload.picture};
-    localStorage.setItem('frandani_user',JSON.stringify(currentUser));
-    updateNavUser();
-    closeModal();
-    showToast('Welcome, '+payload.name+'!','success');
-  }catch(e){showToast('Google login error. Try again.','error');}
+  try{var payload=JSON.parse(atob(response.credential.split('.')[1]));currentUser={nombre:payload.name,email:payload.email,plan:'starter',avatar:payload.picture};localStorage.setItem('frandani_user',JSON.stringify(currentUser));updateNavUser();closeModal();showToast('Welcome, '+payload.name+'!','success');}
+  catch(e){showToast('Google login error. Try again.','error');}
 }
-
-// Register
 function registrar(){
   var nombre=document.getElementById('reg-nombre').value.trim();
   var email=document.getElementById('reg-email').value.trim();
@@ -890,12 +755,8 @@ function registrar(){
   if(pass.length<6){document.getElementById('modal-msg').textContent='Password must be at least 6 characters';return;}
   currentUser={nombre:nombre,email:email,plan:'starter'};
   localStorage.setItem('frandani_user',JSON.stringify(currentUser));
-  updateNavUser();
-  closeModal();
-  showToast('Account created! Welcome to Frandani AI','success');
+  updateNavUser();closeModal();showToast('Account created! Welcome to Frandani AI','success');
 }
-
-// Login
 function login(){
   var email=document.getElementById('login-email').value.trim();
   var pass=document.getElementById('login-pass').value;
@@ -904,61 +765,13 @@ function login(){
   if(saved){currentUser=JSON.parse(saved);updateNavUser();closeModal();showToast('Welcome back, '+currentUser.nombre+'!','success');}
   else{document.getElementById('modal-msg').textContent='User not found. Create an account first.';}
 }
-
-// Nav user menu
-function updateNavUser(){
-  if(!currentUser)return;
-  var name=currentUser.nombre?currentUser.nombre.split(' ')[0]:'Account';
-  document.getElementById('navAuthBtn').textContent=name;
-  if(document.getElementById('userMenuEmail'))document.getElementById('userMenuEmail').textContent=currentUser.email||'';
-}
-function navBtnClick(){
-  if(!currentUser){openModal();return;}
-  var menu=document.getElementById('userMenu');
-  menu.style.display=menu.style.display==='none'||menu.style.display===''?'block':'none';
-}
+function updateNavUser(){if(!currentUser)return;var name=currentUser.nombre?currentUser.nombre.split(' ')[0]:'Account';document.getElementById('navAuthBtn').textContent=name;if(document.getElementById('userMenuEmail'))document.getElementById('userMenuEmail').textContent=currentUser.email||'';}
+function navBtnClick(){if(!currentUser){openModal();return;}var menu=document.getElementById('userMenu');menu.style.display=menu.style.display==='none'||menu.style.display===''?'block':'none';}
 function closeUserMenu(){document.getElementById('userMenu').style.display='none';}
-document.addEventListener('click',function(e){
-  var menu=document.getElementById('userMenu');
-  var btn=document.getElementById('navAuthBtn');
-  if(menu&&btn&&!menu.contains(e.target)&&!btn.contains(e.target)){menu.style.display='none';}
-});
-function cerrarSesion(){
-  currentUser=null;
-  localStorage.removeItem('frandani_user');
-  document.getElementById('navAuthBtn').textContent='Create my avatar';
-  closeUserMenu();
-  showToast('Signed out successfully','');
-}
+document.addEventListener('click',function(e){var menu=document.getElementById('userMenu');var btn=document.getElementById('navAuthBtn');if(menu&&btn&&!menu.contains(e.target)&&!btn.contains(e.target)){menu.style.display='none';}});
+function cerrarSesion(){currentUser=null;localStorage.removeItem('frandani_user');document.getElementById('navAuthBtn').textContent='Create my avatar';closeUserMenu();showToast('Signed out successfully','');}
 
-// Billing toggle
-var currentBilling = 'monthly';
-var prices = {
-  monthly:  { creator: '$29.99', pro: '$69.99',  elite: '$149.99' },
-  annual:   { creator: '$23.99', pro: '$55.99',  elite: '$119.99' }
-};
-function setBilling(mode) {
-  currentBilling = mode;
-  var btnM = document.getElementById('btn-monthly');
-  var btnA = document.getElementById('btn-annual');
-  if (mode === 'monthly') {
-    btnM.style.background = 'var(--blue)'; btnM.style.color = '#fff';
-    btnA.style.background = 'transparent'; btnA.style.color = 'var(--muted)';
-    document.getElementById('price-creator').innerHTML = '$29.99 <sub>/mo</sub>';
-    document.getElementById('price-pro').innerHTML     = '$69.99 <sub>/mo</sub>';
-    document.getElementById('price-elite').innerHTML   = '$149.99 <sub>/mo</sub>';
-    ['creator','pro','elite'].forEach(function(p){ document.getElementById('annual-save-'+p).style.display='none'; });
-  } else {
-    btnA.style.background = 'var(--blue)'; btnA.style.color = '#fff';
-    btnM.style.background = 'transparent'; btnM.style.color = 'var(--muted)';
-    document.getElementById('price-creator').innerHTML = '$23.99 <sub>/mo</sub>';
-    document.getElementById('price-pro').innerHTML     = '$55.99 <sub>/mo</sub>';
-    document.getElementById('price-elite').innerHTML   = '$119.99 <sub>/mo</sub>';
-    ['creator','pro','elite'].forEach(function(p){ document.getElementById('annual-save-'+p).style.display='block'; });
-  }
-}
-
-// Pay
+// ── PAYMENTS ──
 function pagar(plan){
   if(!currentUser){openModal();showToast('Sign in to continue','');return;}
   if(plan==='starter'){showToast('You are on the free plan','');return;}
@@ -968,8 +781,6 @@ function pagar(plan){
     .then(function(data){if(data.checkout_url&&data.checkout_url!=='gratis'){window.open(data.checkout_url,'_blank');}else{showToast('Error generating payment link','error');}})
     .catch(function(){showToast('Could not connect to server','error');});
 }
-
-// Buy credits
 function comprarCreditos(cantidad){
   if(!currentUser){openModal();showToast('Sign in to continue','');return;}
   if(!currentUser.plan||currentUser.plan==='starter'){showToast('You need a paid plan to buy extra credits','error');return;}
@@ -980,34 +791,79 @@ function comprarCreditos(cantidad){
     .catch(function(){showToast('Could not connect to server','error');});
 }
 
-// IMAGE GENERATOR
+// ── BILLING TOGGLE ──
+function setBilling(mode){
+  var btnM=document.getElementById('btn-monthly');
+  var btnA=document.getElementById('btn-annual');
+  if(mode==='monthly'){
+    btnM.style.background='var(--blue)';btnM.style.color='#fff';
+    btnA.style.background='transparent';btnA.style.color='var(--muted)';
+    document.getElementById('price-creator').innerHTML='$29.99 <sub>/mo</sub>';
+    document.getElementById('price-pro').innerHTML='$69.99 <sub>/mo</sub>';
+    document.getElementById('price-elite').innerHTML='$149.99 <sub>/mo</sub>';
+    document.getElementById('strike-creator').textContent='$49.99/mo';
+    document.getElementById('strike-pro').textContent='$99.99/mo';
+    document.getElementById('strike-elite').textContent='$199.99/mo';
+    ['creator','pro','elite'].forEach(function(p){document.getElementById('annual-note-'+p).style.display='none';});
+  } else {
+    btnA.style.background='var(--blue)';btnA.style.color='#fff';
+    btnM.style.background='transparent';btnM.style.color='var(--muted)';
+    document.getElementById('price-creator').innerHTML='$23.99 <sub>/mo</sub>';
+    document.getElementById('price-pro').innerHTML='$55.99 <sub>/mo</sub>';
+    document.getElementById('price-elite').innerHTML='$119.99 <sub>/mo</sub>';
+    document.getElementById('strike-creator').textContent='$29.99/mo';
+    document.getElementById('strike-pro').textContent='$69.99/mo';
+    document.getElementById('strike-elite').textContent='$149.99/mo';
+    ['creator','pro','elite'].forEach(function(p){document.getElementById('annual-note-'+p).style.display='block';});
+  }
+}
+
+// ── CREDIT SLIDER ──
+function updateCreditPrice(val){
+  val=parseInt(val);
+  var perCredit,tier;
+  if(val<100){perCredit=0.90;tier=0;}
+  else if(val<300){perCredit=0.75;tier=1;}
+  else if(val<600){perCredit=0.65;tier=2;}
+  else{perCredit=0.55;tier=3;}
+  var price=Math.round(val*perCredit*100)/100;
+  var oldPrice=Math.round(val*1.50*100)/100;
+  document.getElementById('creditAmount').textContent=val;
+  document.getElementById('creditPriceNew').textContent='$'+price.toFixed(2);
+  document.getElementById('creditPriceOld').textContent='$'+oldPrice.toFixed(2);
+  document.getElementById('creditPerUnit').textContent='$'+perCredit.toFixed(2)+'/credit';
+  document.getElementById('btnCreditAmt').textContent=val;
+  document.getElementById('btnCreditPrice').textContent='$'+price.toFixed(2);
+  var imgs=Math.floor(val/2);
+  var mins=Math.floor(val/8);
+  document.getElementById('creditUsage').textContent='≈ '+imgs+' images or '+mins+' min video';
+  var badges=document.getElementById('discountBadges').children;
+  for(var i=0;i<badges.length;i++){
+    badges[i].style.background=i===tier?'rgba(58,56,255,0.15)':'rgba(255,255,255,0.05)';
+    badges[i].style.borderColor=i===tier?'rgba(58,56,255,0.4)':'rgba(255,255,255,0.1)';
+    badges[i].style.color=i===tier?'#a0a0ff':'rgba(255,255,255,0.35)';
+  }
+}
+function comprarCreditosSlider(){
+  if(!currentUser){openModal();showToast('Sign in to continue','');return;}
+  if(!currentUser.plan||currentUser.plan==='starter'){showToast('You need a paid plan to buy extra credits','error');return;}
+  var val=document.getElementById('creditSlider').value;
+  comprarCreditos(val);
+}
+updateCreditPrice(100);
+
+// ── IMAGE GENERATOR ──
 var selectedModel='flux-schnell';
 var selectedRatio='1:1';
 var selectedStyles=['Photorealistic'];
 var loadingInterval=null;
-
-function selectModel(el,model){
-  document.querySelectorAll('.model-opt').forEach(function(m){m.classList.remove('active');});
-  el.classList.add('active');
-  selectedModel=model;
-}
-function toggleStyle(el){
-  el.classList.toggle('active');
-  var name=el.textContent;
-  if(el.classList.contains('active')){if(!selectedStyles.includes(name))selectedStyles.push(name);}
-  else{selectedStyles=selectedStyles.filter(function(s){return s!==name;});}
-}
-function selectRatio(el,ratio){
-  document.querySelectorAll('.ratio-opt').forEach(function(r){r.classList.remove('active');});
-  el.classList.add('active');
-  selectedRatio=ratio;
-}
-
+function selectModel(el,model){document.querySelectorAll('.model-opt').forEach(function(m){m.classList.remove('active');});el.classList.add('active');selectedModel=model;}
+function toggleStyle(el){el.classList.toggle('active');var name=el.textContent;if(el.classList.contains('active')){if(!selectedStyles.includes(name))selectedStyles.push(name);}else{selectedStyles=selectedStyles.filter(function(s){return s!==name;});}}
+function selectRatio(el,ratio){document.querySelectorAll('.ratio-opt').forEach(function(r){r.classList.remove('active');});el.classList.add('active');selectedRatio=ratio;}
 function generateImage(){
   if(!currentUser){openModal();showToast('Sign in to generate images','');return;}
   var prompt=document.getElementById('imgPrompt').value.trim();
   if(!prompt){showToast('Write a prompt first','error');return;}
-  var fullPrompt=prompt+(selectedStyles.length?' ,'+selectedStyles.join(', '):'');
   document.getElementById('imgPlaceholder').style.display='none';
   document.getElementById('imgGallery').style.display='none';
   document.getElementById('imgLoading').style.display='flex';
@@ -1016,31 +872,17 @@ function generateImage(){
   var sec=0;
   loadingInterval=setInterval(function(){sec++;document.getElementById('loadingTimer').textContent=sec+'s';},1000);
   var count=parseInt(document.getElementById('imgCount').value)||4;
-  var promises=[];
-  for(var i=0;i<count;i++){
-    promises.push(fetch(BACKEND+'/swap',{method:'POST',body:(function(){var fd=new FormData();fd.append('foto_usuario',new Blob([''],{type:'image/png'}),'placeholder.png');fd.append('avatar_id',selectedModel);return fd;})()}).catch(function(){return null;}));
-  }
-  // Fallback: use placeholder images for demo
   setTimeout(function(){
     clearInterval(loadingInterval);
     document.getElementById('imgLoading').style.display='none';
     document.getElementById('btnGenerate').disabled=false;
     var gallery=document.getElementById('imgGallery');
-    gallery.innerHTML='';
-    gallery.style.display='grid';
-    var demoUrls=[
-      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
-      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
-      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
-      'https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512',
-    ];
-    var urls=demoUrls.slice(0,count);
+    gallery.innerHTML='';gallery.style.display='grid';
+    var urls=[];
+    for(var i=0;i<count;i++) urls.push('https://picsum.photos/seed/'+Math.random().toString(36).substr(2,5)+'/512/512');
     urls.forEach(function(url){
-      var item=document.createElement('div');
-      item.className='gallery-item';
-      var img=document.createElement('img');
-      img.src=url;
-      img.alt='Generated image';
+      var item=document.createElement('div');item.className='gallery-item';
+      var img=document.createElement('img');img.src=url;img.alt='Generated image';
       item.appendChild(img);
       item.onclick=function(){window.lastImgUrl=url;document.getElementById('btnDownload').style.display='block';};
       gallery.appendChild(item);
@@ -1050,32 +892,15 @@ function generateImage(){
     showToast('Images generated!','success');
   },3000);
 }
+function downloadImg(){if(window.lastImgUrl){var a=document.createElement('a');a.href=window.lastImgUrl;a.download='frandani-ai-image.jpg';a.target='_blank';document.body.appendChild(a);a.click();document.body.removeChild(a);}}
 
-function downloadImg(){
-  if(window.lastImgUrl){
-    var a=document.createElement('a');
-    a.href=window.lastImgUrl;
-    a.download='frandani-ai-image.jpg';
-    a.target='_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-}
-
-// LIVE SWAP
-var liveStream=null;
-var liveInterval=null;
-var selectedLiveAvatar='professional';
-
+// ── LIVE SWAP ──
+var liveStream=null;var liveInterval=null;var selectedLiveAvatar='professional';
 function activarLive(){
   if(!currentUser){openModal();showToast('Sign in to use Live Swap','');return;}
   navigator.mediaDevices.getUserMedia({video:true,audio:false})
     .then(function(s){
-      liveStream=s;
-      var video=document.getElementById('liveVideoInput');
-      video.srcObject=s;
-      video.style.display='block';
+      liveStream=s;var video=document.getElementById('liveVideoInput');video.srcObject=s;video.style.display='block';
       document.getElementById('livePlaceholderIn').style.display='none';
       document.getElementById('btnLiveCam').style.display='none';
       document.getElementById('btnLiveStop').style.display='inline-block';
@@ -1083,12 +908,10 @@ function activarLive(){
       document.getElementById('liveStatusText').textContent='Camera active';
       document.getElementById('liveCanvas').style.display='block';
       document.getElementById('livePlaceholderOut').style.display='none';
-      startLiveRender();
-      showToast('Camera activated','success');
+      startLiveRender();showToast('Camera activated','success');
     })
     .catch(function(){showToast('Could not access camera. Allow access in your browser.','error');});
 }
-
 function detenerLive(){
   if(liveStream)liveStream.getTracks().forEach(function(t){t.stop();});
   if(liveInterval)clearInterval(liveInterval);
@@ -1101,42 +924,22 @@ function detenerLive(){
   document.getElementById('liveStatusDot').classList.remove('on');
   document.getElementById('liveStatusText').textContent='Camera inactive';
 }
-
-function selectLiveAvatar(el,avatar){
-  document.querySelectorAll('.avatar-opt').forEach(function(a){a.classList.remove('active');});
-  el.classList.add('active');
-  selectedLiveAvatar=avatar;
-  showToast('Avatar: '+avatar,'');
-}
-
+function selectLiveAvatar(el,avatar){document.querySelectorAll('.avatar-opt').forEach(function(a){a.classList.remove('active');});el.classList.add('active');selectedLiveAvatar=avatar;showToast('Avatar: '+avatar,'');}
 function startLiveRender(){
-  var video=document.getElementById('liveVideoInput');
-  var canvas=document.getElementById('liveCanvas');
-  var ctx=canvas.getContext('2d');
+  var video=document.getElementById('liveVideoInput');var canvas=document.getElementById('liveCanvas');var ctx=canvas.getContext('2d');
   var colors={professional:'rgba(58,56,255,0.08)',fashion:'rgba(220,40,100,0.08)',casual:'rgba(20,160,160,0.08)',artistic:'rgba(160,40,255,0.08)'};
   liveInterval=setInterval(function(){
-    canvas.width=video.videoWidth||640;
-    canvas.height=video.videoHeight||480;
-    ctx.drawImage(video,0,0);
-    ctx.fillStyle=colors[selectedLiveAvatar]||colors.professional;
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.strokeStyle='rgba(58,56,255,0.3)';
-    ctx.lineWidth=2;
-    ctx.strokeRect(8,8,canvas.width-16,canvas.height-16);
-    ctx.fillStyle='rgba(58,56,255,0.9)';
-    ctx.font='bold 13px DM Sans, sans-serif';
-    ctx.fillText('Frandani AI · '+selectedLiveAvatar,16,30);
+    canvas.width=video.videoWidth||640;canvas.height=video.videoHeight||480;
+    ctx.drawImage(video,0,0);ctx.fillStyle=colors[selectedLiveAvatar]||colors.professional;ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle='rgba(58,56,255,0.3)';ctx.lineWidth=2;ctx.strokeRect(8,8,canvas.width-16,canvas.height-16);
+    ctx.fillStyle='rgba(58,56,255,0.9)';ctx.font='bold 13px DM Sans, sans-serif';ctx.fillText('Frandani AI · '+selectedLiveAvatar,16,30);
   },100);
 }
 
-// BA slider (home page)
+// ── BEFORE & AFTER ──
 function initBASlider(){
-  var baBox=document.getElementById('baBox');
-  if(!baBox)return;
-  var baAfterClip=document.getElementById('baAfterClip');
-  var baLine=document.getElementById('baLine');
-  var baHandle=document.getElementById('baHandle');
-  var baDrag=false;
+  var baBox=document.getElementById('baBox');if(!baBox)return;
+  var baAfterClip=document.getElementById('baAfterClip');var baLine=document.getElementById('baLine');var baHandle=document.getElementById('baHandle');var baDrag=false;
   function baMove(x){var r=baBox.getBoundingClientRect();var p=Math.min(94,Math.max(6,(x-r.left)/r.width*100));baAfterClip.style.clipPath='inset(0 '+(100-p)+'% 0 0)';baLine.style.left=p+'%';baHandle.style.left=p+'%';}
   baBox.addEventListener('mousedown',function(e){baDrag=true;baMove(e.clientX);});
   window.addEventListener('mousemove',function(e){if(baDrag)baMove(e.clientX);});
@@ -1147,19 +950,12 @@ function initBASlider(){
 }
 var baStyles={profesional:{overlay:'linear-gradient(160deg,rgba(58,56,255,0.45),rgba(120,80,255,0.3))',label:'Professional · AI'},anime:{overlay:'linear-gradient(160deg,rgba(160,40,255,0.5),rgba(80,20,180,0.4))',label:'Anime Style · AI'},glam:{overlay:'linear-gradient(160deg,rgba(220,40,100,0.5),rgba(180,20,120,0.35))',label:'Glam / Fashion · AI'},casual:{overlay:'linear-gradient(160deg,rgba(20,160,160,0.45),rgba(10,120,180,0.35))',label:'Natural Casual · AI'}};
 function setBAStyle(tab,key){document.querySelectorAll('.ba-tab').forEach(function(t){t.classList.remove('active');});tab.classList.add('active');document.getElementById('baStyleOverlay').style.background=baStyles[key].overlay;document.getElementById('baAfterLabel').textContent=baStyles[key].label;document.getElementById('baAfterClip').style.clipPath='inset(0 50% 0 0)';document.getElementById('baLine').style.left='50%';document.getElementById('baHandle').style.left='50%';}
+var vBefore=document.getElementById('baVideoBefore');var vAfter=document.getElementById('baVideoAfter');
+if(vBefore&&vAfter){vBefore.addEventListener('timeupdate',function(){if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});}
 
-// Video sync
-function initVideoSync(){
-  var vBefore=document.getElementById('baVideoBefore');
-  var vAfter=document.getElementById('baVideoAfter');
-  if(vBefore&&vAfter){vBefore.addEventListener('timeupdate',function(){if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});}
-}
-
-// Init
+// ── INIT ──
 updateNavUser();
 initBASlider();
-initVideoSync();
-
 var params=new URLSearchParams(window.location.search);
 var _shown=sessionStorage.getItem('toast_shown');
 if(params.get('pago')==='exitoso'&&!_shown){showToast('Payment successful! Welcome to your premium plan','success');sessionStorage.setItem('toast_shown','1');}
