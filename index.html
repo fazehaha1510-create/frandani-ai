@@ -128,7 +128,10 @@
     .plan-btn.solid{background:var(--blue);color:#fff;border:none;}
     .plan-btn.solid-elite{background:linear-gradient(90deg,#7c3aed,#a855f7);color:#fff;border:none;}
     .plan-btn.ghost{background:transparent;color:var(--text);border:0.5px solid rgba(255,255,255,0.18);}
-    .elite-glow{box-shadow:0 0 30px rgba(168,85,247,0.25);}
+    .plan.current-plan{border:1.5px solid rgba(34,197,94,0.5);background:rgba(34,197,94,0.04);}
+    .plan.current-plan .plan-current-badge{display:flex;}
+    .plan-current-badge{display:none;align-items:center;gap:6px;position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:rgba(34,197,94,0.9);color:#fff;font-size:11px;padding:4px 14px;border-radius:999px;white-space:nowrap;font-weight:600;}
+    .plan-btn.current{background:rgba(34,197,94,0.12);color:rgba(34,197,94,0.9);border:0.5px solid rgba(34,197,94,0.3);cursor:default;}
 
     /* ── IMAGE PAGE ── */
     .img-page{max-width:1100px;margin:0 auto;padding:48px 60px;}
@@ -565,20 +568,21 @@
         <div class="plan-price">$0 <sub>/mo</sub></div>
         <div class="plan-desc">Just to explore</div>
         <div class="plan-div"></div>
-        <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live streaming</div>
-        <div class="feat">1 AI avatar</div>
-        <div class="feat">2 hrs/mo live streaming</div>
-        <div class="feat">720p · watermark</div>
-        <div class="plan-div" style="margin-top:12px;"></div>
         <div style="font-size:10px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🪙 Credits included</div>
         <div class="feat"><strong style="color:var(--text);">5 credits/mo</strong></div>
         <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 2 images · no video swap</div>
-        <div class="feat" style="color:rgba(255,80,80,0.45);">✕ Cannot buy extra credits</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:0 0 6px 15px;">Credits reset monthly, never stick</div>
+        <div class="plan-div" style="margin-top:8px;"></div>
+        <div style="font-size:10px;color:rgba(255,80,80,0.5);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Not included</div>
+        <div class="feat" style="color:rgba(255,80,80,0.5);">No live streaming</div>
+        <div class="feat" style="color:rgba(255,80,80,0.5);">No video swap</div>
+        <div class="feat" style="color:rgba(255,80,80,0.5);">Cannot buy extra credits</div>
         <div class="plan-spacer"></div>
-        <button class="plan-btn ghost" onclick="openModal()">Get started free</button>
+        <button class="plan-btn ghost" id="btn-starter" onclick="starterBtnClick()">Get started free</button>
       </div>
 
       <div class="plan" id="plan-card-creator">
+        <div class="plan-current-badge">✓ Current plan</div>
         <div class="plan-name">Creator</div>
         <div style="font-size:13px;color:rgba(255,100,100,0.7);text-decoration:line-through;margin-bottom:2px;" id="strike-creator">$49.99/mo</div>
         <div class="plan-price" id="price-creator">$29.99 <sub>/mo</sub></div>
@@ -595,11 +599,12 @@
         <div style="font-size:11px;color:rgba(255,255,255,0.22);padding:4px 0 8px 15px;">≈ 15 images · no video swap</div>
         <div class="feat">Can buy extra credits ✓</div>
         <div class="plan-spacer"></div>
-        <button class="plan-btn ghost" onclick="pagar('creator')">Choose Creator</button>
+        <button class="plan-btn ghost" id="btn-creator" onclick="pagar('creator')">Choose Creator</button>
       </div>
 
-      <div class="plan featured">
+      <div class="plan featured" id="plan-card-pro">
         <div class="plan-badge">Most popular</div>
+        <div class="plan-current-badge">✓ Current plan</div>
         <div class="plan-name">Pro</div>
         <div style="font-size:13px;color:rgba(255,100,100,0.7);text-decoration:line-through;margin-bottom:2px;" id="strike-pro">$99.99/mo</div>
         <div class="plan-price" id="price-pro">$69.99 <sub>/mo</sub></div>
@@ -618,11 +623,12 @@
         <div class="feat">Video face/body swap ✓</div>
         <div class="feat">Can buy extra credits ✓</div>
         <div class="plan-spacer"></div>
-        <button class="plan-btn solid" onclick="pagar('pro')">Choose Pro</button>
+        <button class="plan-btn solid" id="btn-pro" onclick="pagar('pro')">Choose Pro</button>
       </div>
 
-      <div class="plan elite elite-glow">
+      <div class="plan elite elite-glow" id="plan-card-elite">
         <div class="plan-badge elite-badge">⚡ Elite</div>
+        <div class="plan-current-badge">✓ Current plan</div>
         <div class="plan-name">Elite</div>
         <div style="font-size:13px;color:rgba(255,100,100,0.7);text-decoration:line-through;margin-bottom:2px;" id="strike-elite">$199.99/mo</div>
         <div class="plan-price" id="price-elite">$149.99 <sub>/mo</sub></div>
@@ -642,7 +648,7 @@
         <div class="feat elite-feat">Video face/body swap ✓</div>
         <div class="feat elite-feat bold-feat">Buy credits at 20% discount ✓</div>
         <div class="plan-spacer"></div>
-        <button class="plan-btn solid-elite" onclick="pagar('elite')">Go Elite</button>
+        <button class="plan-btn solid-elite" id="btn-elite" onclick="pagar('elite')">Go Elite</button>
       </div>
 
     </div>
@@ -784,20 +790,91 @@ function updateNavUser(){
   }
   var credEl=document.getElementById('userMenuCredits');
   if(credEl) credEl.textContent=(currentUser.credits||5)+' credits available';
+  renderPlanStatus();
 }
 function navBtnClick(){if(!currentUser){openModal();return;}var menu=document.getElementById('userMenu');menu.style.display=menu.style.display==='none'||menu.style.display===''?'block':'none';}
 function closeUserMenu(){document.getElementById('userMenu').style.display='none';}
 document.addEventListener('click',function(e){var menu=document.getElementById('userMenu');var btn=document.getElementById('navAuthBtn');if(menu&&btn&&!menu.contains(e.target)&&!btn.contains(e.target)){menu.style.display='none';}});
-function cerrarSesion(){currentUser=null;localStorage.removeItem('frandani_user');document.getElementById('navAuthBtn').textContent='Create my avatar';closeUserMenu();showToast('Signed out successfully','');}
+function cerrarSesion(){currentUser=null;localStorage.removeItem('frandani_user');document.getElementById('navAuthBtn').textContent='Create my avatar';closeUserMenu();renderPlanStatus();showToast('Signed out successfully','');}
+
+// ── PLAN STATUS UI ──
+function renderPlanStatus(){
+  var userPlan = currentUser ? (currentUser.plan || 'starter') : null;
+  var plans = ['starter','creator','pro','elite'];
+  plans.forEach(function(p){
+    var card = document.getElementById('plan-card-'+p);
+    var btn  = document.getElementById('btn-'+p);
+    if(!card) return;
+
+    // Reset
+    card.classList.remove('current-plan');
+
+    if(!userPlan){
+      // Not logged in — restore default buttons
+      if(btn){
+        if(p==='creator'){btn.textContent='Choose Creator';btn.className='plan-btn ghost';btn.onclick=function(){pagar('creator');};}
+        if(p==='pro')    {btn.textContent='Choose Pro';    btn.className='plan-btn solid';btn.onclick=function(){pagar('pro');};}
+        if(p==='elite')  {btn.textContent='Go Elite';      btn.className='plan-btn solid-elite';btn.onclick=function(){pagar('elite');};}
+      }
+      // Starter
+      var sBtn=document.getElementById('btn-starter');
+      if(sBtn){sBtn.textContent='Get started free';sBtn.className='plan-btn ghost';sBtn.onclick=function(){starterBtnClick();};}
+      return;
+    }
+
+    if(p === userPlan){
+      card.classList.add('current-plan');
+      if(btn){
+        btn.textContent='✓ Current plan';
+        btn.className='plan-btn current';
+        btn.onclick=null;
+      }
+      // Starter button special case
+      if(p==='starter'){
+        var sBtn2=document.getElementById('btn-starter');
+        if(sBtn2){sBtn2.textContent='✓ Current plan';sBtn2.className='plan-btn current';sBtn2.onclick=null;}
+      }
+    } else {
+      // Not current plan — normal button
+      if(btn){
+        if(p==='creator'){btn.textContent='Choose Creator';btn.className='plan-btn ghost';btn.onclick=function(){pagar('creator');};}
+        if(p==='pro')    {btn.textContent='Choose Pro';    btn.className='plan-btn solid';btn.onclick=function(){pagar('pro');};}
+        if(p==='elite')  {btn.textContent='Go Elite';      btn.className='plan-btn solid-elite';btn.onclick=function(){pagar('elite');};}
+      }
+      // Starter button when user has a paid plan
+      if(p==='starter'){
+        var sBtnPaid=document.getElementById('btn-starter');
+        if(sBtnPaid){sBtnPaid.textContent='Downgrade to Starter';sBtnPaid.className='plan-btn ghost';sBtnPaid.onclick=function(){showToast('Contact support to downgrade','');};}
+      }
+    }
+  });
+}
+
+function starterBtnClick(){
+  if(!currentUser){openModal();return;}
+  showToast('You are already on the Starter plan','');
+}
 
 // ── PAYMENTS ──
 function pagar(plan){
   if(!currentUser){openModal();showToast('Sign in to continue','');return;}
   if(plan==='starter'){showToast('You are on the free plan','');return;}
+  if(currentUser.plan===plan){showToast('This is already your current plan','');return;}
   showToast('Opening payment...','');
   fetch(BACKEND+'/crear-pago?plan_id='+plan+'&email='+currentUser.email,{method:'POST'})
     .then(function(r){return r.json();})
-    .then(function(data){if(data.checkout_url&&data.checkout_url!=='gratis'){window.open(data.checkout_url,'_blank');}else{showToast('Error generating payment link','error');}})
+    .then(function(data){
+      if(data.checkout_url&&data.checkout_url!=='gratis'){
+        window.open(data.checkout_url,'_blank');
+        // Simulate plan update after payment opens (in real app this comes from webhook)
+        // For demo: update plan immediately
+        currentUser.plan=plan;
+        localStorage.setItem('frandani_user',JSON.stringify(currentUser));
+        updateNavUser();
+        renderPlanStatus();
+        showToast('Plan updated to '+plan.charAt(0).toUpperCase()+plan.slice(1)+'!','success');
+      }else{showToast('Error generating payment link','error');}
+    })
     .catch(function(){showToast('Could not connect to server','error');});
 }
 function comprarCreditos(cantidad){
@@ -974,6 +1051,7 @@ if(vBefore&&vAfter){vBefore.addEventListener('timeupdate',function(){if(Math.abs
 
 // ── INIT ──
 updateNavUser();
+renderPlanStatus();
 initBASlider();
 var params=new URLSearchParams(window.location.search);
 var _shown=sessionStorage.getItem('toast_shown');
