@@ -431,12 +431,7 @@
   </div>
   <div class="ba-section" id="ba-section-anchor">
     <div class="ba-title">Before &amp; After</div><div class="ba-desc">Drag the divider to compare your real camera with the AI avatar</div>
-    <div class="ba-tabs">
-      <div class="ba-tab active" onclick="setBAStyle(this,'profesional')">Professional model</div>
-      <div class="ba-tab" onclick="setBAStyle(this,'anime')">Anime style</div>
-      <div class="ba-tab" onclick="setBAStyle(this,'glam')">Glam / fashion</div>
-      <div class="ba-tab" onclick="setBAStyle(this,'casual')">Natural casual</div>
-    </div>
+    
     <div class="ba-video-wrapper" id="baBox" style="cursor:col-resize;user-select:none;">
       <video id="baVideoBefore" class="ba-video-before" autoplay muted loop playsinline src="https://www.w3schools.com/html/mov_bbb.mp4" style="filter:grayscale(0.6) brightness(0.7);"></video>
       <div id="baAfterClip" style="position:absolute;inset:0;clip-path:inset(0 50% 0 0);z-index:2;">
@@ -445,7 +440,7 @@
         <div style="position:absolute;inset:0;background:rgba(58,56,255,0.1);pointer-events:none;"></div>
       </div>
       <div class="ba-lbl b" style="z-index:13;">Before</div>
-      <div class="ba-lbl a" style="z-index:13;" id="baAfterLabel">Professional · AI</div>
+      <div class="ba-lbl a" style="z-index:13;" id="baAfterLabel">After</div>
       <div class="ba-line" id="baLine" style="z-index:10;"></div>
       <div class="ba-handle" id="baHandle" style="z-index:11;"><div class="ba-arrows"><div class="arr-l"></div><div class="arr-r"></div></div></div>
     </div>
@@ -802,6 +797,7 @@ function goTo(page){
   if(page==='pricing'||page==='home') highlightCurrentPlan();
   var tabs={'home':0,'image':1,'video':2,'live':3,'pricing':4};
   if(tabs[page]!==undefined) document.querySelectorAll('.nav-tab')[tabs[page]].classList.add('active');
+  if(page==='home'||page==='pricing') renderPlanStatus();
   window.scrollTo(0,0);
 }
 
@@ -1144,13 +1140,14 @@ function initBASlider(){
   window.addEventListener('touchend',function(){baDrag=false;});
 }
 var baStyles={profesional:{overlay:'linear-gradient(160deg,rgba(58,56,255,0.45),rgba(120,80,255,0.3))',label:'Professional · AI'},anime:{overlay:'linear-gradient(160deg,rgba(160,40,255,0.5),rgba(80,20,180,0.4))',label:'Anime Style · AI'},glam:{overlay:'linear-gradient(160deg,rgba(220,40,100,0.5),rgba(180,20,120,0.35))',label:'Glam / Fashion · AI'},casual:{overlay:'linear-gradient(160deg,rgba(20,160,160,0.45),rgba(10,120,180,0.35))',label:'Natural Casual · AI'}};
-function setBAStyle(tab,key){document.querySelectorAll('.ba-tab').forEach(function(t){t.classList.remove('active');});tab.classList.add('active');document.getElementById('baStyleOverlay').style.background=baStyles[key].overlay;document.getElementById('baAfterLabel').textContent=baStyles[key].label;document.getElementById('baAfterClip').style.clipPath='inset(0 50% 0 0)';document.getElementById('baLine').style.left='50%';document.getElementById('baHandle').style.left='50%';}
+function setBAStyle(tab,key){document.querySelectorAll('.ba-tab').forEach(function(t){t.classList.remove('active');});tab.classList.add('active');document.getElementById('baStyleOverlay').style.background=baStyles[key].overlay;document.getElementById('baAfterLabel').textContent='After';document.getElementById('baAfterClip').style.clipPath='inset(0 50% 0 0)';document.getElementById('baLine').style.left='50%';document.getElementById('baHandle').style.left='50%';}
 var vBefore=document.getElementById('baVideoBefore');var vAfter=document.getElementById('baVideoAfter');
 if(vBefore&&vAfter){vBefore.addEventListener('timeupdate',function(){if(Math.abs(vAfter.currentTime-vBefore.currentTime)>0.3)vAfter.currentTime=vBefore.currentTime;});}
 
 // ── INIT ──
 updateNavUser();
 renderPlanStatus();
+highlightCurrentPlan();
 initBASlider();
 var params=new URLSearchParams(window.location.search);
 var _shown=sessionStorage.getItem('toast_shown');
