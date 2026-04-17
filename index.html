@@ -13,19 +13,107 @@
     html{scroll-behavior:smooth;}
     body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
 
-    /* ── SPA NAV ── */
-    .main-nav{display:flex;justify-content:space-between;align-items:center;padding:0 60px;height:64px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(5,4,15,0.95);backdrop-filter:blur(12px);}
-    .logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.5px;flex-shrink:0;cursor:pointer;}
-    .logo span{color:var(--blue);}
-    .nav-center{display:flex;gap:4px;align-items:center;}
-    .nav-tab{background:none;border:none;color:rgba(255,255,255,0.45);font-size:14px;padding:8px 18px;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;white-space:nowrap;}
-    .nav-tab:hover{color:#fff;background:rgba(255,255,255,0.06);}
-    .nav-tab.active{color:#fff;background:rgba(58,56,255,0.18);border:0.5px solid rgba(58,56,255,0.3);}
-    .nav-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
-    .btn-nav{background:var(--blue);color:#fff;border:none;padding:10px 22px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    /* ── NAVBAR MODERNO (FLOATING PILL) ── */
+    .nav-wrapper {
+        position: fixed;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .main-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 12px 0 28px;
+        width: 92%;
+        max-width: 1000px;
+        height: 64px;
+        background: rgba(10, 9, 24, 0.7);
+        backdrop-filter: blur(18px) saturate(180%);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 100px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .logo {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+    .logo span { color: var(--blue); }
+
+    .nav-center {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .nav-tab {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-family: 'DM Sans', sans-serif;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-tab:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-tab.active {
+        color: #fff;
+        background: rgba(58, 56, 255, 0.15);
+        border: 0.5px solid rgba(58, 56, 255, 0.3);
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+
+    .btn-nav {
+        background: var(--blue);
+        background: linear-gradient(135deg, #3A38FF 0%, #6C5FFF 100%);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 12px 24px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: 'DM Sans', sans-serif;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(58, 56, 255, 0.3);
+    }
+
+    .btn-nav:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(58, 56, 255, 0.45);
+        filter: brightness(1.1);
+    }
 
     /* ── PAGES ── */
-    .page{display:none;min-height:calc(100vh - 64px);}
+    .page {
+        display: none;
+        min-height: 100vh;
+        padding-top: 110px;
+    }
     .page.active{display:block;}
 
     /* ── HOME STYLES ── */
@@ -262,7 +350,7 @@
     .plan { position:relative; }
 
     @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:768px){.main-nav{padding:0 20px;}.nav-tab{padding:7px 12px;font-size:12px;}.img-layout,.live-studio-body{grid-template-columns:1fr;}.live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}.img-page,.video-page,.live-page{padding:32px 20px;}.hero{grid-template-columns:1fr;padding:60px 24px 40px;}.hero h1{font-size:36px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:60px 24px;}.cta h2{font-size:32px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}}
+    @media(max-width:768px){.main-nav{width:96%;padding:0 8px 0 20px;}.nav-tab{padding:7px 10px;font-size:12px;}.img-layout,.live-studio-body{grid-template-columns:1fr;}.live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}.img-page,.video-page,.live-page{padding:32px 20px;}.hero{grid-template-columns:1fr;padding:60px 24px 40px;}.hero h1{font-size:36px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:60px 24px;}.cta h2{font-size:32px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}}
   </style>
 </head>
 <body>
@@ -314,20 +402,21 @@
   </div>
 </div>
 
-<!-- MAIN NAV -->
-<nav class="main-nav">
-  <div class="logo" onclick="goTo('home')"><span>Fran</span>dani AI</div>
-  <div class="nav-center">
-    <button class="nav-tab active" onclick="goTo('home')">Home</button>
-    <button class="nav-tab" onclick="goTo('image')">Image</button>
-    <button class="nav-tab" onclick="goTo('video')">Video</button>
-    <button class="nav-tab" onclick="goTo('live')">Live swap</button>
-    <button class="nav-tab" onclick="goTo('pricing')">Pricing</button>
-  </div>
-  <div class="nav-right">
-    <div class="user-menu-wrap">
-      <button class="btn-nav" id="navAuthBtn" onclick="navBtnClick()">Create my avatar</button>
-      <div class="user-menu" id="userMenu">
+<!-- MAIN NAV WRAPPER -->
+<div class="nav-wrapper">
+  <nav class="main-nav">
+    <div class="logo" onclick="goTo('home')"><span>Fran</span>dani AI</div>
+    <div class="nav-center">
+      <button class="nav-tab active" onclick="goTo('home')">Home</button>
+      <button class="nav-tab" onclick="goTo('image')">Image</button>
+      <button class="nav-tab" onclick="goTo('video')">Video</button>
+      <button class="nav-tab" onclick="goTo('live')">Live swap</button>
+      <button class="nav-tab" onclick="goTo('pricing')">Pricing</button>
+    </div>
+    <div class="nav-right">
+      <div class="user-menu-wrap">
+        <button class="btn-nav" id="navAuthBtn" onclick="navBtnClick()">Create my avatar</button>
+        <div class="user-menu" id="userMenu">
 
         <!-- Header: avatar + name + plan -->
         <div class="um-header">
@@ -380,7 +469,8 @@
       </div>
     </div>
   </div>
-</nav>
+  </nav>
+</div>
 
 <!-- ════════════ PAGE: HOME ════════════ -->
 <div class="page active" id="page-home">
