@@ -28,9 +28,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 12px 0 28px;
-        width: 92%;
-        max-width: 1000px;
+        gap: 24px;
+        padding: 0 28px;
+        width: auto;
+        max-width: 960px;
         height: 64px;
         background: rgba(10, 9, 24, 0.7);
         backdrop-filter: blur(18px) saturate(180%);
@@ -52,7 +53,7 @@
 
     .nav-center {
         display: flex;
-        gap: 4px;
+        gap: 2px;
         align-items: center;
     }
 
@@ -116,83 +117,651 @@
     }
     .page.active{display:block;}
 
-    /* ── HOME STYLES ── */
-    .hero-wrap{position:relative;overflow:hidden;}
-    .hero-wrap::before{content:'';position:absolute;top:-200px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(58,56,255,0.2) 0%,transparent 65%);pointer-events:none;border-radius:50%;}
-    .hero{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto;padding:100px 60px 80px;position:relative;z-index:1;}
-    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;font-size:12px;padding:6px 14px;border-radius:999px;margin-bottom:24px;}
-    .live-dot,.live-red{width:7px;height:7px;border-radius:50%;background:#ff4545;animation:pulse 1.4s ease-in-out infinite;}
+    /* ── HOME STYLES — PREMIUM 3D REDESIGN ── */
+
+    /* Animated background grain */
+    #page-home { position: relative; }
+    #page-home::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HERO ── */
+    .hero-wrap {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    /* Deep radial glow left */
+    .hero-wrap::before {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -200px;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(58,56,255,0.22) 0%, transparent 65%);
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(40px);
+    }
+    /* Accent glow right */
+    .hero-wrap::after {
+      content: '';
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(108,95,255,0.15) 0%, transparent 65%);
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(60px);
+    }
+
+    /* Thin horizontal scan-line accent */
+    .hero-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(58,56,255,0.4) 40%, rgba(108,95,255,0.4) 60%, transparent 100%);
+      bottom: 0;
+      z-index: 2;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 100px 60px 80px;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(58,56,255,0.08);
+      border: 0.5px solid rgba(58,56,255,0.3);
+      color: #a0a0ff;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+    }
+
+    .live-dot,.live-red {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #ff4545;
+      animation: pulse 1.4s ease-in-out infinite;
+      box-shadow: 0 0 6px #ff4545;
+    }
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.8)}}
-    .hero h1{font-family:'Syne',sans-serif;font-size:54px;font-weight:700;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;}
-    .hero h1 em{font-style:normal;color:var(--blue);}
-    .hero p{font-size:17px;color:var(--muted);line-height:1.75;margin-bottom:36px;max-width:440px;}
-    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px;}
-    .btn-primary{background:var(--blue);color:#fff;border:none;padding:14px 32px;border-radius:999px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
-    .btn-outline{background:transparent;color:var(--text);border:0.5px solid rgba(255,255,255,0.2);padding:13px 30px;border-radius:999px;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-    .trust-row{display:flex;gap:20px;flex-wrap:wrap;}
-    .trust-item{font-size:12px;color:rgba(255,255,255,0.28);display:flex;align-items:center;gap:6px;}
-    .trust-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;}
-    .live-card{background:rgba(255,255,255,0.03);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;}
-    .live-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:0.5px solid var(--border);}
-    .live-badge{display:flex;align-items:center;gap:6px;background:rgba(255,60,60,0.12);border:0.5px solid rgba(255,60,60,0.3);border-radius:999px;padding:4px 12px;font-size:11px;color:#ff6060;font-weight:500;letter-spacing:1px;}
-    .viewers{font-size:12px;color:var(--muted);}
-    .cams{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);min-height:220px;position:relative;}
-    .cam{background:#08071a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;position:relative;}
-    .cam.output{background:#060520;}
-    .cam-lbl{position:absolute;bottom:10px;left:12px;font-size:10px;color:var(--muted);background:rgba(0,0,0,0.5);padding:3px 8px;border-radius:4px;}
-    .ai-chip{position:absolute;top:10px;right:10px;background:rgba(58,56,255,0.2);border:0.5px solid var(--blue-border);border-radius:4px;padding:2px 8px;font-size:9px;color:rgba(130,128,255,0.9);}
-    .swap-arrow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;z-index:5;}
-    .live-footer{padding:12px 18px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-    .chips{display:flex;gap:6px;}
-    .chip{font-size:10px;color:var(--muted);background:rgba(255,255,255,0.05);border:0.5px solid var(--border);padding:3px 10px;border-radius:999px;}
-    .latency{font-size:10px;color:rgba(58,56,255,0.7);}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);}
-    .stat{padding:28px 20px;text-align:center;border-right:0.5px solid var(--border);}
-    .stat:last-child{border-right:none;}
-    .stat-num{font-family:'Syne',sans-serif;font-size:30px;font-weight:700;color:var(--blue);}
-    .stat-lbl{font-size:12px;color:var(--muted);margin-top:4px;}
-    .section{padding:80px 60px;max-width:1100px;margin:0 auto;}
-    .sec-tag{font-size:11px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
-    .sec-title{font-family:'Syne',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:12px;}
-    .sec-sub{font-size:15px;color:var(--muted);margin-bottom:48px;max-width:500px;line-height:1.7;}
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-    .step{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden;}
-    .step-top{height:2px;background:var(--blue);opacity:0.5;position:absolute;top:0;left:0;right:0;}
-    .step-num{font-family:'Syne',sans-serif;font-size:38px;font-weight:700;color:rgba(58,56,255,0.18);margin-bottom:16px;}
-    .step-icon{width:38px;height:38px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
-    .step h3{font-family:'Syne',sans-serif;font-size:16px;margin-bottom:8px;}
-    .step p{font-size:13px;color:var(--muted);line-height:1.65;}
-    .ba-section{padding:0 60px 80px;max-width:1100px;margin:0 auto;}
-    .ba-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:6px;}
-    .ba-desc{font-size:14px;color:var(--muted);margin-bottom:24px;}
-    .ba-tabs{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
-    .ba-tab{background:var(--surface);border:0.5px solid var(--border);color:var(--muted);padding:8px 18px;border-radius:999px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-    .ba-tab.active{background:var(--blue);border-color:var(--blue);color:#fff;}
-    .ba-video-wrapper{position:relative;width:100%;max-width:680px;border-radius:20px;overflow:hidden;border:0.5px solid var(--border);background:#08071a;aspect-ratio:16/9;}
-    .ba-video-before,.ba-video-after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-    .ba-line{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;}
-    .ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:#fff;border-radius:50%;z-index:11;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-    .ba-arrows{display:flex;gap:3px;}
-    .arr-l{border-top:5px solid transparent;border-bottom:5px solid transparent;border-right:6px solid var(--blue);}
-    .arr-r{border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:6px solid var(--blue);}
-    .ba-lbl{position:absolute;top:14px;padding:4px 12px;border-radius:999px;font-size:11px;z-index:12;pointer-events:none;font-weight:500;}
-    .ba-lbl.b{left:14px;background:rgba(0,0,0,0.55);color:rgba(255,255,255,0.6);}
-    .ba-lbl.a{right:14px;background:rgba(58,56,255,0.65);color:#fff;}
-    .ba-hint{font-size:12px;color:rgba(255,255,255,0.2);margin-top:12px;}
-    .audience{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-    .aud-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:28px;}
-    .aud-icon{width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
-    .aud-card h3{font-family:'Syne',sans-serif;font-size:16px;margin-bottom:8px;}
-    .aud-card p{font-size:13px;color:var(--muted);line-height:1.65;}
-    .aud-tag{display:inline-block;margin-top:14px;font-size:11px;color:rgba(58,56,255,0.8);background:var(--blue-dim);border:0.5px solid var(--blue-border);padding:3px 10px;border-radius:999px;}
-    .cta{text-align:center;padding:100px 60px;position:relative;overflow:hidden;}
-    .cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:300px;background:radial-gradient(ellipse,rgba(58,56,255,0.18) 0%,transparent 70%);pointer-events:none;}
-    .cta h2{font-family:'Syne',sans-serif;font-size:48px;font-weight:700;letter-spacing:-1.5px;margin-bottom:14px;position:relative;}
-    .cta h2 em{font-style:normal;color:var(--blue);}
-    .cta p{color:var(--muted);font-size:15px;margin-bottom:32px;position:relative;}
-    footer{padding:26px 60px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-    footer p{font-size:13px;color:rgba(255,255,255,0.22);}
-    footer a{color:rgba(255,255,255,0.22);text-decoration:none;}
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 70px;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .hero h1 em { font-style: normal; color: var(--blue); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 420px;
+      animation: fadeUp 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      animation: fadeUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      background: linear-gradient(135deg, #3A38FF 0%, #6C5FFF 100%);
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 8px 30px rgba(58,56,255,0.4), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(58,56,255,0.55);
+    }
+    .btn-primary::after {
+      content: '↗';
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 0.5px solid rgba(255,255,255,0.15);
+      padding: 14px 30px;
+      border-radius: 999px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.3s;
+      backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.3);
+      color: #fff;
+    }
+
+    .trust-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .trust-item {
+      font-size: 11px;
+      color: rgba(255,255,255,0.22);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .trust-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+      box-shadow: 0 0 4px var(--blue);
+    }
+
+    /* ── LIVE CARD — 3D PREMIUM ── */
+    .live-card {
+      background: linear-gradient(145deg, rgba(20,18,40,0.95) 0%, rgba(10,9,24,0.98) 100%);
+      border: 1px solid rgba(58,56,255,0.2);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 1px 0 rgba(255,255,255,0.08) inset;
+      transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: cardFloat 6s ease-in-out infinite;
+    }
+    .live-card:hover {
+      transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.01);
+    }
+    @keyframes cardFloat {
+      0%, 100% { transform: perspective(1000px) rotateY(-4deg) rotateX(2deg) translateY(0px); }
+      50%       { transform: perspective(1000px) rotateY(-4deg) rotateX(2deg) translateY(-8px); }
+    }
+
+    .live-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,60,60,0.1);
+      border: 0.5px solid rgba(255,60,60,0.25);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 10px;
+      color: #ff6060;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+    }
+    .viewers { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+    .cams {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.04);
+      min-height: 200px;
+      position: relative;
+    }
+    .cam {
+      background: #07061a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px;
+      position: relative;
+    }
+    .cam.output {
+      background: linear-gradient(160deg, #060420 0%, #0a0830 100%);
+    }
+    .cam-lbl {
+      position: absolute;
+      bottom: 10px; left: 12px;
+      font-size: 9px;
+      color: rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.6);
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .ai-chip {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: rgba(58,56,255,0.18);
+      border: 0.5px solid rgba(58,56,255,0.35);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 9px;
+      color: rgba(130,128,255,0.9);
+      letter-spacing: 0.5px;
+    }
+    .swap-arrow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #3A38FF, #6C5FFF);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #fff;
+      z-index: 5;
+      box-shadow: 0 4px 20px rgba(58,56,255,0.6);
+      animation: swapPulse 2s ease-in-out infinite;
+    }
+    @keyframes swapPulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(58,56,255,0.6); }
+      50%      { box-shadow: 0 4px 30px rgba(58,56,255,0.9), 0 0 40px rgba(58,56,255,0.3); }
+    }
+
+    .live-footer {
+      padding: 12px 20px;
+      border-top: 0.5px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.01);
+    }
+    .chips { display: flex; gap: 6px; }
+    .chip {
+      font-size: 9px;
+      color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(255,255,255,0.07);
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+    .latency { font-size: 10px; color: rgba(58,56,255,0.7); font-weight: 600; }
+
+    /* ── STATS BAR ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 100%;
+      border-top: 0.5px solid rgba(255,255,255,0.05);
+      border-bottom: 0.5px solid rgba(255,255,255,0.05);
+      position: relative;
+      z-index: 1;
+    }
+    .stats::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(58,56,255,0.04) 50%, transparent 100%);
+      pointer-events: none;
+    }
+    .stat {
+      padding: 36px 20px;
+      text-align: center;
+      border-right: 0.5px solid rgba(255,255,255,0.05);
+      position: relative;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-lbl {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 100px 60px;
+      max-width: 1300px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .sec-tag {
+      font-size: 10px;
+      color: var(--blue);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sec-tag::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--blue);
+    }
+    .sec-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      margin-bottom: 14px;
+      line-height: 1.1;
+    }
+    .sec-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 56px;
+      max-width: 460px;
+      line-height: 1.8;
+    }
+
+    /* ── STEPS — GLASSMORPHISM ── */
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .step {
+      background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+      border: 0.5px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      cursor: default;
+    }
+    .step:hover {
+      background: linear-gradient(145deg, rgba(58,56,255,0.06) 0%, rgba(58,56,255,0.02) 100%);
+      border-color: rgba(58,56,255,0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .step-top {
+      height: 1px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      position: absolute;
+      top: 0; left: 0; right: 0;
+    }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: rgba(58,56,255,0.1);
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+    .step-icon {
+      width: 40px; height: 40px;
+      background: rgba(58,56,255,0.1);
+      border: 0.5px solid rgba(58,56,255,0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .step h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .step p { font-size: 13px; color: rgba(255,255,255,0.35); line-height: 1.7; }
+
+    /* ── BEFORE AFTER ── */
+    .ba-section {
+      padding: 0 60px 100px;
+      max-width: 1300px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .ba-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    .ba-desc { font-size: 14px; color: rgba(255,255,255,0.3); margin-bottom: 24px; }
+    .ba-tabs { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    .ba-tab {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.35);
+      padding: 7px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .ba-tab.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+    .ba-video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(58,56,255,0.2);
+      background: #08071a;
+      aspect-ratio: 16/9;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    }
+    .ba-video-before,.ba-video-after {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .ba-line {
+      position: absolute; top: 0; bottom: 0;
+      width: 2px;
+      background: rgba(255,255,255,0.8);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .ba-handle {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px; height: 44px;
+      background: #fff;
+      border-radius: 50%;
+      z-index: 11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .ba-arrows { display: flex; gap: 3px; }
+    .arr-l { border-top:5px solid transparent;border-bottom:5px solid transparent;border-right:6px solid var(--blue); }
+    .arr-r { border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:6px solid var(--blue); }
+    .ba-lbl {
+      position: absolute; top: 14px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 10px;
+      z-index: 12;
+      pointer-events: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .ba-lbl.b { left: 14px; background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.5); }
+    .ba-lbl.a { right: 14px; background: rgba(58,56,255,0.75); color: #fff; }
+    .ba-hint { font-size: 11px; color: rgba(255,255,255,0.15); margin-top: 14px; letter-spacing: 0.5px; }
+
+    /* ── AUDIENCE CARDS ── */
+    .audience { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .aud-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 100%);
+      border: 0.5px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 32px;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      cursor: default;
+    }
+    .aud-card:hover {
+      border-color: rgba(58,56,255,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+    }
+    .aud-icon {
+      width: 42px; height: 42px;
+      background: rgba(58,56,255,0.1);
+      border: 0.5px solid rgba(58,56,255,0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .aud-card h3 { font-family:'Syne',sans-serif; font-size:16px; margin-bottom:10px; font-weight:600; }
+    .aud-card p { font-size:13px; color:rgba(255,255,255,0.35); line-height:1.7; }
+    .aud-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 10px;
+      color: rgba(58,56,255,0.7);
+      background: rgba(58,56,255,0.08);
+      border: 0.5px solid rgba(58,56,255,0.2);
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      text-align: center;
+      padding: 120px 60px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px; height: 400px;
+      background: radial-gradient(ellipse, rgba(58,56,255,0.2) 0%, transparent 65%);
+      pointer-events: none;
+      filter: blur(40px);
+    }
+    .cta::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(58,56,255,0.3), transparent);
+    }
+    .cta h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 54px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+      position: relative;
+      line-height: 1.05;
+    }
+    .cta h2 em { font-style:normal; color: var(--blue); }
+    .cta p {
+      color: rgba(255,255,255,0.35);
+      font-size: 15px;
+      margin-bottom: 36px;
+      position: relative;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 60px;
+      border-top: 0.5px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    footer p { font-size: 12px; color: rgba(255,255,255,0.18); }
+    footer a { color: rgba(255,255,255,0.18); text-decoration:none; transition: color 0.2s; }
+    footer a:hover { color: rgba(255,255,255,0.5); }
 
     /* ── PRICING STYLES ── */
     .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
@@ -326,7 +895,7 @@
       backdrop-filter: blur(20px);
     }
     .img-bar-inner {
-      max-width: 900px;
+      max-width: 1300px;
       margin: 0 auto;
       background: rgba(22,22,22,0.95);
       border: 1px solid rgba(255,255,255,0.1);
@@ -489,14 +1058,14 @@
     .bar-credits span { color: #d4f72c; font-weight: 600; }
 
     /* ── VIDEO PAGE ── */
-    .video-page{max-width:1100px;margin:0 auto;padding:48px 60px;}
+    .video-page{max-width:1400px;margin:0 auto;padding:48px 40px;}
     .coming-soon-box{background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:80px 40px;text-align:center;margin-top:20px;}
     .coming-soon-box h2{font-family:'Syne',sans-serif;font-size:32px;font-weight:700;margin-bottom:12px;}
     .coming-soon-box p{color:var(--muted);font-size:15px;margin-bottom:28px;}
     .coming-tag{display:inline-block;background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;font-size:12px;padding:6px 16px;border-radius:999px;margin-bottom:24px;}
 
     /* ── LIVE PAGE ── */
-    .live-page{max-width:1100px;margin:0 auto;padding:48px 60px;}
+    .live-page{max-width:1400px;margin:0 auto;padding:48px 40px;}
     .live-studio{background:var(--surface);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;}
     .live-studio-header{padding:20px 28px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
     .live-studio-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;}
@@ -579,7 +1148,7 @@
     .plan { position:relative; }
 
     @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:768px){.main-nav{width:96%;padding:0 8px 0 20px;}.nav-tab{padding:7px 10px;font-size:12px;}.img-layout,.live-studio-body{grid-template-columns:1fr;}.live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}.img-page,.video-page,.live-page{padding:32px 20px;}.hero{grid-template-columns:1fr;padding:60px 24px 40px;}.hero h1{font-size:36px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:60px 24px;}.cta h2{font-size:32px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}}
+    @media(max-width:768px){.main-nav{width:96%;padding:0 8px 0 20px;}.nav-tab{padding:7px 10px;font-size:12px;}.img-layout,.live-studio-body{grid-template-columns:1fr;}.live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}.img-page,.video-page,.live-page{padding:32px 20px;}.hero{grid-template-columns:1fr;padding:80px 24px 40px;}.hero h1{font-size:42px;letter-spacing:-2px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:80px 24px;}.cta h2{font-size:36px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}.live-card{transform:none !important;animation:none !important;}}
 
     /* Image dropdown menu */
     .nav-dropdown { position: relative; }
@@ -783,61 +1352,542 @@
 </div>
 
 <!-- ════════════ PAGE: HOME ════════════ -->
+<style>
+/* ══ GLASS 3D SYSTEM ══ */
+:root {
+  --glass-bg: rgba(12, 10, 30, 0.55);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-highlight: rgba(255,255,255,0.06);
+  --glass-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset;
+}
+
+/* Ambient orbs canvas */
+#orb-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+/* ── HERO SECTION ── */
+.hero-wrap {
+  position: relative;
+  overflow: visible;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Glass grid overlay */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(58,56,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58,56,255,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  pointer-events: none;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 110px 60px 90px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Floating glass badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(58,56,255,0.1);
+  border: 1px solid rgba(58,56,255,0.25);
+  color: rgba(160,160,255,0.9);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  margin-bottom: 32px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(58,56,255,0.2), 0 1px 0 rgba(255,255,255,0.1) inset;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -3px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.7s 0.08s cubic-bezier(0.16,1,0.3,1) both;
+}
+.hero h1 em { font-style: normal; color: #4D4BFF; }
+
+.hero p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.38);
+  line-height: 1.85;
+  margin-bottom: 40px;
+  max-width: 420px;
+  animation: fadeUp 0.7s 0.15s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  animation: fadeUp 0.7s 0.22s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.trust-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ── LIVE CARD — FULL GLASS 3D ── */
+.live-card-wrap {
+  perspective: 1200px;
+  animation: fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.live-card {
+  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow:
+    0 60px 120px rgba(0,0,0,0.7),
+    0 20px 40px rgba(58,56,255,0.15),
+    0 0 0 1px rgba(255,255,255,0.05) inset;
+  transform: perspective(1200px) rotateY(-6deg) rotateX(3deg);
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: cardFloat 7s ease-in-out infinite;
+}
+
+/* Glass shine sweep */
+.live-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+  animation: shineSweep 4s ease-in-out infinite 1s;
+  pointer-events: none;
+  z-index: 10;
+}
+/* Top rim highlight */
+.live-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), rgba(58,56,255,0.3), rgba(255,255,255,0.18), transparent);
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes shineSweep {
+  0% { left: -100%; opacity: 0; }
+  10% { opacity: 1; }
+  50% { left: 140%; opacity: 1; }
+  60% { opacity: 0; }
+  100% { left: 140%; opacity: 0; }
+}
+
+@keyframes cardFloat {
+  0%,100% { transform: perspective(1200px) rotateY(-6deg) rotateX(3deg) translateY(0px); }
+  50%      { transform: perspective(1200px) rotateY(-6deg) rotateX(3deg) translateY(-10px); }
+}
+
+.live-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.015);
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,50,50,0.1);
+  border: 0.5px solid rgba(255,60,60,0.22);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 10px;
+  color: #ff6060;
+  font-weight: 600;
+  letter-spacing: 2px;
+  backdrop-filter: blur(8px);
+}
+
+.viewers { font-size: 11px; color: rgba(255,255,255,0.25); }
+
+.cams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+  min-height: 200px;
+  position: relative;
+}
+.cam {
+  background: rgba(6,5,20,0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px;
+  position: relative;
+}
+.cam.output {
+  background: linear-gradient(150deg, rgba(10,7,35,0.9) 0%, rgba(18,12,55,0.85) 100%);
+}
+.cam-lbl {
+  position: absolute; bottom: 10px; left: 12px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.28);
+  background: rgba(0,0,0,0.5);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+.ai-chip {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(58,56,255,0.15);
+  border: 0.5px solid rgba(58,56,255,0.3);
+  border-radius: 5px;
+  padding: 2px 9px;
+  font-size: 9px;
+  color: rgba(140,138,255,0.9);
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(4px);
+}
+.swap-arrow {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, #3A38FF 0%, #6C5FFF 100%);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: #fff;
+  z-index: 5;
+  box-shadow: 0 0 0 8px rgba(58,56,255,0.1), 0 4px 20px rgba(58,56,255,0.6);
+  animation: swapPulse 2.5s ease-in-out infinite;
+}
+@keyframes swapPulse {
+  0%,100% { box-shadow: 0 0 0 8px rgba(58,56,255,0.1), 0 4px 20px rgba(58,56,255,0.5); }
+  50%      { box-shadow: 0 0 0 14px rgba(58,56,255,0.06), 0 4px 30px rgba(58,56,255,0.8); }
+}
+
+.live-footer {
+  padding: 14px 22px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255,255,255,0.012);
+}
+.chips { display: flex; gap: 6px; }
+.chip {
+  font-size: 9px; color: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  padding: 3px 10px; border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+.latency { font-size: 10px; color: rgba(80,78,255,0.8); font-weight: 700; letter-spacing: 0.5px; }
+
+/* ── STATS BAR ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,0.01);
+  backdrop-filter: blur(10px);
+}
+.stat {
+  padding: 38px 20px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.stat::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(58,56,255,0.06) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.stat:hover::after { opacity: 1; }
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 34px; font-weight: 700;
+  letter-spacing: -1.5px;
+  background: linear-gradient(140deg, #fff 0%, rgba(160,158,255,0.8) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-lbl {
+  font-size: 10px; color: rgba(255,255,255,0.2);
+  margin-top: 8px;
+  text-transform: uppercase; letter-spacing: 1.5px;
+}
+
+/* ── GLASS CARDS — STEPS ── */
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+
+.step {
+  position: relative;
+  border-radius: 24px;
+  padding: 36px 30px;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s;
+  cursor: default;
+  background: var(--glass-bg);
+  border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.06) inset;
+  will-change: transform;
+}
+.step::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+.step::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: -60px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(58,56,255,0.1) 0%, transparent 65%);
+  pointer-events: none;
+  border-radius: 50%;
+  transition: opacity 0.4s;
+  opacity: 0;
+}
+.step:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(58,56,255,0.2) inset; }
+.step:hover::after { opacity: 1; }
+
+/* Glass inner glow on hover via JS */
+.step-top { height: 1px; background: linear-gradient(90deg, transparent, rgba(58,56,255,0.5), transparent); position: absolute; top: 0; left: 0; right: 0; }
+.step-num { font-family:'Syne',sans-serif; font-size:52px; font-weight:700; color:rgba(58,56,255,0.1); margin-bottom:16px; line-height:1; }
+.step-icon { width:42px; height:42px; background:rgba(58,56,255,0.1); border:1px solid rgba(58,56,255,0.18); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+.step h3 { font-family:'Syne',sans-serif; font-size:16px; margin-bottom:10px; font-weight:600; }
+.step p { font-size:13px; color:rgba(255,255,255,0.32); line-height:1.75; }
+
+/* ── AUDIENCE CARDS — DEEPER GLASS ── */
+.audience { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.aud-card {
+  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 24px;
+  padding: 36px 30px;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.06) inset;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s;
+  cursor: default;
+  will-change: transform;
+}
+.aud-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+}
+.aud-card:hover { transform: translateY(-5px); box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(58,56,255,0.18) inset; }
+.aud-icon { width:44px; height:44px; background:rgba(58,56,255,0.1); border:1px solid rgba(58,56,255,0.18); border-radius:13px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+.aud-card h3 { font-family:'Syne',sans-serif; font-size:17px; margin-bottom:10px; font-weight:600; }
+.aud-card p { font-size:13px; color:rgba(255,255,255,0.32); line-height:1.75; }
+.aud-tag { display:inline-block; margin-top:16px; font-size:10px; color:rgba(100,98,255,0.7); background:rgba(58,56,255,0.08); border:0.5px solid rgba(58,56,255,0.18); padding:3px 10px; border-radius:999px; letter-spacing:0.5px; }
+
+/* ── BEFORE/AFTER SECTION ── */
+.ba-section { padding: 0 60px 100px; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+.ba-title { font-family:'Syne',sans-serif; font-size:30px; font-weight:700; margin-bottom:6px; letter-spacing:-0.5px; }
+.ba-desc { font-size:14px; color:rgba(255,255,255,0.28); margin-bottom:28px; }
+.ba-tabs { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+.ba-tab { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.35); padding:7px 18px; border-radius:999px; font-size:12px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; backdrop-filter:blur(8px); }
+.ba-tab.active { background:rgba(58,56,255,0.18); border-color:rgba(58,56,255,0.35); color:#a0a0ff; }
+.ba-video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(58,56,255,0.18);
+  background: #08071a;
+  aspect-ratio: 16/9;
+  box-shadow: 0 50px 100px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04) inset, 0 0 80px rgba(58,56,255,0.1);
+}
+.ba-video-before,.ba-video-after { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.ba-line { position:absolute; top:0; bottom:0; width:2px; background:rgba(255,255,255,0.85); left:50%; transform:translateX(-50%); z-index:10; pointer-events:none; }
+.ba-handle {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:46px; height:46px; background:#fff;
+  border-radius:50%; z-index:11;
+  display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 4px rgba(255,255,255,0.15);
+}
+.ba-arrows { display:flex; gap:3px; }
+.arr-l { border-top:5px solid transparent;border-bottom:5px solid transparent;border-right:6px solid var(--blue); }
+.arr-r { border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:6px solid var(--blue); }
+.ba-lbl { position:absolute; top:14px; padding:4px 12px; border-radius:999px; font-size:10px; z-index:12; pointer-events:none; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; backdrop-filter:blur(8px); }
+.ba-lbl.b { left:14px; background:rgba(0,0,0,0.55); color:rgba(255,255,255,0.45); border:0.5px solid rgba(255,255,255,0.1); }
+.ba-lbl.a { right:14px; background:rgba(58,56,255,0.65); color:#fff; border:0.5px solid rgba(58,56,255,0.4); }
+.ba-hint { font-size:11px; color:rgba(255,255,255,0.12); margin-top:14px; letter-spacing:0.5px; }
+
+/* ── CTA ── */
+.cta {
+  text-align: center; padding: 130px 60px;
+  position: relative; overflow: hidden; z-index: 1;
+}
+.cta::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 1000px; height: 500px;
+  background: radial-gradient(ellipse, rgba(58,56,255,0.22) 0%, transparent 65%);
+  pointer-events: none; filter: blur(60px);
+}
+.cta::after {
+  content: '';
+  position: absolute; top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(58,56,255,0.3), transparent);
+}
+.cta h2 { font-family:'Syne',sans-serif; font-size:56px; font-weight:700; letter-spacing:-2px; margin-bottom:16px; position:relative; line-height:1.05; }
+.cta h2 em { font-style:normal; color:#4D4BFF; }
+.cta p { color:rgba(255,255,255,0.3); font-size:15px; margin-bottom:40px; position:relative; }
+
+/* ── FOOTER ── */
+footer { padding:28px 60px; border-top:1px solid rgba(255,255,255,0.04); display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; }
+footer p { font-size:12px; color:rgba(255,255,255,0.15); }
+footer a { color:rgba(255,255,255,0.15); text-decoration:none; transition:color 0.2s; }
+footer a:hover { color:rgba(255,255,255,0.5); }
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+</style>
+
+<canvas id="orb-canvas"></canvas>
+
 <div class="page active" id="page-home">
   <div class="hero-wrap">
+    <div class="hero-grid"></div>
     <div class="hero">
+      <!-- LEFT -->
       <div>
         <div class="hero-badge"><div class="live-dot"></div>Real-time streaming · Generative AI</div>
-        <h1>Your AI character.<br><em>Live.</em><br>100% anonymous.</h1>
-        <p>Create your fictional AI avatar and stream live. You bring the performance — the AI brings the face and body, in real time. Also generate AI images with your avatar or apply face swap to any video.</p>
+        <h1>Your AI<br>character.<br><em>Live.</em></h1>
+        <p>Create your fictional AI avatar and stream live. You bring the performance — the AI brings the face and body, in real time.</p>
         <div class="hero-btns">
           <button class="btn-primary" onclick="openModal()">Create my avatar free</button>
-          <button class="btn-outline" onclick="document.getElementById('ba-section-anchor').scrollIntoView({behavior:'smooth'})">See demo</button>
+          <button class="btn-outline" onclick="document.getElementById('ba-section-anchor').scrollIntoView({behavior:'smooth'})">▶ See demo</button>
         </div>
         <div class="trust-row">
           <div class="trust-item"><div class="trust-dot"></div>OBS Compatible</div>
-          <div class="trust-item"><div class="trust-dot"></div>OnlyFans · Fansly · Twitch</div>
-          <div class="trust-item"><div class="trust-dot"></div>Under 50ms latency</div>
-          <div class="trust-item"><div class="trust-dot"></div>AI image generation</div>
-          <div class="trust-item"><div class="trust-dot"></div>Video face/body swap</div>
+          <div class="trust-item"><div class="trust-dot"></div>OnlyFans · Twitch</div>
+          <div class="trust-item"><div class="trust-dot"></div>Under 50ms</div>
+          <div class="trust-item"><div class="trust-dot"></div>100% Anonymous</div>
         </div>
       </div>
-      <div>
-        <div class="live-card">
-          <div class="live-topbar"><div class="live-badge"><div class="live-red"></div>LIVE</div><div class="viewers">1,402 watching</div></div>
-          <div class="cams">
-            <div class="cam"><svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><circle cx="21" cy="19" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="35" cy="19" r="3" fill="rgba(255,255,255,0.1)"/><path d="M22 30 Q28 35 34 30" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><div class="cam-lbl">Your camera</div></div>
-            <div class="cam output"><svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(58,56,255,0.22)" stroke="rgba(58,56,255,0.55)" stroke-width="1.5"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(58,56,255,0.14)" stroke="rgba(58,56,255,0.4)" stroke-width="1.5"/><circle cx="21" cy="19" r="3" fill="rgba(58,56,255,0.85)"/><circle cx="35" cy="19" r="3" fill="rgba(58,56,255,0.85)"/><path d="M22 30 Q28 36 34 30" stroke="rgba(100,98,255,0.9)" stroke-width="2" fill="none" stroke-linecap="round"/></svg><div class="ai-chip">AI active</div><div class="cam-lbl">Your AI avatar</div></div>
-            <div class="swap-arrow">→</div>
+      <!-- RIGHT — LIVE CARD -->
+      <div class="live-card-wrap">
+        <div class="live-card" id="heroCard">
+          <div class="live-topbar">
+            <div class="live-badge"><div class="live-red"></div>LIVE</div>
+            <div class="viewers">1,402 watching</div>
           </div>
-          <div class="live-footer"><div class="chips"><div class="chip">OnlyFans</div><div class="chip">Fansly</div><div class="chip">Twitch</div></div><div class="latency">48ms</div></div>
+          <div class="cams">
+            <div class="cam">
+              <svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/><circle cx="21" cy="19" r="3" fill="rgba(255,255,255,0.09)"/><circle cx="35" cy="19" r="3" fill="rgba(255,255,255,0.09)"/><path d="M22 30 Q28 35 34 30" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+              <div class="cam-lbl">Your camera</div>
+            </div>
+            <div class="cam output">
+              <svg width="56" height="70" viewBox="0 0 56 70" fill="none"><circle cx="28" cy="22" r="16" fill="rgba(58,56,255,0.2)" stroke="rgba(58,56,255,0.5)" stroke-width="1.5"/><ellipse cx="28" cy="60" rx="21" ry="13" fill="rgba(58,56,255,0.12)" stroke="rgba(58,56,255,0.35)" stroke-width="1.5"/><circle cx="21" cy="19" r="3" fill="rgba(58,56,255,0.8)"/><circle cx="35" cy="19" r="3" fill="rgba(58,56,255,0.8)"/><path d="M22 30 Q28 36 34 30" stroke="rgba(100,98,255,0.85)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+              <div class="ai-chip">AI active</div>
+              <div class="cam-lbl">Your AI avatar</div>
+            </div>
+            <div class="swap-arrow">⇄</div>
+          </div>
+          <div class="live-footer">
+            <div class="chips"><div class="chip">OnlyFans</div><div class="chip">Fansly</div><div class="chip">Twitch</div></div>
+            <div class="latency">48ms</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- STATS -->
   <div class="stats">
     <div class="stat"><div class="stat-num">50K+</div><div class="stat-lbl">Avatars created</div></div>
     <div class="stat"><div class="stat-num">&lt;50ms</div><div class="stat-lbl">Live latency</div></div>
     <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Anonymous</div></div>
     <div class="stat"><div class="stat-num">4K</div><div class="stat-lbl">Max resolution</div></div>
   </div>
+
+  <!-- HOW IT WORKS -->
   <div id="como-funciona" class="section">
-    <div class="sec-tag">Process</div><div class="sec-title">How it works</div><div class="sec-sub">Three steps and your AI avatar is ready to stream on any platform.</div>
+    <div class="sec-tag">Process</div>
+    <div class="sec-title">How it works</div>
+    <div class="sec-sub">Three steps and your AI avatar is ready to stream on any platform.</div>
     <div class="steps">
-      <div class="step"><div class="step-top"></div><div class="step-num">01</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Design your character</h3><p>Choose the face, body, hair, and style of your avatar. It's 100% fictional and completely yours.</p></div>
-      <div class="step"><div class="step-top"></div><div class="step-num">02</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/></svg></div><h3>Connect your camera</h3><p>Open Frandani AI, activate your camera and the face swap happens instantly in real time.</p></div>
-      <div class="step"><div class="step-top"></div><div class="step-num">03</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 2l-4 5-4-5"/></svg></div><h3>Stream and earn</h3><p>Use the virtual camera in OBS and stream to OnlyFans, Fansly, Twitch, or wherever you want.</p></div>
+      <div class="step glass-tilt"><div class="step-top"></div><div class="step-num">01</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Design your character</h3><p>Choose the face, body, hair, and style of your avatar. It's 100% fictional and completely yours.</p></div>
+      <div class="step glass-tilt"><div class="step-top"></div><div class="step-num">02</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/></svg></div><h3>Connect your camera</h3><p>Open Frandani AI, activate your camera and the face swap happens instantly in real time.</p></div>
+      <div class="step glass-tilt"><div class="step-top"></div><div class="step-num">03</div><div class="step-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 2l-4 5-4-5"/></svg></div><h3>Stream and earn</h3><p>Use the virtual camera in OBS and stream to OnlyFans, Fansly, Twitch, or wherever you want.</p></div>
     </div>
   </div>
+
+  <!-- BEFORE & AFTER -->
   <div class="ba-section" id="ba-section-anchor">
-    <div class="ba-title">Before &amp; After</div><div class="ba-desc">Drag the divider to compare your real camera with the AI avatar</div>
-    
+    <div class="ba-title">Before &amp; After</div>
+    <div class="ba-desc">Drag the divider to compare your real camera with the AI avatar</div>
     <div class="ba-video-wrapper" id="baBox" style="cursor:col-resize;user-select:none;">
-      <video id="baVideoBefore" class="ba-video-before" autoplay muted loop playsinline src="https://www.w3schools.com/html/mov_bbb.mp4" style="filter:grayscale(0.6) brightness(0.7);"></video>
+      <video id="baVideoBefore" class="ba-video-before" autoplay muted loop playsinline src="https://www.w3schools.com/html/mov_bbb.mp4" style="filter:grayscale(0.6) brightness(0.65);"></video>
       <div id="baAfterClip" style="position:absolute;inset:0;clip-path:inset(0 50% 0 0);z-index:2;">
         <video id="baVideoAfter" class="ba-video-after" autoplay muted loop playsinline src="https://www.w3schools.com/html/mov_bbb.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
-        <div id="baStyleOverlay" style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(58,56,255,0.35),rgba(120,80,255,0.25));mix-blend-mode:color;pointer-events:none;"></div>
-        <div style="position:absolute;inset:0;background:rgba(58,56,255,0.1);pointer-events:none;"></div>
+        <div id="baStyleOverlay" style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(58,56,255,0.4),rgba(108,95,255,0.25));mix-blend-mode:color;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0;background:rgba(30,28,80,0.15);pointer-events:none;"></div>
       </div>
       <div class="ba-lbl b" style="z-index:13;">Before</div>
       <div class="ba-lbl a" style="z-index:13;" id="baAfterLabel">After</div>
@@ -846,21 +1896,115 @@
     </div>
     <div class="ba-hint">Drag to compare</div>
   </div>
+
+  <!-- WHO IS IT FOR -->
   <div id="para-quien" class="section">
-    <div class="sec-tag">Audience</div><div class="sec-title">Who is it for?</div><div class="sec-sub">Frandani AI is built for creators who want to monetize without exposing their identity.</div>
+    <div class="sec-tag">Audience</div>
+    <div class="sec-title">Who is it for?</div>
+    <div class="sec-sub">Built for creators who want to monetize without exposing their identity.</div>
     <div class="audience">
-      <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="2"/></svg></div><h3>OnlyFans Creators</h3><p>Launch your account with an AI character. Earn money from subscriptions and tips without showing your real face.</p><div class="aud-tag">OnlyFans · Fansly</div></div>
-      <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/><rect x="3" y="7" width="12" height="10" rx="2"/></svg></div><h3>Streamers &amp; VTubers</h3><p>Stream on Twitch, YouTube or Kick with your AI avatar. Keep your privacy and build a real audience.</p><div class="aud-tag">Twitch · Kick · YouTube</div></div>
-      <div class="aud-card"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Webcam Models</h3><p>Work on webcam sites with complete anonymity. Your AI character replicates your expressions in real time.</p><div class="aud-tag">Cam sites</div></div>
+      <div class="aud-card glass-tilt"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="2"/></svg></div><h3>OnlyFans Creators</h3><p>Launch your account with an AI character. Earn money from subscriptions and tips without showing your real face.</p><div class="aud-tag">OnlyFans · Fansly</div></div>
+      <div class="aud-card glass-tilt"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="1.5"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/><rect x="3" y="7" width="12" height="10" rx="2"/></svg></div><h3>Streamers &amp; VTubers</h3><p>Stream on Twitch, YouTube or Kick with your AI avatar. Keep your privacy and build a real audience.</p><div class="aud-tag">Twitch · Kick · YouTube</div></div>
+      <div class="aud-card glass-tilt"><div class="aud-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h3>Webcam Models</h3><p>Work on webcam sites with complete anonymity. Your AI character replicates your expressions in real time.</p><div class="aud-tag">Cam sites</div></div>
     </div>
   </div>
+
+  <!-- CTA -->
   <div class="cta">
     <h2>Your identity, <em>protected.</em><br>Your income, real.</h2>
     <p>Create your AI avatar free today. No credit card required.</p>
-    <button class="btn-primary" style="font-size:16px;padding:16px 44px;" onclick="openModal()">Create my avatar now</button>
+    <button class="btn-primary" style="font-size:15px;padding:16px 48px;" onclick="openModal()">Create my avatar now</button>
   </div>
-  <footer><p>© 2025 Frandani AI — All rights reserved</p><p><a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p></footer>
+
+  <footer>
+    <p>© 2025 Frandani AI — All rights reserved</p>
+    <p><a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+  </footer>
 </div>
+
+<script>
+/* ══ AMBIENT ORB CANVAS ══ */
+(function(){
+  var c = document.getElementById('orb-canvas');
+  var ctx = c.getContext('2d');
+  var W, H;
+  var orbs = [
+    { x: 0.15, y: 0.3,  r: 320, color: '58,56,255', vx: 0.00012, vy: 0.00008, phase: 0 },
+    { x: 0.8,  y: 0.15, r: 260, color: '108,95,255', vx:-0.00009, vy: 0.00011, phase: 1.5 },
+    { x: 0.5,  y: 0.85, r: 200, color: '58,56,255', vx: 0.00007, vy:-0.00013, phase: 3 },
+    { x: 0.9,  y: 0.65, r: 180, color: '80,70,200', vx:-0.00011, vy:-0.00007, phase: 4.5 },
+  ];
+  function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  var t = 0;
+  function draw(){
+    t += 0.008;
+    ctx.clearRect(0,0,W,H);
+    orbs.forEach(function(o){
+      var ox = (o.x + Math.sin(t * 0.7 + o.phase) * 0.06) * W;
+      var oy = (o.y + Math.cos(t * 0.5 + o.phase) * 0.05) * H;
+      var g = ctx.createRadialGradient(ox, oy, 0, ox, oy, o.r);
+      g.addColorStop(0,   'rgba('+o.color+',0.18)');
+      g.addColorStop(0.5, 'rgba('+o.color+',0.06)');
+      g.addColorStop(1,   'rgba('+o.color+',0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(ox, oy, o.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══ GLASS TILT (mouse tracking on all .glass-tilt elements) ══ */
+(function(){
+  var els = document.querySelectorAll('.glass-tilt');
+  els.forEach(function(el){
+    el.addEventListener('mousemove', function(e){
+      var r = el.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width  - 0.5;  // -0.5 to 0.5
+      var y = (e.clientY - r.top)  / r.height - 0.5;
+      var rotY =  x * 12;
+      var rotX = -y * 8;
+      // Spotlight
+      var spotX = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+      var spotY = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+      el.style.transform = 'perspective(900px) rotateY('+rotY+'deg) rotateX('+rotX+'deg) scale(1.02)';
+      el.style.boxShadow = '0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(58,56,255,0.25) inset, '+spotX+'% '+spotY+'% / 200px 200px radial-gradient(circle, rgba(255,255,255,0.07), transparent)';
+      el.style.background = 'radial-gradient(circle at '+spotX+'% '+spotY+'%, rgba(58,56,255,0.12) 0%, rgba(12,10,30,0.55) 60%)';
+    });
+    el.addEventListener('mouseleave', function(){
+      el.style.transform = '';
+      el.style.boxShadow = '';
+      el.style.background = '';
+      el.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s, background 0.6s';
+    });
+    el.addEventListener('mouseenter', function(){
+      el.style.transition = 'transform 0.15s, box-shadow 0.15s, background 0.15s';
+    });
+  });
+
+  /* Hero card separate tilt — more dramatic */
+  var card = document.getElementById('heroCard');
+  if(card){
+    card.addEventListener('mousemove', function(e){
+      var r = card.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width  - 0.5;
+      var y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transition = 'transform 0.1s';
+      card.style.animation = 'none';
+      card.style.transform = 'perspective(1200px) rotateY('+(x*16)+'deg) rotateX('+(-y*10)+'deg) scale(1.02)';
+    });
+    card.addEventListener('mouseleave', function(){
+      card.style.transition = 'transform 0.8s cubic-bezier(0.16,1,0.3,1)';
+      card.style.animation = '';
+      card.style.transform = '';
+    });
+  }
+})();
+</script>
 
 <!-- ════════════ PAGE: IMAGE ════════════ -->
 <div class="page" id="page-image">
@@ -1030,23 +2174,131 @@
 </div>
 
 <!-- ════════════ PAGE: PRICING ════════════ -->
-<div class="page" id="page-pricing">
-  <div style="max-width:1100px;margin:0 auto;padding:48px 60px;">
-    <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:8px;">Simple pricing</div>
-    <div style="font-size:15px;color:var(--muted);margin-bottom:32px;">Pick a plan and start streaming live. Credits are included — use them to generate AI images or apply face swap to videos.</div>
+<style>
+/* ══ PRICING GLASS 3D ══ */
+.pricing-wrap {
+  max-width: 1320px; margin: 0 auto;
+  padding: 64px 48px 80px; position: relative;
+}
+.pricing-wrap::before {
+  content: ''; position: absolute;
+  top: 220px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 500px;
+  background: radial-gradient(ellipse, rgba(58,56,255,0.12) 0%, transparent 65%);
+  pointer-events: none; filter: blur(60px); z-index: 0;
+}
+.pricing-header { text-align:center; margin-bottom:48px; position:relative; z-index:1; }
+.pricing-header h1 { font-family:'Syne',sans-serif; font-size:48px; font-weight:700; letter-spacing:-2px; margin-bottom:12px; }
+.pricing-header p { font-size:15px; color:rgba(255,255,255,0.35); max-width:520px; margin:0 auto; line-height:1.75; }
+.billing-toggle { display:flex; align-items:center; justify-content:center; margin-bottom:48px; position:relative; z-index:1; }
+.billing-pill {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px; padding: 4px; display:flex; gap:2px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
+}
+.plans { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; position:relative; z-index:1; }
+.plan {
+  position:relative;
+  background: rgba(12,10,30,0.6);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px; padding:32px 28px;
+  display:flex; flex-direction:column;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.07) inset;
+  will-change: transform; overflow:hidden; cursor:default;
+  transition: box-shadow 0.12s;
+}
+.plan::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.14) 50%, transparent 90%);
+  pointer-events:none;
+}
+.plan.featured {
+  border: 1px solid rgba(58,56,255,0.38);
+  background: rgba(16,14,45,0.75);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 60px rgba(58,56,255,0.12), 0 1px 0 rgba(100,98,255,0.2) inset;
+}
+.plan.featured::before { background: linear-gradient(90deg, transparent 5%, rgba(58,56,255,0.3) 50%, transparent 95%); }
+.plan.elite {
+  border: 1px solid rgba(168,85,247,0.3);
+  background: rgba(18,10,35,0.75);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 60px rgba(168,85,247,0.1), 0 1px 0 rgba(168,85,247,0.15) inset;
+}
+.plan.elite::before { background: linear-gradient(90deg, transparent 5%, rgba(168,85,247,0.25) 50%, transparent 95%); }
+.plan-badge {
+  position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+  background: linear-gradient(135deg,#3A38FF,#6C5FFF);
+  color:#fff; font-size:11px; padding:4px 16px; border-radius:999px;
+  white-space:nowrap; font-weight:600; letter-spacing:0.3px;
+  box-shadow: 0 4px 14px rgba(58,56,255,0.5);
+}
+.plan-badge.elite-badge { background:linear-gradient(135deg,#7c3aed,#a855f7); box-shadow:0 4px 14px rgba(168,85,247,0.5); }
+.plan-current-badge {
+  display:none; align-items:center; gap:6px;
+  position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+  background:rgba(34,197,94,0.9); color:#fff; font-size:11px;
+  padding:4px 14px; border-radius:999px; white-space:nowrap; font-weight:600;
+  box-shadow: 0 4px 14px rgba(34,197,94,0.4);
+}
+.plan-name { font-size:11px; color:rgba(255,255,255,0.3); margin-bottom:10px; letter-spacing:1.5px; text-transform:uppercase; }
+.plan-price {
+  font-family:'Syne',sans-serif; font-size:38px; font-weight:700; letter-spacing:-2px; margin-bottom:4px;
+  background: linear-gradient(140deg, #fff 0%, rgba(200,198,255,0.85) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.plan-price sub { font-size:13px; color:rgba(255,255,255,0.3); font-weight:400; -webkit-text-fill-color:rgba(255,255,255,0.3); }
+.plan-desc { font-size:12px; color:rgba(255,255,255,0.28); margin-bottom:20px; }
+.plan-div { height:1px; background:rgba(255,255,255,0.06); margin-bottom:16px; }
+.feat { font-size:12px; color:rgba(255,255,255,0.45); padding:5px 0; display:flex; align-items:center; gap:10px; }
+.feat::before { content:''; display:inline-block; width:5px; height:5px; background:rgba(58,56,255,0.8); border-radius:50%; flex-shrink:0; box-shadow:0 0 5px rgba(58,56,255,0.5); }
+.feat.elite-feat::before { background:#a855f7; box-shadow:0 0 5px rgba(168,85,247,0.6); }
+.feat.bold-feat { color:rgba(255,255,255,0.75); font-weight:500; }
+.feat.bold-feat::before { background:#a855f7; width:7px; height:7px; }
+.plan-spacer { flex:1; }
+.plan-btn {
+  width:100%; margin-top:20px; padding:13px; border-radius:14px;
+  font-size:13px; cursor:pointer; font-weight:600;
+  font-family:'DM Sans',sans-serif; transition:all 0.25s;
+  position:relative; overflow:hidden;
+}
+.plan-btn::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,0.07) 0%,transparent 100%); pointer-events:none; }
+.plan-btn.solid { background:linear-gradient(135deg,#3A38FF 0%,#6C5FFF 100%); color:#fff; border:none; box-shadow:0 8px 24px rgba(58,56,255,0.4); }
+.plan-btn.solid:hover { transform:translateY(-1px); box-shadow:0 12px 30px rgba(58,56,255,0.55); }
+.plan-btn.solid-elite { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border:none; box-shadow:0 8px 24px rgba(168,85,247,0.4); }
+.plan-btn.solid-elite:hover { transform:translateY(-1px); box-shadow:0 12px 30px rgba(168,85,247,0.55); }
+.plan-btn.ghost { background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.1); }
+.plan-btn.ghost:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:#fff; }
+.plan-btn.current { background:rgba(34,197,94,0.1); color:rgba(34,197,94,0.8); border:1px solid rgba(34,197,94,0.25); cursor:default; }
+.plan.current-plan { border-color: rgba(34,197,94,0.4) !important; }
+.plan.current-plan::after { content:'Your plan'; position:absolute; top:-12px; left:16px; background:#22c55e; color:#fff; font-size:11px; padding:3px 12px; border-radius:999px; font-family:'DM Sans',sans-serif; font-weight:500; }
+.plan { position:relative; }
+.plan.current-plan .plan-current-badge { display:flex; }
+/* Credit top-up section */
+.credits-section { border-top:1px solid rgba(255,255,255,0.05); padding-top:64px; margin-top:16px; position:relative; z-index:1; }
+@media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
+</style>
 
-    <!-- Monthly / Annual toggle -->
-    <div style="display:flex;align-items:center;justify-content:center;margin-bottom:40px;">
-      <div style="background:rgba(255,255,255,0.05);border:0.5px solid var(--border);border-radius:999px;padding:4px;display:flex;gap:2px;">
-        <button id="btn-monthly" onclick="setBilling('monthly')" style="background:var(--blue);color:#fff;border:none;padding:8px 24px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;">Monthly</button>
-        <button id="btn-annual" onclick="setBilling('annual')" style="background:transparent;color:var(--muted);border:none;padding:8px 24px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:8px;">Annual <span style="background:rgba(34,197,94,0.15);border:0.5px solid rgba(34,197,94,0.3);color:rgba(34,197,94,0.9);font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;">Save 20%</span></button>
+<div class="page" id="page-pricing">
+  <div class="pricing-wrap">
+
+    <div class="pricing-header">
+      <div class="sec-tag" style="justify-content:center;margin-bottom:14px;">Plans</div>
+      <h1>Simple pricing</h1>
+      <p>Pick a plan and start streaming live. Credits included — use them for AI images or video face swap.</p>
+    </div>
+
+    <div class="billing-toggle">
+      <div class="billing-pill">
+        <button id="btn-monthly" onclick="setBilling('monthly')" style="background:linear-gradient(135deg,#3A38FF,#6C5FFF);color:#fff;border:none;padding:9px 28px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;box-shadow:0 4px 14px rgba(58,56,255,0.4);">Monthly</button>
+        <button id="btn-annual" onclick="setBilling('annual')" style="background:transparent;color:rgba(255,255,255,0.45);border:none;padding:9px 28px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:8px;">Annual <span style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);color:rgba(34,197,94,0.85);font-size:10px;padding:2px 8px;border-radius:999px;font-weight:700;">SAVE 20%</span></button>
       </div>
     </div>
 
-    <!-- Plans -->
     <div class="plans" style="margin-bottom:20px;">
 
-      <div class="plan" id="plan-card-starter">
+      <div class="plan plan-tilt" id="plan-card-starter">
         <div class="plan-name">Starter</div>
         <div class="plan-price">$0 <sub>/mo</sub></div>
         <div class="plan-desc">Just to explore</div>
@@ -1064,7 +2316,7 @@
         <button class="plan-btn ghost" id="btn-starter" onclick="starterBtnClick()">Get started free</button>
       </div>
 
-      <div class="plan" id="plan-card-creator">
+      <div class="plan plan-tilt" id="plan-card-creator">
         <div class="plan-current-badge">✓ Current plan</div>
         <div class="plan-name">Creator</div>
         <div style="font-size:13px;color:rgba(255,100,100,0.7);text-decoration:line-through;margin-bottom:2px;" id="strike-creator">$49.99/mo</div>
@@ -1085,7 +2337,7 @@
         <button class="plan-btn ghost" id="btn-creator" onclick="pagar('creator')">Choose Creator</button>
       </div>
 
-      <div class="plan featured" id="plan-card-pro">
+      <div class="plan featured plan-tilt" id="plan-card-pro">
         <div class="plan-badge">Most popular</div>
         <div class="plan-current-badge">✓ Current plan</div>
         <div class="plan-name">Pro</div>
@@ -1109,7 +2361,7 @@
         <button class="plan-btn solid" id="btn-pro" onclick="pagar('pro')">Choose Pro</button>
       </div>
 
-      <div class="plan elite elite-glow" id="plan-card-elite">
+      <div class="plan elite elite-glow plan-tilt" id="plan-card-elite">
         <div class="plan-badge elite-badge">⚡ Elite</div>
         <div class="plan-current-badge">✓ Current plan</div>
         <div class="plan-name">Elite</div>
@@ -1136,83 +2388,118 @@
 
     </div>
 
-    <div style="font-size:12px;color:rgba(255,255,255,0.2);text-align:center;margin-bottom:56px;">
+    <div style="font-size:12px;color:rgba(255,255,255,0.18);text-align:center;margin-bottom:56px;">
       🪙 Credits reset monthly. Purchased top-up credits never expire. · Live streaming always free, no credits needed.
     </div>
 
-    <!-- ── CREDIT TOP-UP SLIDER ── -->
-    <div style="border-top:0.5px solid var(--border);padding-top:56px;">
-
+    <!-- CREDIT TOP-UP SLIDER -->
+    <div class="credits-section">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
         <div>
-          <div style="font-size:11px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Add-on credits</div>
-          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px;">Need more credits?</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.35);max-width:420px;line-height:1.6;">Credits are for top-ups only. A subscription gives you far more value — credits are for when you run out mid-month.</div>
+          <div style="font-size:10px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:16px;height:1px;background:var(--blue);"></span>Add-on credits</div>
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px;letter-spacing:-0.5px;">Need more credits?</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.3);max-width:420px;line-height:1.65;">Credits are for top-ups only. A subscription gives you far more value — credits are for when you run out mid-month.</div>
         </div>
-        <div style="background:rgba(58,56,255,0.08);border:0.5px solid rgba(58,56,255,0.3);border-radius:12px;padding:14px 20px;text-align:center;">
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Best value</div>
+        <div style="background:rgba(58,56,255,0.08);border:1px solid rgba(58,56,255,0.2);border-radius:16px;padding:16px 22px;text-align:center;backdrop-filter:blur(10px);">
+          <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px;">Best value</div>
           <div style="font-size:14px;font-weight:500;color:#a0a0ff;">Subscribe instead</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:2px;">From $0.10/credit with Elite</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.25);margin-top:2px;">From $0.10/credit with Elite</div>
         </div>
       </div>
 
-      <!-- What each credit does -->
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;">
-        <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🖼️</span><span style="color:var(--muted);">AI image with avatar</span><span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">2 credits</span></div>
-        <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🎬</span><span style="color:var(--muted);">Video swap (per min)</span><span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">8 credits</span></div>
-        <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📹</span><span style="color:var(--muted);">HD export (up to 5 min)</span><span style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">15 credits</span></div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px);"><span style="font-size:18px;">🖼️</span><span style="color:rgba(255,255,255,0.4);">AI image with avatar</span><span style="background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.25);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">2 credits</span></div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px);"><span style="font-size:18px;">🎬</span><span style="color:rgba(255,255,255,0.4);">Video swap (per min)</span><span style="background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.25);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">8 credits</span></div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px);"><span style="font-size:18px;">📹</span><span style="color:rgba(255,255,255,0.4);">HD export (up to 5 min)</span><span style="background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.25);color:#a0a0ff;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">15 credits</span></div>
       </div>
 
-      <!-- Slider card -->
-      <div style="background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.1);border-radius:20px;padding:36px 40px;">
-
+      <div style="background:rgba(12,10,30,0.7);border:1px solid rgba(255,255,255,0.07);border-radius:24px;padding:40px;backdrop-filter:blur(16px);box-shadow:0 20px 60px rgba(0,0,0,0.4),0 1px 0 rgba(255,255,255,0.06) inset;">
         <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px;">
-          <div style="font-family:'Syne',sans-serif;font-size:42px;font-weight:700;" id="creditAmount">100</div>
-          <div style="font-size:18px;color:rgba(255,255,255,0.4);">credits</div>
+          <div style="font-family:'Syne',sans-serif;font-size:48px;font-weight:700;letter-spacing:-2px;background:linear-gradient(140deg,#fff,rgba(180,178,255,0.8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="creditAmount">100</div>
+          <div style="font-size:18px;color:rgba(255,255,255,0.3);">credits</div>
           <div style="margin-left:auto;text-align:right;">
-            <div style="font-size:13px;color:rgba(255,255,255,0.3);text-decoration:line-through;margin-bottom:2px;" id="creditPriceOld">$150.00</div>
-            <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:700;color:#fff;" id="creditPriceNew">$75.00</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.35);" id="creditPerUnit">$0.75/credit</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.25);text-decoration:line-through;margin-bottom:2px;" id="creditPriceOld">$150.00</div>
+            <div style="font-family:'Syne',sans-serif;font-size:34px;font-weight:700;background:linear-gradient(140deg,#fff,rgba(160,158,255,0.85));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="creditPriceNew">$75.00</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.3);" id="creditPerUnit">$0.75/credit</div>
           </div>
         </div>
-
-        <div style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:28px;" id="creditUsage">≈ 50 images or 12 min video</div>
-
+        <div style="font-size:13px;color:rgba(255,255,255,0.28);margin-bottom:28px;" id="creditUsage">≈ 50 images or 12 min video</div>
         <div style="margin-bottom:8px;">
           <input type="range" id="creditSlider" min="10" max="1000" value="100" step="10"
-            style="width:100%;height:6px;accent-color:var(--blue);cursor:pointer;"
+            style="width:100%;height:5px;accent-color:#3A38FF;cursor:pointer;"
             oninput="updateCreditPrice(this.value)"/>
         </div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.2);margin-bottom:32px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.18);margin-bottom:32px;">
           <span>10 credits</span><span>500 credits</span><span>1,000 credits</span>
         </div>
-
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;" id="discountBadges">
-          <div style="background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.35);">10–99: $0.90/cr</div>
+          <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.3);">10–99: $0.90/cr</div>
           <div style="background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.25);border-radius:999px;padding:5px 12px;font-size:11px;color:#a0a0ff;">100–299: $0.75/cr</div>
-          <div style="background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.35);">300–599: $0.65/cr</div>
-          <div style="background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.35);">600–1000: $0.55/cr</div>
+          <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.3);">300–599: $0.65/cr</div>
+          <div style="background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:999px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.3);">600–1000: $0.55/cr</div>
         </div>
-
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-          <button onclick="comprarCreditosSlider()" style="background:var(--blue);color:#fff;border:none;padding:14px 36px;border-radius:999px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">
+          <button onclick="comprarCreditosSlider()" style="background:linear-gradient(135deg,#3A38FF,#6C5FFF);color:#fff;border:none;padding:14px 36px;border-radius:999px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 8px 24px rgba(58,56,255,0.4);transition:all 0.25s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 30px rgba(58,56,255,0.55)';" onmouseout="this.style.transform='';this.style.boxShadow='0 8px 24px rgba(58,56,255,0.4)';">
             Buy <span id="btnCreditAmt">100</span> credits — <span id="btnCreditPrice">$75.00</span>
           </button>
-          <div style="font-size:12px;color:rgba(255,255,255,0.25);line-height:1.5;">Credits never expire · Available on paid plans</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.22);line-height:1.5;">Credits never expire · Available on paid plans</div>
         </div>
-
-        <div style="margin-top:24px;padding:14px 18px;background:rgba(58,56,255,0.05);border:0.5px solid rgba(58,56,255,0.15);border-radius:10px;font-size:12px;color:rgba(255,255,255,0.3);line-height:1.7;">
+        <div style="margin-top:24px;padding:14px 18px;background:rgba(58,56,255,0.06);border:1px solid rgba(58,56,255,0.15);border-radius:12px;font-size:12px;color:rgba(255,255,255,0.28);line-height:1.75;">
           Compare: Elite plan gives you <strong style="color:rgba(255,255,255,0.6);">300 credits/mo for $149.99</strong> — that's just <strong style="color:rgba(100,200,100,0.8);">$0.50/credit</strong>, plus unlimited streaming, 8K quality, voice changer and more.
         </div>
       </div>
 
-      <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.15);text-align:center;">
+      <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.13);text-align:center;">
         Credits reset monthly on subscription. Purchased top-up credits never expire and stack with your monthly allowance.
       </div>
     </div>
   </div>
 </div>
 
+<script>
+(function(){
+  /* ══ PLAN CARD GLASS TILT ══ */
+  function initPlanTilt(){
+    document.querySelectorAll('.plan-tilt').forEach(function(el){
+      var isPro = el.classList.contains('featured');
+      var isElite = el.classList.contains('elite');
+      var accentR = isElite ? '168,85,247' : '58,56,255';
+
+      el.addEventListener('mouseenter', function(){
+        el.style.transition = 'transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease';
+      });
+      el.addEventListener('mousemove', function(e){
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width  - 0.5;
+        var y = (e.clientY - r.top)  / r.height - 0.5;
+        var rotY =  x * 14;
+        var rotX = -y * 9;
+        var sX = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+        var sY = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+        el.style.transform = 'perspective(900px) rotateY('+rotY+'deg) rotateX('+rotX+'deg) scale(1.025) translateZ(10px)';
+        el.style.background = 'radial-gradient(circle at '+sX+'% '+sY+'%, rgba('+accentR+',0.18) 0%, rgba(12,10,30,0.65) 55%)';
+        var shadowColor = isElite ? 'rgba(168,85,247,0.35)' : 'rgba(58,56,255,0.35)';
+        el.style.boxShadow = '0 50px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba('+accentR+',0.3) inset, 0 0 60px '+shadowColor;
+      });
+      el.addEventListener('mouseleave', function(){
+        el.style.transition = 'transform 0.7s cubic-bezier(0.16,1,0.3,1), box-shadow 0.7s, background 0.7s';
+        el.style.transform = '';
+        el.style.background = '';
+        el.style.boxShadow = '';
+      });
+    });
+  }
+  /* Run immediately and re-run after any page nav to pricing */
+  initPlanTilt();
+  var origGoTo = window.goTo;
+  if(origGoTo){
+    window.goTo = function(page){
+      origGoTo(page);
+      if(page === 'pricing') setTimeout(initPlanTilt, 50);
+    };
+  }
+})();
+</script>
 <script>
 // ── NAVIGATION ──
 function goTo(page){
@@ -1628,7 +2915,7 @@ if(params.get('pago')){history.replaceState({},'',location.pathname);}
 
 <!-- ════ PAGE: image-generate ════ -->
 <div class="page" id="page-image-generate">
-  <div style="max-width:900px;margin:0 auto;padding:60px 48px;">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
       <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
       <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Generate Image</div>
@@ -1663,7 +2950,7 @@ if(params.get('pago')){history.replaceState({},'',location.pathname);}
 
 <!-- ════ PAGE: image-faceswap ════ -->
 <div class="page" id="page-image-faceswap">
-  <div style="max-width:900px;margin:0 auto;padding:60px 48px;">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
       <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
       <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Face Swap</div>
@@ -2425,7 +3712,7 @@ input.rl-range::-webkit-slider-thumb {
 
 <!-- ════ PAGE: image-upscale ════ -->
 <div class="page" id="page-image-upscale">
-  <div style="max-width:900px;margin:0 auto;padding:60px 48px;">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
       <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
       <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Image Upscaler</div>
@@ -2456,7 +3743,7 @@ input.rl-range::-webkit-slider-thumb {
 
 <!-- ════ PAGE: image-inpaint ════ -->
 <div class="page" id="page-image-inpaint">
-  <div style="max-width:900px;margin:0 auto;padding:60px 48px;">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
       <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg></div>
       <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Inpaint</div>
