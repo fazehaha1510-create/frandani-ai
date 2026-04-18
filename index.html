@@ -1697,62 +1697,730 @@ if(params.get('pago')){history.replaceState({},'',location.pathname);}
 </div>
 
 <!-- ════ PAGE: image-relight ════ -->
-<div class="page" id="page-image-relight">
-  <div style="max-width:1000px;margin:0 auto;padding:60px 48px;">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-      <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
-      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Relight</div>
-    </div>
-    <div style="font-size:15px;color:var(--muted);margin-bottom:32px;">Change the lighting of any image instantly. Control direction, intensity and color.</div>
-    <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;">
-      <!-- Preview area -->
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;">
-        <div style="padding:16px 20px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-size:13px;font-weight:500;">Preview</span>
-          <div style="display:flex;gap:8px;">
-            <span style="font-size:12px;color:var(--muted);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:999px;">Original</span>
-            <span style="font-size:12px;color:#fff;background:var(--blue);padding:4px 10px;border-radius:999px;">Relight</span>
-          </div>
-        </div>
-        <div style="aspect-ratio:16/10;background:#08071a;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;cursor:pointer;" onclick="document.getElementById('rl-upload').click()">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <span style="font-size:14px;color:rgba(255,255,255,0.3);">Upload an image to relight</span>
-          <input type="file" id="rl-upload" accept="image/*" style="display:none;">
-        </div>
+<div class="page" id="page-image-relight" style="padding-top:0!important;overflow:hidden;">
+<style>
+/* ─────────────────────────────────────────
+   RELIGHT — FULL LAYOUT
+───────────────────────────────────────── */
+#page-image-relight { background:#000 !important; }
+
+.rl-root {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+/* ── LEFT: viewer ── */
+.rl-viewer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #000;
+}
+.rl-canvas-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rl-canvas-area.has-img { cursor: ew-resize; }
+
+.rl-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  display: none;
+}
+.rl-layer-after { clip-path: inset(0 50% 0 0); }
+
+.rl-divider {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1.5px;
+  background: rgba(255,255,255,0.75);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: none;
+  display: none;
+}
+.rl-div-handle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  pointer-events: none;
+  z-index: 11;
+  display: none;
+}
+.rl-lbl {
+  position: absolute;
+  top: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 999px;
+  z-index: 12;
+  pointer-events: none;
+  letter-spacing: .4px;
+  display: none;
+}
+.rl-lbl.orig { left: 16px; background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.55); }
+.rl-lbl.relt { right: 16px; background: rgba(58,56,255,0.7); color: #fff; }
+
+.rl-empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* ── BOTTOM BAR ── */
+.rl-bar {
+  height: 76px;
+  background: #000;
+  border-top: 0.5px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+.rl-add-btn {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3A38FF, #6c5fff);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(58,56,255,0.5);
+  transition: all .2s;
+}
+.rl-add-btn:hover { transform: scale(1.06); box-shadow: 0 6px 22px rgba(58,56,255,0.7); }
+
+.rl-thumbs {
+  display: flex;
+  gap: 7px;
+  flex: 1;
+  overflow-x: auto;
+  align-items: center;
+}
+.rl-thumbs::-webkit-scrollbar { display: none; }
+.rl-thumb {
+  width: 48px; height: 48px;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color .15s;
+  background: rgba(255,255,255,0.05);
+}
+.rl-thumb.on { border-color: #3A38FF; }
+.rl-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.rl-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.rl-compare-lbl {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rl-toggle {
+  width: 38px; height: 21px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  background: rgba(255,255,255,0.12);
+  transition: background .2s;
+}
+.rl-toggle.on { background: #3A38FF; }
+.rl-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 15px; height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  transition: left .2s;
+}
+.rl-toggle.on::after { left: 20px; }
+.rl-icon-btn {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.45);
+  cursor: pointer;
+  transition: all .15s;
+}
+.rl-icon-btn:hover { background: rgba(255,255,255,0.09); color: #fff; }
+
+/* ── RIGHT PANEL ── */
+.rl-panel {
+  width: 268px;
+  flex-shrink: 0;
+  background: #111;
+  border-left: 0.5px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-top: 80px;
+  padding-bottom: 8px;
+}
+.rl-panel::-webkit-scrollbar { width: 3px; }
+.rl-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+.rl-ph { padding: 18px 16px 0; }
+.rl-ph-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; }
+.rl-ph-sub { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; margin-bottom: 16px; }
+
+.rl-sec { padding: 0 14px; margin-bottom: 14px; }
+
+/* ── DIRECTION BUTTONS — same style as screenshot ── */
+.rl-dir-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+.rl-dir-btn {
+  padding: 9px 0;
+  border-radius: 8px;
+  border: none;
+  background: #222;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .15s;
+  text-align: center;
+}
+.rl-dir-btn:hover { background: #2a2a2a; color: #fff; }
+.rl-dir-btn.on {
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+}
+/* empty cells */
+.rl-dir-empty { /* placeholder */ }
+
+/* ── ORB ── */
+.rl-orb-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 4px 14px 12px;
+}
+.rl-orb-outer {
+  position: relative;
+  width: 148px; height: 148px;
+  cursor: crosshair;
+  user-select: none;
+}
+canvas#rlOrb {
+  width: 148px; height: 148px;
+  border-radius: 50%;
+  display: block;
+}
+.rl-orb-dot {
+  position: absolute;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 5;
+  /* color set dynamically */
+  background: #f5a623;
+  box-shadow: 0 0 8px 3px rgba(245,166,35,.8), 0 0 18px 5px rgba(245,166,35,.35);
+}
+
+/* ── SLIDERS — style from screenshot ── */
+.rl-slide-block {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rl-slide-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  min-width: 72px;
+  flex-shrink: 0;
+}
+.rl-slide-track {
+  flex: 1;
+  position: relative;
+  height: 4px;
+}
+input.rl-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(to right, rgba(255,255,255,0.7) var(--pct,70%), rgba(255,255,255,0.12) var(--pct,70%));
+  margin: 0;
+}
+input.rl-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0; height: 0;
+  /* invisible thumb — value shown as text */
+}
+.rl-slide-val {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  min-width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── LIGHT COLOR row ── */
+.rl-lc-block {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+}
+.rl-lc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.rl-lc-label { font-size: 13px; color: rgba(255,255,255,0.45); }
+.rl-lc-swatch {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.15);
+  background: #f5a623;
+  flex-shrink: 0;
+}
+.rl-lc-swatch input[type=color] {
+  opacity: 0;
+  width: 130%; height: 130%;
+  margin: -15%;
+  cursor: pointer;
+  border: none;
+}
+.rl-lc-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.rl-lc-btn {
+  padding: 9px 0;
+  border-radius: 8px;
+  border: none;
+  background: #222;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .15s;
+}
+.rl-lc-btn:hover { background: #2a2a2a; color: #fff; }
+.rl-lc-btn.on { background: #fff; color: #000; font-weight: 700; }
+
+/* ── GENERATE ── */
+.rl-gen-btn {
+  margin: 8px 14px 4px;
+  width: calc(100% - 28px);
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #3A38FF, #6c5fff);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 4px 16px rgba(58,56,255,0.4);
+  transition: all .2s;
+}
+.rl-gen-btn:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(58,56,255,0.6); }
+</style>
+
+<div class="rl-root">
+
+  <!-- ── LEFT: viewer + bottom bar ── -->
+  <div class="rl-viewer">
+
+    <div class="rl-canvas-area" id="rlArea">
+      <div class="rl-empty-state" id="rlEmpty">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span style="font-size:13px;color:rgba(255,255,255,0.18);">Add an image below to get started</span>
       </div>
-      <!-- Controls -->
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:20px;">
-        <div>
-          <div style="font-size:11px;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Light direction</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
-            <button style="padding:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);font-size:12px;cursor:pointer;">Top</button>
-            <button style="padding:8px;background:rgba(58,56,255,0.15);border:0.5px solid var(--blue);border-radius:8px;color:#fff;font-size:12px;cursor:pointer;font-weight:500;">Front</button>
-            <button style="padding:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);font-size:12px;cursor:pointer;">Right</button>
-            <button style="padding:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);font-size:12px;cursor:pointer;">Left</button>
-            <button style="padding:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);font-size:12px;cursor:pointer;">Back</button>
-            <button style="padding:8px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);font-size:12px;cursor:pointer;">Bottom</button>
-          </div>
+      <img id="rlBefore" class="rl-layer" alt="">
+      <img id="rlAfter"  class="rl-layer rl-layer-after" alt="">
+      <div class="rl-divider" id="rlDiv"></div>
+      <div class="rl-div-handle" id="rlDivH">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg>
+      </div>
+      <div class="rl-lbl orig" id="rlLO">Original</div>
+      <div class="rl-lbl relt" id="rlLR">Relight</div>
+    </div>
+
+    <div class="rl-bar">
+      <button class="rl-add-btn" onclick="document.getElementById('rlFi').click()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <input type="file" id="rlFi" accept="image/*" style="display:none" onchange="rlLoadImg(this)">
+      <div class="rl-thumbs" id="rlThumbs"></div>
+      <div class="rl-bar-right">
+        <label class="rl-compare-lbl">
+          <button class="rl-toggle on" id="rlToggle" onclick="rlToggleCompare()"></button>
+          Compare
+        </label>
+        <div class="rl-icon-btn" onclick="showToast('Sign in to download','')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:12px;color:var(--muted);">Brightness</span><span style="font-size:12px;color:#fff;">70%</span></div>
-          <input type="range" min="0" max="100" value="70" style="width:100%;accent-color:var(--blue);">
+        <div class="rl-icon-btn" onclick="rlResetAll()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.86"/></svg>
         </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:12px;color:var(--muted);">Intensity</span><span style="font-size:12px;color:#fff;">50%</span></div>
-          <input type="range" min="0" max="100" value="50" style="width:100%;accent-color:var(--blue);">
-        </div>
-        <div>
-          <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Light Color</div>
-          <div style="display:flex;gap:8px;">
-            <button style="padding:7px 14px;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;font-size:12px;cursor:pointer;">Day</button>
-            <button style="padding:7px 14px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:12px;cursor:pointer;font-weight:500;">Night</button>
-            <input type="color" value="#f5a623" style="width:36px;height:34px;border:none;border-radius:8px;cursor:pointer;background:none;">
-          </div>
-        </div>
-        <button onclick="showToast('Sign in to use Relight','')" style="width:100%;background:#3A38FF;color:#fff;border:none;padding:13px;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">Generate Relight · 2 credits</button>
       </div>
     </div>
   </div>
+
+  <!-- ── RIGHT PANEL ── -->
+  <div class="rl-panel">
+    <div class="rl-ph">
+      <div class="rl-ph-title">Relight</div>
+      <div class="rl-ph-sub">Change lighting instantly</div>
+    </div>
+
+    <!-- Direction grid -->
+    <div class="rl-sec">
+      <div class="rl-dir-grid">
+        <div class="rl-dir-empty"></div>
+        <button class="rl-dir-btn" id="dTop"    onclick="rlSetDir('top')">Top</button>
+        <div class="rl-dir-empty"></div>
+        <button class="rl-dir-btn" id="dLeft"   onclick="rlSetDir('left')">Left</button>
+        <button class="rl-dir-btn" id="dFront"  onclick="rlSetDir('front')">Front</button>
+        <button class="rl-dir-btn" id="dRight"  onclick="rlSetDir('right')">Right</button>
+        <div class="rl-dir-empty"></div>
+        <button class="rl-dir-btn on" id="dBack" onclick="rlSetDir('back')">Back</button>
+        <button class="rl-dir-btn" id="dBottom" onclick="rlSetDir('bottom')">Bottom</button>
+      </div>
+    </div>
+
+    <!-- Orb -->
+    <div class="rl-orb-wrap">
+      <div class="rl-orb-outer" id="rlOrbEl">
+        <canvas id="rlOrb" width="148" height="148"></canvas>
+        <div class="rl-orb-dot" id="rlDot" style="left:74px;top:74px;"></div>
+      </div>
+    </div>
+
+    <!-- Brightness -->
+    <div class="rl-sec">
+      <div class="rl-slide-block">
+        <span class="rl-slide-label">Brightness</span>
+        <div class="rl-slide-track">
+          <input class="rl-range" type="range" min="0" max="100" value="70" style="--pct:70%" oninput="rlSlider(this,'rlBval')">
+        </div>
+        <span class="rl-slide-val" id="rlBval">70%</span>
+      </div>
+      <div class="rl-slide-block">
+        <span class="rl-slide-label">Intensity</span>
+        <div class="rl-slide-track">
+          <input class="rl-range" type="range" min="0" max="100" value="50" style="--pct:50%" oninput="rlSlider(this,'rlIval')">
+        </div>
+        <span class="rl-slide-val" id="rlIval">50%</span>
+      </div>
+    </div>
+
+    <!-- Light Color -->
+    <div class="rl-sec">
+      <div class="rl-lc-block">
+        <div class="rl-lc-top">
+          <span class="rl-lc-label">Light Color</span>
+          <div class="rl-lc-swatch" id="rlSwatchEl">
+            <input type="color" id="rlColorPick" value="#f5a623" oninput="rlCustomColor(this.value)">
+          </div>
+        </div>
+        <div class="rl-lc-btns">
+          <button class="rl-lc-btn" id="lcDay"   onclick="rlColorPreset('day')">Day</button>
+          <button class="rl-lc-btn on" id="lcNight" onclick="rlColorPreset('night')">Night</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;min-height:4px;"></div>
+
+    <!-- Generate -->
+    <button class="rl-gen-btn" onclick="showToast('Sign in to use Relight','')">Generate Relight (35 credits)</button>
+  </div>
+
+</div><!-- .rl-root -->
+
+<script>
+(function(){
+  /* ── STATE ── */
+  var imgs=[], active=-1, comparing=true, pct=0.5, drag=false;
+  var ox=74, oy=74, orbDrag=false;
+  var lc={r:245,g:166,b:35}; // default orange
+
+  /* ── ORB CANVAS ── */
+  var CV = document.getElementById('rlOrb');
+  var ctx = CV.getContext('2d');
+  var dot = document.getElementById('rlDot');
+  var swatch = document.getElementById('rlSwatchEl');
+
+  function hex2rgb(h){
+    return {r:parseInt(h.slice(1,3),16),g:parseInt(h.slice(3,5),16),b:parseInt(h.slice(5,7),16)};
+  }
+  function rgb2hex(c){
+    return '#'+[c.r,c.g,c.b].map(function(v){return('0'+v.toString(16)).slice(-2);}).join('');
+  }
+
+  function drawOrb(){
+    var W=148,H=148,cx=74,cy=74,R=66;
+    ctx.clearRect(0,0,W,H);
+
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
+
+    /* ── base: pure black ── */
+    ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+
+    /* ── white grid — no light, always white subtle lines ── */
+    ctx.strokeStyle='rgba(255,255,255,0.13)';
+    ctx.lineWidth=0.7;
+    /* latitude ellipses */
+    for(var i=1;i<6;i++){
+      var fy=cy-R+(i*R*2/6);
+      var rx=Math.sqrt(Math.max(0,R*R-(fy-cy)*(fy-cy)));
+      ctx.beginPath();
+      ctx.ellipse(cx,fy,rx,rx*0.16,0,0,Math.PI*2);
+      ctx.stroke();
+    }
+    /* longitude ellipses */
+    for(var j=0;j<8;j++){
+      var ang=j*Math.PI/8;
+      ctx.beginPath();
+      ctx.ellipse(cx,cy,R*Math.abs(Math.cos(ang)),R,ang,0,Math.PI*2);
+      ctx.stroke();
+    }
+
+    /* ── light glow FROM the dot position ── */
+    var nr=(ox-cx)/R, nr2=(oy-cy)/R; // normalized
+    var hx=cx+nr*R*0.6, hy=cy+nr2*R*0.6;
+    var gl=ctx.createRadialGradient(hx,hy,0,hx,hy,R);
+    gl.addColorStop(0,'rgba('+lc.r+','+lc.g+','+lc.b+',0.38)');
+    gl.addColorStop(0.4,'rgba('+lc.r+','+lc.g+','+lc.b+',0.12)');
+    gl.addColorStop(1,'rgba('+lc.r+','+lc.g+','+lc.b+',0)');
+    ctx.fillStyle=gl; ctx.fillRect(0,0,W,H);
+
+    /* ── edge shadow vignette ── */
+    var vg=ctx.createRadialGradient(cx,cy,R*0.5,cx,cy,R);
+    vg.addColorStop(0,'transparent');
+    vg.addColorStop(1,'rgba(0,0,0,0.65)');
+    ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+
+    ctx.restore();
+
+    /* ── outer ring: colored ── */
+    ctx.beginPath(); ctx.arc(cx,cy,R+1,0,Math.PI*2);
+    ctx.strokeStyle='rgba('+lc.r+','+lc.g+','+lc.b+',0.6)';
+    ctx.lineWidth=1.5; ctx.stroke();
+    /* soft outer halo */
+    ctx.beginPath(); ctx.arc(cx,cy,R+5,0,Math.PI*2);
+    ctx.strokeStyle='rgba('+lc.r+','+lc.g+','+lc.b+',0.12)';
+    ctx.lineWidth=5; ctx.stroke();
+  }
+  drawOrb();
+
+  /* ── sync dot visual style to light color ── */
+  function syncDot(){
+    var h=rgb2hex(lc);
+    dot.style.background=h;
+    dot.style.boxShadow='0 0 8px 3px rgba('+lc.r+','+lc.g+','+lc.b+',.85),0 0 18px 6px rgba('+lc.r+','+lc.g+','+lc.b+',.3)';
+  }
+  syncDot();
+
+  /* ── ORB DRAG ── */
+  var oe=document.getElementById('rlOrbEl');
+  function orbMove(e){
+    if(!orbDrag)return;
+    e.preventDefault&&e.preventDefault();
+    var rect=oe.getBoundingClientRect();
+    var cx=rect.left+rect.width/2,cy=rect.top+rect.height/2,R=rect.width/2-4;
+    var mx=(e.touches?e.touches[0].clientX:e.clientX)-cx;
+    var my=(e.touches?e.touches[0].clientY:e.clientY)-cy;
+    var d=Math.sqrt(mx*mx+my*my);
+    if(d>R){mx=mx/d*R;my=my/d*R;}
+    ox=74+(mx/R)*66; oy=74+(my/R)*66;
+    dot.style.left=ox+'px'; dot.style.top=oy+'px';
+    drawOrb();
+    /* clear all direction buttons — orb position is source of truth */
+    ['top','left','front','right','back','bottom'].forEach(function(k){
+      document.getElementById('d'+k.charAt(0).toUpperCase()+k.slice(1)).classList.remove('on');
+    });
+  }
+  oe.addEventListener('mousedown',function(e){orbDrag=true;orbMove(e);});
+  oe.addEventListener('touchstart',function(e){orbDrag=true;orbMove(e);},{passive:false});
+  document.addEventListener('mousemove',function(e){if(orbDrag)orbMove(e);});
+  document.addEventListener('touchmove',function(e){if(orbDrag)orbMove(e);},{passive:false});
+  document.addEventListener('mouseup',function(){orbDrag=false;});
+  document.addEventListener('touchend',function(){orbDrag=false;});
+
+  /* ── COMPARE SLIDER ── */
+  var area=document.getElementById('rlArea');
+  var divEl=document.getElementById('rlDiv');
+  var divH=document.getElementById('rlDivH');
+  var layerA=document.getElementById('rlAfter');
+  function setSlider(v){
+    pct=Math.max(0.02,Math.min(0.98,v));
+    var p=(pct*100).toFixed(2)+'%';
+    divEl.style.left=p; divH.style.left=p;
+    layerA.style.clipPath='inset(0 '+(100-pct*100).toFixed(2)+'% 0 0)';
+  }
+  setSlider(0.5);
+  area.addEventListener('mousedown',function(e){if(active<0||!comparing)return;drag=true;setSlider((e.clientX-area.getBoundingClientRect().left)/area.offsetWidth);});
+  area.addEventListener('touchstart',function(){if(active<0||!comparing)return;drag=true;},{passive:true});
+  document.addEventListener('mousemove',function(e){if(!drag)return;setSlider((e.clientX-area.getBoundingClientRect().left)/area.offsetWidth);});
+  document.addEventListener('touchmove',function(e){if(!drag)return;setSlider((e.touches[0].clientX-area.getBoundingClientRect().left)/area.offsetWidth);},{passive:true});
+  document.addEventListener('mouseup',function(){drag=false;});
+  document.addEventListener('touchend',function(){drag=false;});
+
+  /* ── LOAD IMAGE ── */
+  window.rlLoadImg=function(input){
+    if(!input.files||!input.files[0])return;
+    var fr=new FileReader();
+    fr.onload=function(e){imgs.push(e.target.result);rlActivate(imgs.length-1);renderThumbs();};
+    fr.readAsDataURL(input.files[0]);
+    input.value='';
+  };
+  function rlActivate(i){
+    active=i;
+    var src=imgs[i];
+    var b=document.getElementById('rlBefore'),a=document.getElementById('rlAfter');
+    b.src=src;b.style.display='block';
+    a.src=src;a.style.display='block';
+    document.getElementById('rlEmpty').style.display='none';
+    area.classList.add('has-img');
+    showCompareUI(comparing);
+    setSlider(pct);
+    renderThumbs();
+  }
+  function showCompareUI(on){
+    var s=on&&active>=0?'block':'none';
+    divEl.style.display=s; divH.style.display=s;
+    document.getElementById('rlLO').style.display=s;
+    document.getElementById('rlLR').style.display=s;
+    if(!on&&active>=0) layerA.style.clipPath='inset(0 0% 0 0)';
+    else if(on) setSlider(pct);
+  }
+  function renderThumbs(){
+    var strip=document.getElementById('rlThumbs');strip.innerHTML='';
+    imgs.forEach(function(src,i){
+      var d=document.createElement('div');
+      d.className='rl-thumb'+(i===active?' on':'');
+      d.onclick=function(){rlActivate(i);};
+      var img=document.createElement('img');img.src=src;
+      d.appendChild(img);strip.appendChild(d);
+    });
+  }
+
+  /* ── CONTROLS ── */
+  window.rlToggleCompare=function(){
+    comparing=!comparing;
+    document.getElementById('rlToggle').classList.toggle('on',comparing);
+    showCompareUI(comparing);
+  };
+  window.rlResetAll=function(){
+    imgs=[];active=-1;
+    ['rlBefore','rlAfter'].forEach(function(id){var el=document.getElementById(id);el.src='';el.style.display='none';});
+    document.getElementById('rlEmpty').style.display='';
+    area.classList.remove('has-img');
+    divEl.style.display='none';divH.style.display='none';
+    document.getElementById('rlLO').style.display='none';
+    document.getElementById('rlLR').style.display='none';
+    document.getElementById('rlThumbs').innerHTML='';
+  };
+
+  /* direction presets */
+  var DIRS={top:[74,10],bottom:[74,138],left:[10,74],right:[138,74],front:[74,74],back:[74,74]};
+  window.rlSetDir=function(key){
+    ['top','left','front','right','back','bottom'].forEach(function(k){
+      document.getElementById('d'+k.charAt(0).toUpperCase()+k.slice(1)).classList.remove('on');
+    });
+    document.getElementById('d'+key.charAt(0).toUpperCase()+key.slice(1)).classList.add('on');
+    ox=DIRS[key][0]; oy=DIRS[key][1];
+    dot.style.left=ox+'px'; dot.style.top=oy+'px';
+    drawOrb();
+  };
+
+  /* sliders */
+  window.rlSlider=function(el,valId){
+    var v=el.value;
+    el.style.setProperty('--pct',v+'%');
+    document.getElementById(valId).textContent=v+'%';
+  };
+
+  /* colors */
+  function applyColor(hex){
+    lc=hex2rgb(hex);
+    swatch.style.background=hex;
+    document.getElementById('rlColorPick').value=hex;
+    syncDot();
+    drawOrb();
+  }
+  window.rlColorPreset=function(mode){
+    document.getElementById('lcDay').classList.remove('on');
+    document.getElementById('lcNight').classList.remove('on');
+    document.getElementById('lc'+mode.charAt(0).toUpperCase()+mode.slice(1)).classList.add('on');
+    applyColor(mode==='day'?'#ffe4b5':'#f5a623');
+  };
+  window.rlCustomColor=function(hex){
+    document.getElementById('lcDay').classList.remove('on');
+    document.getElementById('lcNight').classList.remove('on');
+    applyColor(hex);
+  };
+})();
+</script>
 </div>
 
 <!-- ════ PAGE: image-upscale ════ -->
