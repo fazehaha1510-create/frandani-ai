@@ -764,7 +764,7 @@
     footer a:hover { color: rgba(255,255,255,0.5); }
 
     /* ── PRICING STYLES ── */
-    .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;overflow:visible;padding-top:18px;}
     .plan{background:var(--surface);border:0.5px solid var(--border);border-radius:18px;padding:28px;position:relative;display:flex;flex-direction:column;}
     .plan.featured{border:1.5px solid var(--blue);background:rgba(58,56,255,0.06);}
     .plan.elite{border:1.5px solid #a855f7;background:rgba(168,85,247,0.06);}
@@ -1204,6 +1204,31 @@
     .nav-dd-text { display: flex; flex-direction: column; }
     .nav-dd-name { font-size: 13px; font-weight: 500; color: #f0f0f0; }
     .nav-dd-desc { font-size: 11px; color: rgba(255,255,255,0.35); margin-top:1px; }
+
+    /* ── SCROLL 3D REVEAL — scroll-driven ── */
+    .s3d { will-change: opacity, transform; transform-origin: center bottom; }
+    .nav-wrapper { opacity: 1 !important; transform: none !important; }
+
+    /* ── PRICING ENTRANCE ANIMATION ── */
+    @keyframes pricingIn {
+      from {
+        opacity: 0;
+        transform: perspective(900px) rotateX(22deg) translateY(55px) scale(0.93);
+      }
+      to {
+        opacity: 1;
+        transform: perspective(900px) rotateX(0deg) translateY(0px) scale(1);
+      }
+    }
+
+    .pricing-animate {
+      opacity: 0;
+      transform-origin: center bottom;
+      animation: none;
+    }
+    .pricing-animate.pricing-in {
+      animation: pricingIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
   </style>
 </head>
 <body>
@@ -1962,45 +1987,58 @@ footer a:hover { color:rgba(255,255,255,0.5); }
 (function(){
   var els = document.querySelectorAll('.glass-tilt');
   els.forEach(function(el){
+    el.addEventListener('mouseenter', function(){
+      el.style.transition = 'transform 0.12s ease, box-shadow 0.12s, background 0.12s';
+    });
     el.addEventListener('mousemove', function(e){
       var r = el.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width  - 0.5;  // -0.5 to 0.5
+      var x = (e.clientX - r.left) / r.width  - 0.5;
       var y = (e.clientY - r.top)  / r.height - 0.5;
       var rotY =  x * 12;
       var rotX = -y * 8;
-      // Spotlight
       var spotX = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
       var spotY = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
       el.style.transform = 'perspective(900px) rotateY('+rotY+'deg) rotateX('+rotX+'deg) scale(1.02)';
-      el.style.boxShadow = '0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(58,56,255,0.25) inset, '+spotX+'% '+spotY+'% / 200px 200px radial-gradient(circle, rgba(255,255,255,0.07), transparent)';
+      el.style.boxShadow = '0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(58,56,255,0.25) inset';
       el.style.background = 'radial-gradient(circle at '+spotX+'% '+spotY+'%, rgba(58,56,255,0.12) 0%, rgba(12,10,30,0.55) 60%)';
     });
     el.addEventListener('mouseleave', function(){
+      /* set transition FIRST so the reset animates smoothly */
+      el.style.transition = 'transform 0.65s cubic-bezier(0.16,1,0.3,1), box-shadow 0.65s, background 0.65s';
       el.style.transform = '';
       el.style.boxShadow = '';
       el.style.background = '';
-      el.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s, background 0.6s';
-    });
-    el.addEventListener('mouseenter', function(){
-      el.style.transition = 'transform 0.15s, box-shadow 0.15s, background 0.15s';
     });
   });
 
-  /* Hero card separate tilt — more dramatic */
+  /* Hero card (live card) — works alongside the scroll-driven engine */
   var card = document.getElementById('heroCard');
   if(card){
+    card.addEventListener('mouseenter', function(){
+      /* Kill CSS transition and float animation so rAF has full control */
+      card.style.transition = 'none';
+      card.style.animation  = 'none';
+    });
     card.addEventListener('mousemove', function(e){
       var r = card.getBoundingClientRect();
       var x = (e.clientX - r.left) / r.width  - 0.5;
       var y = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transition = 'transform 0.1s';
-      card.style.animation = 'none';
-      card.style.transform = 'perspective(1200px) rotateY('+(x*16)+'deg) rotateX('+(-y*10)+'deg) scale(1.02)';
+      /* store hover values — rAF scroll engine composes them every frame */
+      card.dataset.hoverRotX = (-y * 12).toFixed(2);
+      card.dataset.hoverRotY = ( x * 18).toFixed(2);
     });
     card.addEventListener('mouseleave', function(){
-      card.style.transition = 'transform 0.8s cubic-bezier(0.16,1,0.3,1)';
-      card.style.animation = '';
-      card.style.transform = '';
+      /* Smooth spring back — rAF will interpolate toward 0,0 */
+      card.style.transition = 'transform 0.75s cubic-bezier(0.16,1,0.3,1)';
+      delete card.dataset.hoverRotX;
+      delete card.dataset.hoverRotY;
+      /* Re-enable float animation once spring finishes */
+      setTimeout(function(){
+        if (!card.dataset.hoverRotX) {
+          card.style.transition = '';
+          card.style.animation  = '';
+        }
+      }, 800);
     });
   }
 })();
@@ -2198,7 +2236,7 @@ footer a:hover { color:rgba(255,255,255,0.5); }
   backdrop-filter: blur(12px);
   box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
 }
-.plans { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; position:relative; z-index:1; }
+.plans { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; position:relative; z-index:1; overflow:visible; padding-top:18px; }
 .plan {
   position:relative;
   background: rgba(12,10,30,0.6);
@@ -2207,7 +2245,7 @@ footer a:hover { color:rgba(255,255,255,0.5); }
   display:flex; flex-direction:column;
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.07) inset;
-  will-change: transform; overflow:hidden; cursor:default;
+  will-change: transform; overflow:visible; cursor:default;
   transition: box-shadow 0.12s;
 }
 .plan::before {
@@ -2476,14 +2514,27 @@ footer a:hover { color:rgba(255,255,255,0.5); }
         var rotX = -y * 9;
         var sX = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
         var sY = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
-        el.style.transform = 'perspective(900px) rotateY('+rotY+'deg) rotateX('+rotX+'deg) scale(1.025) translateZ(10px)';
+        // Pricing cards: set transform directly (not scroll-driven)
+        // Home cards: store in data attrs for scroll engine to compose
+        if (el.closest('#page-pricing')) {
+          el.style.transform = 'perspective(900px) rotateY('+rotY+'deg) rotateX('+rotX+'deg) scale(1.025) translateZ(10px)';
+        } else {
+          el.dataset.hoverRotX = rotX;
+          el.dataset.hoverRotY = rotY;
+        }
         el.style.background = 'radial-gradient(circle at '+sX+'% '+sY+'%, rgba('+accentR+',0.18) 0%, rgba(12,10,30,0.65) 55%)';
         var shadowColor = isElite ? 'rgba(168,85,247,0.35)' : 'rgba(58,56,255,0.35)';
         el.style.boxShadow = '0 50px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba('+accentR+',0.3) inset, 0 0 60px '+shadowColor;
       });
       el.addEventListener('mouseleave', function(){
-        el.style.transition = 'transform 0.7s cubic-bezier(0.16,1,0.3,1), box-shadow 0.7s, background 0.7s';
-        el.style.transform = '';
+        delete el.dataset.hoverRotX;
+        delete el.dataset.hoverRotY;
+        if (el.closest('#page-pricing')) {
+          /* animate smoothly back to resting state */
+          el.style.transition = 'transform 0.7s cubic-bezier(0.16,1,0.3,1), box-shadow 0.7s, background 0.7s';
+          el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px)';
+          setTimeout(function(){ el.style.transform = ''; el.style.transition = ''; }, 720);
+        }
         el.style.background = '';
         el.style.boxShadow = '';
       });
@@ -2511,6 +2562,45 @@ function goTo(page){
   if(tabs[page]!==undefined) document.querySelectorAll('.nav-tab')[tabs[page]].classList.add('active');
   if(page==='home'||page==='pricing') renderPlanStatus();
   window.scrollTo(0,0);
+  if(page==='pricing') triggerPricingEntrance();
+}
+
+// ── PRICING ENTRANCE ──
+var PRICING_TARGETS = [
+  '#page-pricing .pricing-header',
+  '#page-pricing .billing-toggle',
+  '#page-pricing .plan',
+  '#page-pricing .credits-section',
+];
+
+function triggerPricingEntrance(){
+  // Collect all elements in DOM order
+  var els = [];
+  PRICING_TARGETS.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){ els.push(el); });
+  });
+
+  // 1. Strip animation classes + inline styles so we can replay
+  els.forEach(function(el){
+    el.classList.remove('pricing-animate', 'pricing-in');
+    el.style.animationDelay = '';
+    // force reflow on each el so removing the class takes effect
+    void el.offsetWidth;
+  });
+
+  // 2. Add hidden state
+  els.forEach(function(el){
+    el.classList.add('pricing-animate');
+  });
+
+  // 3. Next frame: trigger staggered entrance
+  requestAnimationFrame(function(){
+    els.forEach(function(el, i){
+      var delay = i * 70; // 70ms between each element
+      el.style.animationDelay = delay + 'ms';
+      el.classList.add('pricing-in');
+    });
+  });
 }
 
 // ── TOAST ──
@@ -3773,5 +3863,172 @@ input.rl-range::-webkit-slider-thumb {
   </div>
 </div>
 
+<!-- ── SCROLL 3D REVEAL ENGINE v3 — SCROLL-DRIVEN ── -->
+<script>
+(function(){
+
+
+  /*
+   * TRUE SCROLL-DRIVEN 3D REVEAL
+   * ─────────────────────────────
+   * Each element is animated in proportion to how far it has
+   * travelled from the BOTTOM of the viewport upward.
+   *
+   *  progress = 0  → element just entered at bottom (hidden, tilted)
+   *  progress = 1  → element fully visible (flat, opaque)
+   *
+   * On scroll-up the progress decreases and the tilt returns,
+   * so it always animates FROM the bottom of the screen.
+   *
+   * Everything runs in a single rAF loop — no IntersectionObserver.
+   */
+
+  /* ── SELECTORS TO ANIMATE ── */
+  var TARGET_SEL = [
+    /* home only */
+    '#page-home .hero-badge',
+    '#page-home .hero h1',
+    '#page-home .hero p',
+    '#page-home .hero-btns',
+    '#page-home .trust-row',
+    '#page-home .stat',
+    '#page-home .sec-tag',
+    '#page-home .sec-title',
+    '#page-home .sec-sub',
+    '#page-home .step',
+    '#page-home .feature-card',
+    '#page-home .ba-section > *',
+    '#page-home .faq-item',
+    '#page-home .testimonial',
+    '#page-home .review-card',
+    '#page-home .tool-card',
+    '#page-home .how-step',
+    '#page-home .cta-box',
+    '#page-home .img-showcase',
+    '#page-home .showcase-item',
+    '#page-home .model-card',
+    '#page-home .voice-card',
+    '#page-home .char-card',
+    '#page-home .live-card',
+    '#page-home .aud-card',
+  ].join(', ');
+
+  /* Elements that should NEVER be animated */
+  function isExcluded(el) {
+    return !!el.closest('.nav-wrapper');
+  }
+
+  /* ── COLLECT ALL TARGETS ── */
+  var items = []; // {el, staggerOffset}
+
+  function collectTargets() {
+    items = [];
+    var seen = new Set();
+    try {
+      document.querySelectorAll(TARGET_SEL).forEach(function(el) {
+        if (seen.has(el) || isExcluded(el)) return;
+        seen.add(el);
+        el.classList.add('s3d');
+        /* stagger: siblings in same parent get a small offset */
+        var siblings = el.parentElement ? el.parentElement.children : [];
+        var idx = Array.prototype.indexOf.call(siblings, el);
+        items.push({ el: el, stagger: Math.min(idx, 5) * 80 }); // px offset
+      });
+    } catch(e) {}
+  }
+
+  /* ── EASING ── */
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  /* ── APPLY TRANSFORM based on scroll progress ── */
+  function applyStyle(item, rawProgress) {
+    /* stagger: shift the entry window down by stagger px */
+    var staggeredProgress = rawProgress - item.stagger / window.innerHeight;
+    /* clamp 0..1 */
+    var p = Math.max(0, Math.min(1, staggeredProgress / 0.55));
+    var e = easeOutCubic(p);
+
+    var opacity    = e;
+    var rotX       = (1 - e) * 24;   /* scroll tilt — 0 when fully visible */
+    var translateY = (1 - e) * 55;
+    var scale      = 0.92 + e * 0.08;
+
+    /* Compose with hover tilt if present */
+    var hRX = parseFloat(item.el.dataset.hoverRotX) || 0;
+    var hRY = parseFloat(item.el.dataset.hoverRotY) || 0;
+    var hScale = (hRX || hRY) ? 1.025 : 1;
+    var hZ     = (hRX || hRY) ? ' translateZ(10px)' : '';
+
+    item.el.style.opacity   = opacity;
+    item.el.style.transform =
+      'perspective(900px) rotateX(' + (rotX + hRX) + 'deg) ' +
+      'rotateY(' + hRY + 'deg) ' +
+      'translateY(' + translateY + 'px) ' +
+      'scale(' + (scale * hScale) + ')' + hZ;
+  }
+
+  /* ── RAF LOOP ── */
+  var ticking = false;
+
+  function updateAll() {
+    var vh = window.innerHeight;
+    for (var i = 0; i < items.length; i++) {
+      var rect = items[i].el.getBoundingClientRect();
+      /*
+       * progress = how far the BOTTOM EDGE of the element has
+       * moved up from the bottom of the screen.
+       * = 0 when bottom edge is exactly at vh (just appeared)
+       * = 1 when top edge reaches ~40% from top
+       */
+      var progress = (vh - rect.top) / vh;
+      applyStyle(items[i], progress);
+    }
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateAll);
+      ticking = true;
+    }
+  }
+
+  /* Also re-run on mousemove so live card hover is instant/smooth */
+  function onMouseMove() {
+    if (!ticking) {
+      requestAnimationFrame(updateAll);
+      ticking = true;
+    }
+  }
+
+  /* ── INIT ── */
+  function init() {
+    collectTargets();
+    updateAll();
+    window.addEventListener('scroll',    onScroll,    { passive: true });
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+  }
+
+  /* Re-collect on nav switches (home only now) */
+  document.querySelectorAll('.nav-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      setTimeout(function() {
+        collectTargets();
+        updateAll();
+      }, 80);
+    });
+  });
+
+  /* Start after DOM is painted */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
 </body>
 </html>
