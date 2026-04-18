@@ -1148,7 +1148,7 @@
     .plan { position:relative; }
 
     @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:768px){.main-nav{width:96%;padding:0 8px 0 20px;}.nav-tab{padding:7px 10px;font-size:12px;}.img-layout,.live-studio-body{grid-template-columns:1fr;}.live-panel:first-child{border-right:none;border-bottom:0.5px solid var(--border);}.img-page,.video-page,.live-page{padding:32px 20px;}.hero{grid-template-columns:1fr;padding:80px 24px 40px;}.hero h1{font-size:42px;letter-spacing:-2px;}.stats{grid-template-columns:repeat(2,1fr);}.section,.ba-section{padding:60px 24px;}.steps,.audience,.plans{grid-template-columns:1fr;}.cta{padding:80px 24px;}.cta h2{font-size:36px;}footer{flex-direction:column;gap:12px;text-align:center;padding:24px;}.live-card{transform:none !important;animation:none !important;}}
+    /* old 768 media query merged into comprehensive mobile block below */
 
     /* Image dropdown menu */
     .nav-dropdown { position: relative; }
@@ -2210,6 +2210,88 @@ footer a:hover { color:rgba(255,255,255,0.5); }
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(28px); }
   to   { opacity:1; transform:translateY(0); }
+}
+
+/* ══ MOBILE OVERRIDES FOR SECOND STYLE BLOCK ══ */
+@media (max-width: 768px) {
+  /* Fix overflow — the root cause */
+  body { overflow-x: hidden; }
+  .hero-wrap { overflow: hidden; }
+
+  /* Hero: stack vertically, no bleed */
+  .hero {
+    grid-template-columns: 1fr !important;
+    padding: 28px 18px 48px !important;
+    gap: 36px !important;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 9vw, 50px) !important;
+    letter-spacing: -2px !important;
+    line-height: 1.05 !important;
+  }
+  .hero p { max-width: 100% !important; font-size: 14px !important; }
+  .hero-badge { display: inline-flex; margin: 0 auto 24px; }
+  .hero-btns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+  .hero-btns .btn-primary,
+  .hero-btns .btn-outline {
+    width: 100% !important;
+    max-width: 320px !important;
+    justify-content: center !important;
+  }
+  .trust-row { justify-content: center !important; gap: 10px !important; }
+
+  /* Live card: reset 3D, constrain width */
+  .live-card-wrap { width: 100% !important; }
+  .live-card {
+    transform: none !important;
+    animation: none !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  @keyframes cardFloat { 0%,100%,50% { transform: none; } }
+
+  /* Stats: 2x2 grid */
+  .stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .stat { padding: 22px 10px !important; }
+  .stat-num { font-size: 26px !important; }
+  .stat-lbl { font-size: 9px !important; }
+
+  /* Steps */
+  .steps { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .step { padding: 24px 20px !important; border-radius: 18px !important; }
+  .step-num { font-size: 38px !important; }
+
+  /* Audience */
+  .audience { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .aud-card { padding: 24px 20px !important; border-radius: 18px !important; }
+
+  /* Before/After */
+  .ba-section { padding: 0 18px 60px !important; }
+  .ba-video-wrapper { max-width: 100% !important; border-radius: 14px !important; }
+
+  /* CTA */
+  .cta { padding: 70px 18px !important; }
+  .cta h2 { font-size: clamp(26px, 8vw, 38px) !important; letter-spacing: -1px !important; }
+
+  /* Footer */
+  footer {
+    flex-direction: column !important;
+    gap: 10px !important;
+    text-align: center !important;
+    padding: 22px 18px !important;
+  }
+
+  /* Section padding */
+  .section { padding: 50px 18px !important; }
+  .sec-title { font-size: clamp(26px, 7vw, 36px) !important; }
 }
 </style>
 
