@@ -2781,19 +2781,24 @@ footer a:hover { color:rgba(255,255,255,0.5); }
 @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
 
 @media(max-width:768px){
-  .pricing-wrap { padding: 32px 16px 60px !important; }
+  .pricing-wrap { padding: 32px 16px 60px !important; max-width: 100vw !important; overflow: hidden !important; }
   .pricing-header { margin-bottom: 28px !important; }
   .pricing-header h1 { font-size: clamp(30px, 9vw, 42px) !important; letter-spacing: -1.5px !important; line-height: 1.1 !important; }
   .pricing-header p { font-size: 13px !important; padding: 0 4px; }
   .billing-toggle { margin-bottom: 28px !important; }
-  .plans { grid-template-columns: 1fr !important; gap: 20px !important; padding-top: 24px !important; }
-  .plan { padding: 24px 20px !important; border-radius: 20px !important; }
+  #page-pricing .plans,
+  .plans { grid-template-columns: 1fr !important; gap: 20px !important; padding-top: 24px !important; width: 100% !important; }
+  #page-pricing .plan,
+  .plan { padding: 24px 20px !important; border-radius: 20px !important; width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; }
   .plan-price { font-size: 32px !important; letter-spacing: -1.5px !important; }
   .credits-section { padding-top: 40px !important; }
+  /* Fix page itself */
+  #page-pricing { overflow-x: hidden !important; }
 }
 </style>
 
 <div class="page" id="page-pricing">
+  <div style="overflow:hidden;width:100%;">
   <div class="pricing-wrap">
 
     <div class="pricing-header">
@@ -2966,6 +2971,7 @@ footer a:hover { color:rgba(255,255,255,0.5); }
         Credits reset monthly on subscription. Purchased top-up credits never expire and stack with your monthly allowance.
       </div>
     </div>
+  </div>
   </div>
 </div>
 
