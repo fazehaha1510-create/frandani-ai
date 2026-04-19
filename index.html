@@ -1149,6 +1149,7 @@
 
     @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
     /* old 768 media query merged into comprehensive mobile block below */
+    @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
 
     /* Image dropdown menu */
     .nav-dropdown { position: relative; }
@@ -2778,6 +2779,18 @@ footer a:hover { color:rgba(255,255,255,0.5); }
 /* Credit top-up section */
 .credits-section { border-top:1px solid rgba(255,255,255,0.05); padding-top:64px; margin-top:16px; position:relative; z-index:1; }
 @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
+
+@media(max-width:768px){
+  .pricing-wrap { padding: 32px 16px 60px !important; }
+  .pricing-header { margin-bottom: 28px !important; }
+  .pricing-header h1 { font-size: clamp(30px, 9vw, 42px) !important; letter-spacing: -1.5px !important; line-height: 1.1 !important; }
+  .pricing-header p { font-size: 13px !important; padding: 0 4px; }
+  .billing-toggle { margin-bottom: 28px !important; }
+  .plans { grid-template-columns: 1fr !important; gap: 20px !important; padding-top: 24px !important; }
+  .plan { padding: 24px 20px !important; border-radius: 20px !important; }
+  .plan-price { font-size: 32px !important; letter-spacing: -1.5px !important; }
+  .credits-section { padding-top: 40px !important; }
+}
 </style>
 
 <div class="page" id="page-pricing">
