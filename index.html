@@ -790,20 +790,126 @@
     .plan-current-badge{display:none;align-items:center;gap:6px;position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:rgba(34,197,94,0.9);color:#fff;font-size:11px;padding:4px 14px;border-radius:999px;white-space:nowrap;font-weight:600;}
     .plan-btn.current{background:rgba(34,197,94,0.12);color:rgba(34,197,94,0.9);border:0.5px solid rgba(34,197,94,0.3);cursor:default;}
 
+    /* ══════════════════════════════════════════
+       HIGGSFIELD-STYLE LEFT PANEL (Image/Video/Audio)
+       ══════════════════════════════════════════ */
+    .studio-layout {
+      display: flex;
+      height: 100vh;
+      position: relative;
+      padding-top: 0;
+    }
+    /* Left sidebar */
+    .studio-sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: rgba(8,7,20,0.97);
+      border-right: 0.5px solid rgba(255,255,255,0.07);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+      padding-top: 84px;
+    }
+    .studio-sidebar-tabs {
+      display: flex;
+      gap: 2px;
+      padding: 10px 12px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .sidebar-tab {
+      flex: 1;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.38);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      padding: 7px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all 0.2s;
+    }
+    .sidebar-tab.active {
+      background: rgba(58,56,255,0.12);
+      color: #a0a0ff;
+      border: 0.5px solid rgba(58,56,255,0.22);
+    }
+    .sidebar-tab:hover:not(.active) { color: rgba(255,255,255,0.65); background: rgba(255,255,255,0.04); }
+    .sidebar-panel {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0 20px;
+    }
+    .sidebar-panel.active { display: block; }
+    .sidebar-panel::-webkit-scrollbar { width: 3px; }
+    .sidebar-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+    /* Feature item */
+    .sf-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      border-radius: 10px;
+      margin: 2px 8px;
+      transition: all 0.18s;
+      position: relative;
+    }
+    .sf-item:hover { background: rgba(58,56,255,0.1); }
+    .sf-item.active { background: rgba(58,56,255,0.14); border: 0.5px solid rgba(58,56,255,0.25); }
+    .sf-icon {
+      width: 34px; height: 34px;
+      background: rgba(58,56,255,0.1);
+      border: 0.5px solid rgba(58,56,255,0.2);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .sf-item.active .sf-icon { background: rgba(58,56,255,0.2); border-color: rgba(58,56,255,0.4); }
+    .sf-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .sf-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sf-item.active .sf-name { color: #fff; }
+    .sf-desc { font-size: 10px; color: rgba(255,255,255,0.28); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sf-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+    .sf-badge.top { background: rgba(255,165,0,0.15); color: #ffa500; border: 0.5px solid rgba(255,165,0,0.3); }
+    .sf-badge.new { background: rgba(58,56,255,0.15); color: #8080ff; border: 0.5px solid rgba(58,56,255,0.3); }
+    /* Studio main area */
+    .studio-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      position: relative;
+    }
+
     /* ── IMAGE PAGE (nuevo diseño) ── */
     #page-image { padding-top: 0 !important; }
+    #page-video { padding-top: 0 !important; }
+    #page-audio { padding-top: 0 !important; }
     .img-studio {
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100%;
       background: var(--bg);
       position: relative;
+      flex: 1;
     }
     /* Gallery area */
     .img-gallery-area {
       flex: 1;
       overflow-y: auto;
-      padding: 110px 28px 180px;
+      padding: 32px 28px 180px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 12px;
@@ -1151,60 +1257,85 @@
     /* old 768 media query merged into comprehensive mobile block below */
     @media(max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);}}
 
-    /* Image dropdown menu */
-    .nav-dropdown { position: relative; }
-    .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+    /* ══ MEGA-MENU DROPDOWN (Higgsfield style) ══ */
+    .nav-dropdown { position: relative; display: inline-flex; }
+    .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
     .nav-dropdown-menu {
-      display: none;
+      display: block;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
       position: absolute;
-      top: calc(100% + 0px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: transparent;
-      padding-top: 14px;
-      min-width: 220px;
-      z-index: 500;
+      top: calc(100% + 14px);
+      left: 0;
+      z-index: 999;
+      padding-top: 0;
     }
-    .nav-dropdown-menu-inner {
-      background: #0d0c1e;
-      border: 0.5px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 8px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      position: relative;
+    .mega-menu { left: 50%; transform: translateX(-50%) translateY(8px); }
+    .nav-dropdown:hover .mega-menu { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+
+    .mega-inner {
+      display: flex;
+      background: #0c0b1e;
+      border: 0.5px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(58,56,255,0.08) inset;
+      overflow: hidden;
+      min-width: 560px;
+      max-height: 80vh;
     }
-    .nav-dropdown-menu-inner::before {
-      content: '';
-      position: absolute;
-      top: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 12px; height: 6px;
-      background: #0d0c1e;
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    .mega-col {
+      flex: 1;
+      padding: 14px 8px;
+      overflow-y: auto;
     }
-    .nav-dd-item {
+    .mega-col::-webkit-scrollbar { width: 3px; }
+    .mega-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+    .mega-col-header {
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px 10px;
+    }
+    .mega-divider {
+      width: 0.5px;
+      background: rgba(255,255,255,0.06);
+      margin: 12px 0;
+      flex-shrink: 0;
+    }
+    .mega-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 14px;
-      border-radius: 10px;
+      padding: 8px 10px;
+      border-radius: 9px;
       cursor: pointer;
       transition: background 0.15s;
-      text-decoration: none;
     }
-    .nav-dd-item:hover { background: rgba(58,56,255,0.12); }
-    .nav-dd-icon {
-      width: 32px; height: 32px;
-      background: rgba(58,56,255,0.12);
-      border: 0.5px solid rgba(58,56,255,0.25);
+    .mega-item:hover { background: rgba(58,56,255,0.1); }
+    .mega-icon {
+      width: 30px; height: 30px;
+      background: rgba(58,56,255,0.1);
+      border: 0.5px solid rgba(58,56,255,0.2);
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .nav-dd-text { display: flex; flex-direction: column; }
-    .nav-dd-name { font-size: 13px; font-weight: 500; color: #f0f0f0; }
-    .nav-dd-desc { font-size: 11px; color: rgba(255,255,255,0.35); margin-top:1px; }
+    .mega-icon-lg { background: rgba(58,56,255,0.12); border-color: rgba(58,56,255,0.25); }
+    .mega-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .mega-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.82); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mega-desc { font-size: 10px; color: rgba(255,255,255,0.28); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mega-badge {
+      font-size: 9px; font-weight: 700;
+      padding: 2px 6px; border-radius: 4px;
+      letter-spacing: 0.5px; flex-shrink: 0;
+    }
+    .mega-badge.top { background: rgba(255,165,0,0.15); color: #ffa500; border: 0.5px solid rgba(255,165,0,0.3); }
+    .mega-badge.new { background: rgba(58,56,255,0.18); color: #9090ff; border: 0.5px solid rgba(58,56,255,0.35); }
 
     /* ── SCROLL 3D REVEAL — scroll-driven ── */
     .s3d { will-change: opacity, transform; transform-origin: center bottom; }
@@ -1383,7 +1514,6 @@
       .hamburger-btn { display: flex; }
       .nav-center, .nav-right .btn-nav { display: none; }
       .mobile-drawer { display: block; }
-
       /* nav pill tighter on mobile */
       .main-nav {
         width: calc(100% - 32px);
@@ -1540,7 +1670,158 @@
       .stats { grid-template-columns: 1fr 1fr; }
       .stat-num { font-size: 22px; }
     }
-  </style>
+  
+    /* ═══════════════════════════════════════════
+       VIDEO STUDIO — Full Generation UI
+    ═══════════════════════════════════════════ */
+    .vid-studio { max-width:1400px;margin:0 auto;padding:32px 40px; width:100%; }
+    .vid-studio-title { font-family:'Syne',sans-serif;font-size:32px;font-weight:700;margin-bottom:6px; }
+    .vid-studio-sub { font-size:15px;color:var(--muted);margin-bottom:32px; }
+
+    /* Mode toggle tabs */
+    .vid-mode-tabs { display:flex;gap:6px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:12px;padding:5px;width:fit-content;margin-bottom:28px; }
+    .vid-mode-tab { padding:8px 20px;border-radius:9px;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.25s ease;color:var(--muted);background:none; }
+    .vid-mode-tab.active { background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(58,56,255,0.35); }
+
+    /* Main workspace */
+    .vid-workspace { display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start; }
+    .vid-preview-area { background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:18px;overflow:hidden; }
+    .vid-preview-top { aspect-ratio:16/9;background:#07061a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;position:relative;overflow:hidden; }
+    .vid-preview-top::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(58,56,255,0.07) 0%,transparent 70%); }
+    .vid-preview-top video { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+    .vid-preview-icon { color:rgba(255,255,255,0.18); }
+    .vid-preview-hint { font-size:13px;color:rgba(255,255,255,0.3); }
+    .vid-preview-bottom { padding:16px 20px;border-top:0.5px solid var(--border);display:flex;gap:10px;align-items:center; }
+    .vid-prompt-input { flex:1;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 14px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;resize:none;height:44px;transition:border-color 0.2s; }
+    .vid-prompt-input:focus { border-color:rgba(58,56,255,0.4); }
+    .vid-gen-btn { background:linear-gradient(135deg,#3A38FF 0%,#6C5FFF 100%);color:#fff;border:none;padding:11px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:7px;box-shadow:0 4px 16px rgba(58,56,255,0.35);transition:all 0.2s; }
+    .vid-gen-btn:hover { transform:translateY(-1px);box-shadow:0 6px 22px rgba(58,56,255,0.5); }
+
+    /* Right panel */
+    .vid-panel { background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:20px; }
+    .vid-panel-section { display:flex;flex-direction:column;gap:10px; }
+    .vid-panel-label { font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.8px;font-weight:500; }
+    .vid-model-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+    .vid-model-card { background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.2s; }
+    .vid-model-card:hover { border-color:rgba(58,56,255,0.3);background:rgba(58,56,255,0.06); }
+    .vid-model-card.active { border-color:rgba(58,56,255,0.5);background:rgba(58,56,255,0.1); }
+    .vid-model-name { font-size:12px;font-weight:600;margin-bottom:2px; }
+    .vid-model-desc { font-size:10px;color:var(--muted); }
+    .vid-model-tag { display:inline-block;font-size:9px;padding:2px 7px;border-radius:999px;margin-top:4px;font-weight:600; }
+    .vid-model-tag.fast { background:rgba(0,200,100,0.15);color:#00c864;border:0.5px solid rgba(0,200,100,0.25); }
+    .vid-model-tag.quality { background:rgba(58,56,255,0.15);color:#a0a0ff;border:0.5px solid rgba(58,56,255,0.25); }
+    .vid-model-tag.new { background:rgba(255,180,0,0.15);color:#ffb400;border:0.5px solid rgba(255,180,0,0.25); }
+    .vid-slider-row { display:flex;justify-content:space-between;align-items:center;margin-bottom:4px; }
+    .vid-slider-val { font-size:12px;font-weight:600;color:var(--blue); }
+    .vid-slider { width:100%;accent-color:#3A38FF;height:3px;cursor:pointer; }
+    .vid-ratio-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:6px; }
+    .vid-ratio-btn { background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;padding:8px 4px;font-size:11px;font-weight:500;cursor:pointer;text-align:center;transition:all 0.2s;color:var(--text); }
+    .vid-ratio-btn.active { background:var(--blue-dim);border-color:var(--blue-border);color:#a0a0ff; }
+    .vid-ref-upload { background:rgba(255,255,255,0.03);border:0.5px dashed rgba(255,255,255,0.12);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s; }
+    .vid-ref-upload:hover { border-color:rgba(58,56,255,0.35);background:rgba(58,56,255,0.04); }
+    .vid-ref-upload p { font-size:12px;color:var(--muted);margin-top:6px; }
+
+    /* Recent videos */
+    .vid-gallery { margin-top:28px; }
+    .vid-gallery-title { font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:16px; }
+    .vid-gallery-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px; }
+    .vid-gallery-card { background:var(--surface);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.2s; }
+    .vid-gallery-card:hover { transform:translateY(-2px);border-color:rgba(58,56,255,0.3); }
+    .vid-gallery-thumb { aspect-ratio:16/9;background:linear-gradient(135deg,#0d0b2a 0%,#1a1450 100%);display:flex;align-items:center;justify-content:center; }
+    .vid-gallery-info { padding:10px 12px; }
+    .vid-gallery-name { font-size:12px;font-weight:500;margin-bottom:3px; }
+    .vid-gallery-meta { font-size:11px;color:var(--muted); }
+
+    /* ═══════════════════════════════════════════
+       AUDIO STUDIO — Lipsync + TTS
+    ═══════════════════════════════════════════ */
+    .aud-studio { max-width:1400px;margin:0 auto;padding:32px 40px; width:100%; }
+    .aud-page-title { font-family:'Syne',sans-serif;font-size:32px;font-weight:700;margin-bottom:6px; }
+    .aud-page-sub { font-size:15px;color:var(--muted);margin-bottom:32px; }
+
+    /* Top mode tabs */
+    .aud-mode-tabs { display:flex;gap:6px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:12px;padding:5px;width:fit-content;margin-bottom:32px; }
+    .aud-mode-tab { padding:9px 22px;border-radius:9px;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.25s ease;color:var(--muted);background:none;display:flex;align-items:center;gap:7px; }
+    .aud-mode-tab.active { background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(58,56,255,0.35); }
+    .aud-mode-tab svg { opacity:0.7; }
+    .aud-mode-tab.active svg { opacity:1; }
+
+    /* Lipsync workspace */
+    .lipsync-workspace { display:grid;grid-template-columns:1fr 360px;gap:20px; }
+    .lipsync-main { display:flex;flex-direction:column;gap:16px; }
+    .lipsync-upload-row { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    .lipsync-upload-box { background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:16px;overflow:hidden; }
+    .lipsync-upload-header { padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px; }
+    .lipsync-upload-label { font-size:12px;font-weight:600; }
+    .lipsync-upload-label span { font-size:11px;color:var(--muted);font-weight:400;margin-left:4px; }
+    .lipsync-drop { aspect-ratio:16/9;background:#07061a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all 0.2s; }
+    .lipsync-drop:hover { background:rgba(58,56,255,0.05); }
+    .lipsync-drop p { font-size:12px;color:rgba(255,255,255,0.3); }
+
+    /* Audio input section */
+    .aud-input-box { background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:16px;padding:20px; }
+    .aud-input-tabs { display:flex;gap:4px;margin-bottom:16px; }
+    .aud-input-tab { padding:6px 16px;border-radius:8px;border:none;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;color:var(--muted);background:none; }
+    .aud-input-tab.active { background:rgba(58,56,255,0.12);border:0.5px solid rgba(58,56,255,0.25);color:#a0a0ff; }
+    .aud-text-area { width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;resize:none;height:90px;transition:border-color 0.2s; }
+    .aud-text-area:focus { border-color:rgba(58,56,255,0.4); }
+    .aud-file-drop { background:rgba(255,255,255,0.03);border:0.5px dashed rgba(255,255,255,0.12);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s; }
+    .aud-file-drop:hover { border-color:rgba(58,56,255,0.35); }
+    .aud-file-drop p { font-size:12px;color:var(--muted);margin-top:6px; }
+
+    /* Right panel */
+    .aud-panel { background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:18px; }
+    .aud-panel-label { font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.8px;font-weight:500;margin-bottom:4px; }
+    .aud-gen-btn { width:100%;background:linear-gradient(135deg,#3A38FF 0%,#6C5FFF 100%);color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(58,56,255,0.35);transition:all 0.2s; }
+    .aud-gen-btn:hover { transform:translateY(-1px);box-shadow:0 6px 22px rgba(58,56,255,0.5); }
+
+    /* TTS Workspace */
+    .tts-workspace { display:grid;grid-template-columns:1fr 360px;gap:20px; }
+    .tts-main { display:flex;flex-direction:column;gap:16px; }
+    .tts-text-box { background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:16px;padding:22px; }
+    .tts-voices-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:10px; }
+    .tts-voice-card { background:rgba(255,255,255,0.03);border:0.5px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px; }
+    .tts-voice-card:hover { border-color:rgba(58,56,255,0.3); }
+    .tts-voice-card.active { border-color:rgba(58,56,255,0.5);background:rgba(58,56,255,0.08); }
+    .tts-voice-avatar { width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0; }
+    .tts-voice-name { font-size:13px;font-weight:600;margin-bottom:2px; }
+    .tts-voice-style { font-size:11px;color:var(--muted); }
+    .tts-play-btn { width:28px;height:28px;border-radius:50%;background:rgba(58,56,255,0.15);border:0.5px solid rgba(58,56,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;margin-left:auto; }
+    .tts-play-btn:hover { background:rgba(58,56,255,0.3); }
+
+    /* Waveform player */
+    .aud-player { background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px; }
+    .aud-waveform { height:60px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;display:flex;align-items:center;padding:0 12px;gap:2px; }
+    .aud-waveform-bar { flex:1;background:rgba(58,56,255,0.3);border-radius:2px;transition:background 0.2s; }
+    .aud-player-controls { display:flex;align-items:center;gap:14px; }
+    .aud-play-big { width:40px;height:40px;border-radius:50%;background:var(--blue);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(58,56,255,0.4);transition:all 0.2s; }
+    .aud-play-big:hover { transform:scale(1.08); }
+    .aud-player-time { font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums; }
+    .aud-player-name { font-size:13px;font-weight:500;flex:1; }
+    .aud-dl-btn { background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text);font-family:'DM Sans',sans-serif;transition:all 0.2s;white-space:nowrap; }
+    .aud-dl-btn:hover { background:rgba(255,255,255,0.1); }
+
+    /* Audio nav dropdown */
+    .aud-page-inner { display:none; }
+    .aud-page-inner.active { display:block; }
+
+    /* ── MOBILE SIDEBAR ── */
+    @media (max-width: 900px) {
+      .studio-sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        height: 100%;
+        z-index: 500;
+        transition: left 0.3s cubic-bezier(0.16,1,0.3,1);
+        box-shadow: 4px 0 30px rgba(0,0,0,0.5);
+      }
+      .studio-sidebar.mobile-open {
+        left: 0;
+      }
+      .studio-main { width: 100%; }
+    }
+</style>
 </head>
 <body>
 <script>
@@ -1667,34 +1948,273 @@
     </button>
     <div class="nav-center">
       <button class="nav-tab active" onclick="goTo('home')">Home</button>
+
+      <!-- ══ IMAGE MEGA-DROPDOWN ══ -->
       <div class="nav-dropdown">
         <button class="nav-tab" onclick="goTo('image')">Image</button>
-        <div class="nav-dropdown-menu">
-          <div class="nav-dropdown-menu-inner">
-          <div class="nav-dd-item" onclick="goTo('image-generate')">
-            <div class="nav-dd-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
-            <div class="nav-dd-text"><span class="nav-dd-name">Generate Image</span><span class="nav-dd-desc">Create AI images from text</span></div>
-          </div>
-          <div class="nav-dd-item" onclick="goTo('image-faceswap')">
-            <div class="nav-dd-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M15 5l4-2M9 5L5 3"/></svg></div>
-            <div class="nav-dd-text"><span class="nav-dd-name">Face Swap</span><span class="nav-dd-desc">Swap faces in photos</span></div>
-          </div>
-          <div class="nav-dd-item" onclick="goTo('image-relight')">
-            <div class="nav-dd-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
-            <div class="nav-dd-text"><span class="nav-dd-name">Relight</span><span class="nav-dd-desc">Change lighting instantly</span></div>
-          </div>
-          <div class="nav-dd-item" onclick="goTo('image-upscale')">
-            <div class="nav-dd-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
-            <div class="nav-dd-text"><span class="nav-dd-name">Image Upscaler</span><span class="nav-dd-desc">Enhance image quality to 4K</span></div>
-          </div>
-          <div class="nav-dd-item" onclick="goTo('image-inpaint')">
-            <div class="nav-dd-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg></div>
-            <div class="nav-dd-text"><span class="nav-dd-name">Inpaint</span><span class="nav-dd-desc">Edit any area of an image</span></div>
-          </div>
+        <div class="nav-dropdown-menu mega-menu">
+          <div class="mega-inner">
+            <div class="mega-col">
+              <div class="mega-col-header">Features</div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Create Image</span><span class="mega-desc">Generate AI images</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Cinematic Cameras</span><span class="mega-desc">Image generation with camera controls</span></div>
+                <span class="mega-badge top">TOP</span>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Soul ID Character</span><span class="mega-desc">Create unique character</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <div class="mega-text"><span class="mega-name">AI Influencer</span><span class="mega-desc">Create and manage your AI influencer</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Photodump</span><span class="mega-desc">Generate Your Aesthetic</span></div>
+                <span class="mega-badge new">NEW</span>
+              </div>
+              <div class="mega-item" onclick="goTo('image-relight');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Relight</span><span class="mega-desc">Adjust lighting position, color, brightness</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image-inpaint');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Inpaint</span><span class="mega-desc">Select an area, describe the change</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image-upscale');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Image Upscale</span><span class="mega-desc">Enhance image quality</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image-faceswap');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M15 5l4-2M9 5L5 3"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Face Swap</span><span class="mega-desc">Create Realistic Face Swaps</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M1 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M13 20c0-3 2.7-5 6-5"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Character Swap</span><span class="mega-desc">Create Realistic Character Swaps</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Draw to Edit</span><span class="mega-desc">From sketch to picture</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Fashion Factory</span><span class="mega-desc">Create fashion sets</span></div>
+              </div>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <div class="mega-col-header">Models</div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Nano Banana Pro</span><span class="mega-desc">Best 4K image model ever</span></div>
+                <span class="mega-badge top">TOP</span>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/><path d="M8 12h8M12 8v8"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Nano Banana 2</span><span class="mega-desc">Pro quality at Flash speed</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Seedream 5.0 lite</span><span class="mega-desc">Intelligent visual reasoning</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg></div>
+                <div class="mega-text"><span class="mega-name">GPT Image 1.5</span><span class="mega-desc">True-color precision rendering</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Grok Imagine</span><span class="mega-desc">Versatile image styles by xAI</span></div>
+                <span class="mega-badge new">NEW</span>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">FLUX.2</span><span class="mega-desc">Speed-optimized detail</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Reve</span><span class="mega-desc">Advanced image editing model</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8M8 12h8M8 17h5"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Z-Image</span><span class="mega-desc">Instant lifelike portraits</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('image');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Topaz</span><span class="mega-desc">High-resolution upscaler</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <button class="nav-tab" onclick="goTo('video')">Video</button>
+
+      <!-- ══ VIDEO MEGA-DROPDOWN ══ -->
+      <div class="nav-dropdown">
+        <button class="nav-tab" onclick="goTo('video')">Video</button>
+        <div class="nav-dropdown-menu mega-menu">
+          <div class="mega-inner">
+            <div class="mega-col">
+              <div class="mega-col-header">Features</div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Create Video</span><span class="mega-desc">Generate AI videos</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14"/><rect x="3" y="7" width="12" height="10" rx="2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Cinema Studio 3.5</span><span class="mega-desc">Cinematic video with AI director</span></div>
+                <span class="mega-badge top">TOP</span>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/><path d="M8 7V5a2 2 0 0 0-4 0v2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Mixed Media</span><span class="mega-desc">Create mixed media projects</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Edit Video</span><span class="mega-desc">Edit scenes, shots, elements</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Click to Ad</span><span class="mega-desc">Turn product URLs into video ads</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Sora 2 Trends</span><span class="mega-desc">Turn ideas into viral videos</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Lipsync Studio</span><span class="mega-desc">Create Talking Clips</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Draw to Video</span><span class="mega-desc">Sketch turns into a cinema</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Sketch to Video</span><span class="mega-desc">From sketch to video with Sora 2</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+                <div class="mega-text"><span class="mega-name">UGC Factory</span><span class="mega-desc">Build UGC video with avatar</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Video Upscale</span><span class="mega-desc">Enhance video quality</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Vibe Motion</span><span class="mega-desc">Create professional motion graphics</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Recast Studio</span><span class="mega-desc">Swap characters in videos</span></div>
+              </div>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <div class="mega-col-header">Models</div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Seedance 2.0</span><span class="mega-desc">Most advanced video model</span></div>
+                <span class="mega-badge top">TOP</span>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Kling 3.0</span><span class="mega-desc">Cinematic videos with audio</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Kling 3.0 Motion Control</span><span class="mega-desc">Transfer motion from video to image</span></div>
+                <span class="mega-badge new">NEW</span>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Kling 01 Edit</span><span class="mega-desc">Advanced video editing</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Sora 2</span><span class="mega-desc">OpenAI's most advanced video model</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Google Veo 3.1 Lite</span><span class="mega-desc">Fast video generation by Google</span></div>
+                <span class="mega-badge new">NEW</span>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Google Veo 3.1</span><span class="mega-desc">Advanced AI video with sound</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Grok Imagine</span><span class="mega-desc">Cinematic videos with synchronized audio</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Wan 2.7</span><span class="mega-desc">AI video with first and end frame control</span></div>
+                <span class="mega-badge new">NEW</span>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Minimax Hailuo 2.3</span><span class="mega-desc">Fastest high-dynamic video</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('video');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Seedance 1.5 Pro</span><span class="mega-desc">Pro-grade audio-visual sync</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ AUDIO MEGA-DROPDOWN ══ -->
+      <div class="nav-dropdown">
+        <button class="nav-tab" onclick="goTo('audio')">Audio</button>
+        <div class="nav-dropdown-menu mega-menu">
+          <div class="mega-inner">
+            <div class="mega-col">
+              <div class="mega-col-header">Features</div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Voiceover</span><span class="mega-desc">Generate speech from text</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Change Voice</span><span class="mega-desc">Swap voices in any video</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Translation</span><span class="mega-desc">Translate speech in any video</span></div>
+              </div>
+            </div>
+            <div class="mega-divider"></div>
+            <div class="mega-col">
+              <div class="mega-col-header">Models</div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Eleven v3</span><span class="mega-desc">Expressive AI voice with emotion control</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                <div class="mega-text"><span class="mega-name">MiniMax Speech 2.8 HD</span><span class="mega-desc">Studio-quality text-to-speech</span></div>
+              </div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4"/></svg></div>
+                <div class="mega-text"><span class="mega-name">Seed Speech</span><span class="mega-desc">ByteDance multilingual text-to-speech</span></div>
+                <span class="mega-badge new">NEW</span>
+              </div>
+              <div class="mega-item" onclick="goTo('audio');closeAllDropdowns()">
+                <div class="mega-icon mega-icon-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
+                <div class="mega-text"><span class="mega-name">VibeVoice</span><span class="mega-desc">Long-form expressive voice synthesis</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <button class="nav-tab" onclick="goTo('live')">Live swap</button>
       <button class="nav-tab" onclick="goTo('pricing')">Pricing</button>
     </div>
@@ -2509,6 +3029,87 @@ footer a:hover { color:rgba(255,255,255,0.5); }
 
 <!-- ════════════ PAGE: IMAGE ════════════ -->
 <div class="page" id="page-image">
+  <div class="studio-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="studio-sidebar">
+      <div class="studio-sidebar-tabs">
+        <button class="sidebar-tab active" onclick="switchSidebarTab(this,'img','features')">Features</button>
+        <button class="sidebar-tab" onclick="switchSidebarTab(this,'img','models')">Models</button>
+      </div>
+      <!-- FEATURES panel -->
+      <div class="sidebar-panel active" id="img-features">
+        <div class="sf-item active" onclick="selectImgFeature(this,'generate')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Create Image</span><span class="sf-desc">Generate AI images</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgFeature(this,'faceswap')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M15 5l4-2M9 5L5 3"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Face Swap</span><span class="sf-desc">Swap faces in photos</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgFeature(this,'relight')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Relight</span><span class="sf-desc">Adjust lighting position & color</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgFeature(this,'inpaint')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Inpaint</span><span class="sf-desc">Select area, describe change</span></div>
+          <span class="sf-badge new">NEW</span>
+        </div>
+        <div class="sf-item" onclick="selectImgFeature(this,'upscale')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Image Upscale</span><span class="sf-desc">Enhance image quality</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgFeature(this,'characterswap')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M1 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M13 20c0-3 2.7-5 6-5"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Character Swap</span><span class="sf-desc">Swap characters realistically</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgFeature(this,'draw2edit')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Draw to Edit</span><span class="sf-desc">From sketch to picture</span></div>
+        </div>
+      </div>
+      <!-- MODELS panel -->
+      <div class="sidebar-panel" id="img-models">
+        <div class="sf-item active" onclick="selectImgModel(this,'nano-banana-pro')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Nano Banana Pro</span><span class="sf-desc">Best 4K image model</span></div>
+          <span class="sf-badge top">TOP</span>
+        </div>
+        <div class="sf-item" onclick="selectImgModel(this,'flux-dev')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">FLUX.2</span><span class="sf-desc">Speed-optimized detail</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgModel(this,'seedream')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/><path d="M8 12h8M12 8v8"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Seedream 5.0 Lite</span><span class="sf-desc">Intelligent visual reasoning</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgModel(this,'gpt-image')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg></div>
+          <div class="sf-text"><span class="sf-name">GPT Image 1.5</span><span class="sf-desc">True-color precision rendering</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgModel(this,'grok-imagine')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Grok Imagine</span><span class="sf-desc">Versatile image styles by xAI</span></div>
+          <span class="sf-badge new">NEW</span>
+        </div>
+        <div class="sf-item" onclick="selectImgModel(this,'reve')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Reve</span><span class="sf-desc">Advanced image editing model</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgModel(this,'z-image')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8M8 12h8M8 17h5"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Z-Image</span><span class="sf-desc">Instant lifelike portraits</span></div>
+        </div>
+        <div class="sf-item" onclick="selectImgModel(this,'topaz')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Topaz</span><span class="sf-desc">High-resolution upscaler</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="studio-main">
   <div class="img-studio">
 
     <!-- Gallery area -->
@@ -2603,20 +3204,272 @@ footer a:hover { color:rgba(255,255,255,0.5); }
     </div>
 
   </div>
+  </div><!-- .studio-main -->
+  </div><!-- .studio-layout -->
 </div>
 
 <!-- ════════════ PAGE: VIDEO ════════════ -->
 <div class="page" id="page-video">
-  <div class="video-page">
-    <div class="img-page-title">AI Video Generator</div>
-    <div class="img-page-sub">Generate videos with your AI avatar — coming very soon.</div>
-    <div class="coming-soon-box">
-      <div class="coming-tag">Coming soon</div>
-      <h2>AI Video is almost here</h2>
-      <p>We're integrating the best video AI models so you can generate full videos with your avatar. Text to video, image to video, and more.</p>
-      <button class="btn-generate" style="max-width:280px;margin:0 auto;" onclick="openModal()">Join waitlist</button>
+  <div class="studio-layout">
+
+    <!-- LEFT SIDEBAR VIDEO -->
+    <div class="studio-sidebar">
+      <div class="studio-sidebar-tabs">
+        <button class="sidebar-tab active" onclick="switchSidebarTab(this,'vid','features')">Features</button>
+        <button class="sidebar-tab" onclick="switchSidebarTab(this,'vid','models')">Models</button>
+      </div>
+      <!-- FEATURES panel -->
+      <div class="sidebar-panel active" id="vid-features">
+        <div class="sf-item active" onclick="switchVidMode('t2v',null);highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Create Video</span><span class="sf-desc">Generate AI videos</span></div>
+        </div>
+        <div class="sf-item" onclick="switchVidMode('i2v',null);highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M10 8l6 4-6 4V8z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Image to Video</span><span class="sf-desc">Animate any photo</span></div>
+        </div>
+        <div class="sf-item" onclick="switchVidMode('motion',null);highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Motion Control</span><span class="sf-desc">Transfer motion from video</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/><path d="M8 7V5a2 2 0 0 0-4 0v2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Click to Ad</span><span class="sf-desc">Turn product URLs into video ads</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Sora 2 Trends</span><span class="sf-desc">Turn ideas into viral videos</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Lipsync Studio</span><span class="sf-desc">Create Talking Clips</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Video Upscale</span><span class="sf-desc">Enhance video quality</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Sketch to Video</span><span class="sf-desc">From sketch to cinema</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+          <div class="sf-text"><span class="sf-name">UGC Factory</span><span class="sf-desc">Build UGC video with avatar</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Mixed Media</span><span class="sf-desc">Create mixed media projects</span></div>
+        </div>
+      </div>
+      <!-- MODELS panel -->
+      <div class="sidebar-panel" id="vid-models">
+        <div class="sf-item active" onclick="selectVidModel(this,'seedance')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Seedance 2.0</span><span class="sf-desc">Most advanced video model</span></div>
+          <span class="sf-badge top">TOP</span>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'kling3')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Kling 3.0</span><span class="sf-desc">Cinematic videos with audio</span></div>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'kling3-motion')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Kling 3.0 Motion</span><span class="sf-desc">Transfer motion from video to image</span></div>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'kling-edit')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Kling 01 Edit</span><span class="sf-desc">Advanced video editing</span></div>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'sora2')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Sora 2</span><span class="sf-desc">OpenAI's most advanced model</span></div>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'veo31-lite')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Google Veo 3.1 Lite</span><span class="sf-desc">Fast video generation by Google</span></div>
+          <span class="sf-badge new">NEW</span>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'veo31')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Google Veo 3.1</span><span class="sf-desc">Advanced AI video with sound</span></div>
+          <span class="sf-badge new">NEW</span>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'wan27')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Wan 2.7</span><span class="sf-desc">First and end frame control</span></div>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'minimax-hailuo')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Minimax Hailuo 2.3</span><span class="sf-desc">Fastest high-dynamic video</span></div>
+        </div>
+        <div class="sf-item" onclick="selectVidModel(this,'seedance-pro')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Seedance 1.5 Pro</span><span class="sf-desc">Pro-grade audio-visual sync</span></div>
+        </div>
+      </div>
     </div>
+
+    <!-- VIDEO MAIN CONTENT -->
+    <div class="studio-main" style="overflow-y:auto;">
+  <div class="vid-studio">
+
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
+      <div>
+        <div class="vid-studio-title">Video Studio</div>
+        <div class="vid-studio-sub">Generate videos from text, images or character references using the best AI models.</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,255,255,0.03);border:0.5px solid var(--border);border-radius:12px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a0a0ff" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span style="font-size:13px;color:var(--muted);">Credits:</span>
+        <span style="font-size:13px;font-weight:700;color:#f0f0f0;" id="vidCreditDisplay">—</span>
+      </div>
+    </div>
+
+    <!-- Mode tabs -->
+    <div class="vid-mode-tabs" id="vidModeTabs">
+      <button class="vid-mode-tab active" onclick="switchVidMode('t2v', this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
+        Text to Video
+      </button>
+      <button class="vid-mode-tab" onclick="switchVidMode('i2v', this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M10 8l6 4-6 4V8z"/></svg>
+        Image to Video
+      </button>
+      <button class="vid-mode-tab" onclick="switchVidMode('motion', this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+        Motion Control
+      </button>
+    </div>
+
+    <div class="vid-workspace">
+
+      <!-- LEFT: preview + prompt -->
+      <div>
+        <div class="vid-preview-area">
+          <div class="vid-preview-top" id="vidDropZone" onclick="document.getElementById('vidFileInput').click()">
+            <div class="vid-preview-icon">
+              <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div class="vid-preview-hint" id="vidPreviewHint">Click to upload a reference image (optional)</div>
+            <input type="file" id="vidFileInput" accept="image/*,video/*" style="display:none" onchange="handleVidFile(this)">
+            <video id="vidPreviewVideo" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" controls></video>
+            <img id="vidPreviewImg" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" alt="">
+          </div>
+          <div class="vid-preview-bottom">
+            <textarea class="vid-prompt-input" id="vidPrompt" placeholder="A cinematic shot of a woman walking through neon-lit streets at night, rain reflections, slow motion..." rows="1" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+            <button class="vid-gen-btn" onclick="generateVideo()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Generate &nbsp;<span id="vidCostLabel" style="opacity:0.8;font-weight:500;font-size:11px;">· 4 cr</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Output area -->
+        <div id="vidOutputArea" style="display:none;margin-top:16px;background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;">
+          <div style="padding:14px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:13px;font-weight:600;">Generated Video</span>
+            <div style="display:flex;gap:8px;">
+              <button onclick="downloadVid()" style="background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;">Download</button>
+              <button onclick="regenerateVideo()" style="background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:8px;padding:6px 14px;font-size:12px;color:#a0a0ff;cursor:pointer;font-family:'DM Sans',sans-serif;">Regenerate</button>
+            </div>
+          </div>
+          <video id="vidOutput" controls style="width:100%;display:block;background:#000;"></video>
+        </div>
+
+        <!-- Generation queue -->
+        <div id="vidQueueArea" style="display:none;margin-top:16px;background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
+          <div style="width:44px;height:44px;border-radius:50%;border:2px solid rgba(58,56,255,0.3);border-top-color:#3A38FF;animation:spin 0.9s linear infinite;margin:0 auto 14px;"></div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:6px;">Generating your video...</div>
+          <div style="font-size:12px;color:var(--muted);" id="vidQueueMsg">This usually takes 20–60 seconds</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: settings panel -->
+      <div class="vid-panel">
+        <!-- Model -->
+        <div class="vid-panel-section">
+          <div class="vid-panel-label">Model</div>
+          <div class="vid-model-grid">
+            <div class="vid-model-card active" onclick="selectVidModel(this,'kling','4')">
+              <div class="vid-model-name">Kling 3.0</div>
+              <div class="vid-model-desc">Cinematic quality</div>
+              <span class="vid-model-tag quality">Quality</span>
+            </div>
+            <div class="vid-model-card" onclick="selectVidModel(this,'seedance','3')">
+              <div class="vid-model-name">Seedance 2.0</div>
+              <div class="vid-model-desc">Fast generation</div>
+              <span class="vid-model-tag fast">Fast</span>
+            </div>
+            <div class="vid-model-card" onclick="selectVidModel(this,'nano','2')">
+              <div class="vid-model-name">Nano Pro</div>
+              <div class="vid-model-desc">Lightweight, rapid</div>
+              <span class="vid-model-tag fast">Fast</span>
+            </div>
+            <div class="vid-model-card" onclick="selectVidModel(this,'veo','5')">
+              <div class="vid-model-name">Veo 3.1</div>
+              <div class="vid-model-desc">Ultra realistic</div>
+              <span class="vid-model-tag new">New</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duration -->
+        <div class="vid-panel-section">
+          <div class="vid-slider-row">
+            <div class="vid-panel-label">Duration</div>
+            <div class="vid-slider-val"><span id="vidDurVal">5</span>s</div>
+          </div>
+          <input type="range" class="vid-slider" min="3" max="30" value="5" id="vidDurSlider" oninput="document.getElementById('vidDurVal').textContent=this.value">
+        </div>
+
+        <!-- Aspect Ratio -->
+        <div class="vid-panel-section">
+          <div class="vid-panel-label">Aspect Ratio</div>
+          <div class="vid-ratio-grid">
+            <button class="vid-ratio-btn" onclick="selectRatio(this)">9:16</button>
+            <button class="vid-ratio-btn active" onclick="selectRatio(this)">16:9</button>
+            <button class="vid-ratio-btn" onclick="selectRatio(this)">1:1</button>
+            <button class="vid-ratio-btn" onclick="selectRatio(this)">4:3</button>
+          </div>
+        </div>
+
+        <!-- Style -->
+        <div class="vid-panel-section">
+          <div class="vid-panel-label">Camera Motion</div>
+          <select id="vidCamera" style="width:100%;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+            <option>Auto (AI decides)</option>
+            <option>Static shot</option>
+            <option>Slow pan left</option>
+            <option>Slow pan right</option>
+            <option>Dolly in</option>
+            <option>Dolly out</option>
+            <option>Orbit</option>
+            <option>Handheld shake</option>
+          </select>
+        </div>
+
+        <!-- Credits display -->
+        <div style="background:rgba(58,56,255,0.06);border:0.5px solid rgba(58,56,255,0.2);border-radius:12px;padding:14px;">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Generation cost</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a0a0ff" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span style="font-size:22px;font-weight:700;font-family:'Syne',sans-serif;" id="vidCostDisplay">4</span>
+            <span style="font-size:13px;color:var(--muted);">credits</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;" id="vidCostNote">Kling 3.0 · 5s · 16:9</div>
+        </div>
+
+        <button class="vid-gen-btn" style="width:100%;justify-content:center;" onclick="generateVideo()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Generate Video · <span id="vidCostBtnLabel">4 cr</span>
+        </button>
+
+      </div>
+    </div>
+
   </div>
+  </div><!-- .studio-main -->
+  </div><!-- .studio-layout -->
 </div>
 
 <!-- ════════════ PAGE: LIVE SWAP ════════════ -->
@@ -4345,6 +5198,470 @@ input.rl-range::-webkit-slider-thumb {
   </div>
 </div>
 
+
+<!-- ════════════ PAGE: VIDEO-GENERATE (detail) ════════════ -->
+<div class="page" id="page-video-generate">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Generate Video</div>
+    </div>
+    <div style="font-size:15px;color:var(--muted);margin-bottom:32px;">Turn text prompts into cinematic AI videos. Choose your model, duration, and style.</div>
+    <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:28px;margin-bottom:20px;">
+      <div style="font-size:12px;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Prompt</div>
+      <textarea style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px;color:#f0f0f0;font-size:14px;font-family:'DM Sans',sans-serif;resize:none;min-height:90px;outline:none;" placeholder="A woman walks through a Tokyo market at dusk, handheld camera, soft bokeh, cinematic..."></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px;">
+        <div><div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Model</div>
+          <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+            <option>Kling 3.0 · 4 cr</option><option>Seedance 2.0 · 3 cr</option><option>Nano Pro · 2 cr</option><option>Veo 3.1 · 5 cr</option>
+          </select></div>
+        <div><div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Duration</div>
+          <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+            <option>5 seconds</option><option>10 seconds</option><option>15 seconds</option><option>30 seconds</option>
+          </select></div>
+        <div><div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Aspect Ratio</div>
+          <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+            <option>16:9 Landscape</option><option>9:16 Portrait</option><option>1:1 Square</option><option>4:3 Classic</option>
+          </select></div>
+      </div>
+      <div style="margin-top:16px;display:flex;justify-content:flex-end;">
+        <button onclick="showToast('Sign in to generate videos','')" style="background:#3A38FF;color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Generate · 4 cr
+        </button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">Cinematic Quality</div><div style="font-size:12px;color:var(--muted);">4K detail, film-grade output</div></div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">Camera Control</div><div style="font-size:12px;color:var(--muted);">Pan, dolly, orbit and more</div></div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">Up to 30 seconds</div><div style="font-size:12px;color:var(--muted);">Long-form video generation</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: VIDEO-I2V ════════════ -->
+<div class="page" id="page-video-i2v">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M10 8l6 4-6 4V8z"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Image to Video</div>
+    </div>
+    <div style="font-size:15px;color:var(--muted);margin-bottom:32px;">Upload any image and bring it to life with AI-generated motion.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:24px;">
+        <div style="font-size:12px;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Source image</div>
+        <div style="background:rgba(255,255,255,0.03);border:0.5px dashed rgba(255,255,255,0.15);border-radius:12px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;" onclick="document.getElementById('i2v-upload').click()">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span style="font-size:13px;color:rgba(255,255,255,0.3);">Upload image to animate</span>
+          <input type="file" id="i2v-upload" accept="image/*" style="display:none">
+        </div>
+        <textarea style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:70px;outline:none;margin-top:14px;" placeholder="Describe the motion: she slowly turns and smiles, leaves blow in the wind..."></textarea>
+      </div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;">
+        <div style="font-size:12px;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Settings</div>
+        <div><div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Model</div>
+          <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+            <option>Kling 3.0 · 4 cr</option><option>Seedance 2.0 · 3 cr</option><option>Veo 3.1 · 5 cr</option>
+          </select></div>
+        <div><div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Duration</div>
+          <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;">
+            <option>5 seconds</option><option>10 seconds</option><option>15 seconds</option>
+          </select></div>
+        <div><div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Motion intensity</div>
+          <input type="range" style="width:100%;accent-color:#3A38FF;" min="1" max="10" value="5"></div>
+        <button onclick="showToast('Sign in to animate images','')" style="margin-top:auto;background:#3A38FF;color:#fff;border:none;padding:13px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Animate · 4 cr
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: VIDEO-MOTION ════════════ -->
+<div class="page" id="page-video-motion">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Motion Control</div>
+    </div>
+    <div style="font-size:15px;color:var(--muted);margin-bottom:32px;">Precise control over your character's actions and expressions — up to 30 seconds.</div>
+    <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:28px;margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+        <div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Character reference</div>
+          <div style="background:rgba(255,255,255,0.03);border:0.5px dashed rgba(255,255,255,0.12);border-radius:10px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;" onclick="document.getElementById('mc-char').click()">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <span style="font-size:12px;color:rgba(255,255,255,0.25);">Upload character</span>
+            <input type="file" id="mc-char" accept="image/*" style="display:none">
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Motion preset</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="padding:10px;background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.3);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;">Walking</div>
+            <div style="padding:10px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;">Running</div>
+            <div style="padding:10px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;">Dancing</div>
+            <div style="padding:10px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;">Sitting</div>
+            <div style="padding:10px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;">Waving</div>
+            <div style="padding:10px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;">Custom</div>
+          </div>
+        </div>
+      </div>
+      <textarea style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:60px;outline:none;" placeholder="Describe the motion in detail: walks confidently, turns head, raises hand..."></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:14px;">
+        <button onclick="showToast('Sign in to use Motion Control','')" style="background:#3A38FF;color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">Generate · 5 cr</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: AUDIO (main hub) ════════════ -->
+<div class="page" id="page-audio">
+  <div class="studio-layout">
+
+    <!-- LEFT SIDEBAR AUDIO -->
+    <div class="studio-sidebar">
+      <div class="studio-sidebar-tabs">
+        <button class="sidebar-tab active" onclick="switchSidebarTab(this,'aud','features')">Features</button>
+        <button class="sidebar-tab" onclick="switchSidebarTab(this,'aud','models')">Models</button>
+      </div>
+      <!-- FEATURES panel -->
+      <div class="sidebar-panel active" id="aud-features">
+        <div class="sf-item active" onclick="switchAudMode('lipsync',document.querySelectorAll('.aud-mode-tab')[0]);highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Voiceover</span><span class="sf-desc">Generate speech from text</span></div>
+        </div>
+        <div class="sf-item" onclick="switchAudMode('tts',document.querySelectorAll('.aud-mode-tab')[1]);highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Change Voice</span><span class="sf-desc">Swap voices in any video</span></div>
+        </div>
+        <div class="sf-item" onclick="highlightSfItem(this)">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Translation</span><span class="sf-desc">Translate speech in any video</span></div>
+        </div>
+      </div>
+      <!-- MODELS panel -->
+      <div class="sidebar-panel" id="aud-models">
+        <div class="sf-item active" onclick="selectAudModel(this,'eleven-v3')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Eleven v3</span><span class="sf-desc">Expressive AI voice with emotion</span></div>
+        </div>
+        <div class="sf-item" onclick="selectAudModel(this,'minimax-speech')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="sf-text"><span class="sf-name">MiniMax Speech 2.8 HD</span><span class="sf-desc">Studio-quality text-to-speech</span></div>
+        </div>
+        <div class="sf-item" onclick="selectAudModel(this,'seed-speech')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+          <div class="sf-text"><span class="sf-name">Seed Speech</span><span class="sf-desc">ByteDance multilingual TTS</span></div>
+          <span class="sf-badge new">NEW</span>
+        </div>
+        <div class="sf-item" onclick="selectAudModel(this,'vibespeech')">
+          <div class="sf-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C5FFF" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
+          <div class="sf-text"><span class="sf-name">VibeVoice</span><span class="sf-desc">Long-form expressive synthesis</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDIO MAIN CONTENT -->
+    <div class="studio-main" style="overflow-y:auto;">
+  <div class="aud-studio">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
+      <div>
+        <div class="aud-page-title">Audio Studio</div>
+        <div class="aud-page-sub">Generate speech from text or sync audio to your AI avatar with Lipsync.</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,255,255,0.03);border:0.5px solid var(--border);border-radius:12px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a0a0ff" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span style="font-size:13px;color:var(--muted);">Credits:</span>
+        <span style="font-size:13px;font-weight:700;color:#f0f0f0;" id="audCreditDisplay">—</span>
+      </div>
+    </div>
+
+    <!-- Mode tabs -->
+    <div class="aud-mode-tabs" id="audModeTabs">
+      <button class="aud-mode-tab active" onclick="switchAudMode('lipsync', this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+        Lipsync Studio
+      </button>
+      <button class="aud-mode-tab" onclick="switchAudMode('tts', this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        Text to Speech
+      </button>
+    </div>
+
+    <!-- ══ LIPSYNC WORKSPACE ══ -->
+    <div id="audWorkspaceLipsync">
+      <div class="lipsync-workspace">
+        <div class="lipsync-main">
+
+          <!-- Upload row -->
+          <div class="lipsync-upload-row">
+            <!-- Video/Image input -->
+            <div class="lipsync-upload-box">
+              <div class="lipsync-upload-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M10 8l6 4-6 4V8z"/></svg>
+                <div class="lipsync-upload-label">Video or Image <span>(avatar to animate)</span></div>
+              </div>
+              <div class="lipsync-drop" onclick="document.getElementById('ls-vid').click()">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M10 8l6 4-6 4V8z"/></svg>
+                <p>Click to upload video or photo</p>
+                <p style="font-size:11px;">MP4, MOV, JPG, PNG · max 100MB</p>
+                <input type="file" id="ls-vid" accept="image/*,video/*" style="display:none">
+              </div>
+            </div>
+            <!-- Audio input -->
+            <div class="lipsync-upload-box">
+              <div class="lipsync-upload-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                <div class="lipsync-upload-label">Audio / Voice <span>(what to say)</span></div>
+              </div>
+              <div class="lipsync-drop" id="lsAudioDrop">
+                <!-- Audio input sub-tabs -->
+                <div class="aud-input-tabs" style="margin-bottom:12px;">
+                  <button class="aud-input-tab active" onclick="switchLsInput('text',this)">Write text</button>
+                  <button class="aud-input-tab" onclick="switchLsInput('file',this)">Upload audio</button>
+                  <button class="aud-input-tab" onclick="switchLsInput('record',this)">Record</button>
+                </div>
+                <div id="lsInputText" style="width:90%;">
+                  <textarea class="aud-text-area" placeholder="Type what your avatar should say..." style="height:70px;"></textarea>
+                </div>
+                <div id="lsInputFile" style="display:none;width:90%;">
+                  <div class="aud-file-drop" onclick="document.getElementById('ls-aud-file').click()">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/></svg>
+                    <p>Upload MP3 or WAV file</p>
+                    <input type="file" id="ls-aud-file" accept="audio/*" style="display:none">
+                  </div>
+                </div>
+                <div id="lsInputRecord" style="display:none;width:90%;text-align:center;">
+                  <button onclick="toggleRecording(this)" style="background:rgba(255,60,60,0.12);border:0.5px solid rgba(255,60,60,0.3);color:#ff6060;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">
+                    ⏺ Start Recording
+                  </button>
+                  <p style="font-size:11px;color:var(--muted);margin-top:8px;">Click to start · click again to stop</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Output preview -->
+          <div id="lsOutputArea" style="background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;">
+            <div style="padding:14px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:600;">Preview</span>
+              <span style="font-size:11px;color:var(--muted);">Output will appear here after generation</span>
+            </div>
+            <div style="aspect-ratio:16/9;background:#07061a;display:flex;align-items:center;justify-content:center;">
+              <div style="text-align:center;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(58,56,255,0.25)" stroke-width="1"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                <p style="font-size:12px;color:rgba(255,255,255,0.2);margin-top:8px;">Generate to see your lipsync avatar</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT panel -->
+        <div class="aud-panel">
+          <div>
+            <div class="aud-panel-label">Voice Style</div>
+            <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;margin-top:6px;">
+              <option>Natural (default)</option>
+              <option>Energetic</option>
+              <option>Calm & clear</option>
+              <option>Professional</option>
+              <option>Storytelling</option>
+            </select>
+          </div>
+          <div>
+            <div class="aud-panel-label">Lipsync Quality</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;">
+              <div style="padding:10px;background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.3);border-radius:8px;text-align:center;cursor:pointer;">
+                <div style="font-size:12px;font-weight:600;">Standard</div>
+                <div style="font-size:10px;color:var(--muted);">1 cr/sec</div>
+              </div>
+              <div style="padding:10px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;">
+                <div style="font-size:12px;font-weight:600;">Ultra HD</div>
+                <div style="font-size:10px;color:var(--muted);">2 cr/sec</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="aud-panel-label">Output Format</div>
+            <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;margin-top:6px;">
+              <option>MP4 Video</option>
+              <option>MOV Video</option>
+              <option>GIF (no audio)</option>
+            </select>
+          </div>
+          <div style="background:rgba(58,56,255,0.06);border:0.5px solid rgba(58,56,255,0.2);border-radius:12px;padding:14px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Estimated cost</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a0a0ff" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;">~3</span>
+              <span style="font-size:13px;color:var(--muted);">credits per 3s</span>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;">Based on audio length</div>
+          </div>
+          <button class="aud-gen-btn" onclick="showToast('Sign in to use Lipsync Studio','')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Generate Lipsync
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TTS WORKSPACE ══ -->
+    <div id="audWorkspaceTts" style="display:none;">
+      <div class="tts-workspace">
+        <div class="tts-main">
+
+          <!-- Text input -->
+          <div class="tts-text-box">
+            <div style="font-size:12px;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Your text</div>
+            <textarea class="aud-text-area" id="ttsTextInput" style="height:130px;" placeholder="Type anything — a script, a story, a product description, or a voiceover for your video..."></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+              <span style="font-size:12px;color:var(--muted);"><span id="ttsCharCount">0</span> characters</span>
+              <span style="font-size:12px;color:var(--muted);">~<span id="ttsDurEst">0</span>s audio</span>
+            </div>
+          </div>
+
+          <!-- Voice selection -->
+          <div>
+            <div style="font-size:14px;font-weight:600;margin-bottom:14px;">Choose a voice</div>
+            <div class="tts-voices-grid">
+              <div class="tts-voice-card active" onclick="selectTtsVoice(this,'aria')">
+                <div class="tts-voice-avatar" style="background:rgba(58,56,255,0.15);">👩</div>
+                <div><div class="tts-voice-name">Aria</div><div class="tts-voice-style">Warm · Natural</div></div>
+                <div class="tts-play-btn" onclick="event.stopPropagation();playTtsPreview('aria')"><svg width="8" height="8" viewBox="0 0 24 24" fill="#3A38FF"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+              </div>
+              <div class="tts-voice-card" onclick="selectTtsVoice(this,'marcus')">
+                <div class="tts-voice-avatar" style="background:rgba(0,180,100,0.12);">👨</div>
+                <div><div class="tts-voice-name">Marcus</div><div class="tts-voice-style">Deep · Professional</div></div>
+                <div class="tts-play-btn" onclick="event.stopPropagation();playTtsPreview('marcus')"><svg width="8" height="8" viewBox="0 0 24 24" fill="#3A38FF"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+              </div>
+              <div class="tts-voice-card" onclick="selectTtsVoice(this,'luna')">
+                <div class="tts-voice-avatar" style="background:rgba(200,100,255,0.12);">👩‍🎤</div>
+                <div><div class="tts-voice-name">Luna</div><div class="tts-voice-style">Energetic · Young</div></div>
+                <div class="tts-play-btn" onclick="event.stopPropagation();playTtsPreview('luna')"><svg width="8" height="8" viewBox="0 0 24 24" fill="#3A38FF"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+              </div>
+              <div class="tts-voice-card" onclick="selectTtsVoice(this,'kai')">
+                <div class="tts-voice-avatar" style="background:rgba(255,150,0,0.12);">🧑</div>
+                <div><div class="tts-voice-name">Kai</div><div class="tts-voice-style">Neutral · Clear</div></div>
+                <div class="tts-play-btn" onclick="event.stopPropagation();playTtsPreview('kai')"><svg width="8" height="8" viewBox="0 0 24 24" fill="#3A38FF"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+              </div>
+              <div class="tts-voice-card" onclick="selectTtsVoice(this,'nova')">
+                <div class="tts-voice-avatar" style="background:rgba(0,200,200,0.12);">👩‍💼</div>
+                <div><div class="tts-voice-name">Nova</div><div class="tts-voice-style">Calm · Corporate</div></div>
+                <div class="tts-play-btn" onclick="event.stopPropagation();playTtsPreview('nova')"><svg width="8" height="8" viewBox="0 0 24 24" fill="#3A38FF"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+              </div>
+              <div class="tts-voice-card" onclick="selectTtsVoice(this,'rex')">
+                <div class="tts-voice-avatar" style="background:rgba(255,60,60,0.12);">🎙️</div>
+                <div><div class="tts-voice-name">Rex</div><div class="tts-voice-style">Bold · Broadcast</div></div>
+                <div class="tts-play-btn" onclick="event.stopPropagation();playTtsPreview('rex')"><svg width="8" height="8" viewBox="0 0 24 24" fill="#3A38FF"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Output player -->
+          <div id="ttsPlayerArea" style="display:none;">
+            <div class="aud-player">
+              <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Generated audio</div>
+              <div class="aud-waveform" id="ttsWaveform"></div>
+              <div class="aud-player-controls">
+                <button class="aud-play-big" id="ttsPlayBtn" onclick="toggleTtsPlay()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+                <span class="aud-player-name" id="ttsVoiceName">Aria · Natural</span>
+                <span class="aud-player-time" id="ttsTime">0:00 / 0:00</span>
+                <button class="aud-dl-btn" onclick="showToast('Download ready — sign in to save','')">Download MP3</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT panel -->
+        <div class="aud-panel">
+          <div>
+            <div class="aud-panel-label">Speed</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;margin-bottom:4px;">
+              <span style="font-size:12px;color:var(--muted);">0.5x</span>
+              <span class="vid-slider-val"><span id="ttsSpeedVal">1.0</span>x</span>
+              <span style="font-size:12px;color:var(--muted);">2.0x</span>
+            </div>
+            <input type="range" class="vid-slider" min="5" max="20" value="10" oninput="document.getElementById('ttsSpeedVal').textContent=(this.value/10).toFixed(1)">
+          </div>
+          <div>
+            <div class="aud-panel-label">Emotion</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;">
+              <div style="padding:9px;background:rgba(58,56,255,0.1);border:0.5px solid rgba(58,56,255,0.3);border-radius:8px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;">Neutral</div>
+              <div style="padding:9px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;">Happy</div>
+              <div style="padding:9px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;">Serious</div>
+              <div style="padding:9px;background:rgba(255,255,255,0.04);border:0.5px solid var(--border);border-radius:8px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;">Excited</div>
+            </div>
+          </div>
+          <div>
+            <div class="aud-panel-label">Output Format</div>
+            <select style="width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:#f0f0f0;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;margin-top:6px;">
+              <option>MP3 (compressed)</option>
+              <option>WAV (lossless)</option>
+              <option>OGG</option>
+            </select>
+          </div>
+          <div style="background:rgba(58,56,255,0.06);border:0.5px solid rgba(58,56,255,0.2);border-radius:12px;padding:14px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Generation cost</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a0a0ff" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;">1</span>
+              <span style="font-size:13px;color:var(--muted);">credit per generation</span>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;">Up to 5 min of audio</div>
+          </div>
+          <button class="aud-gen-btn" onclick="generateTts()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Generate Speech · 1 cr
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div><!-- .studio-main -->
+  </div><!-- .studio-layout -->
+</div>
+
+<!-- ════════════ PAGE: AUDIO-LIPSYNC (direct link) ════════════ -->
+<div class="page" id="page-audio-lipsync">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Lipsync Studio</div>
+    </div>
+    <div style="font-size:15px;color:var(--muted);margin-bottom:12px;">Make your AI avatar speak with perfect lip synchronization. Upload a video or photo + audio, and watch them come to life.</div>
+    <button onclick="goTo('audio')" style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:28px;">← Open full Audio Studio</button>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">Upload video or photo</div><div style="font-size:12px;color:var(--muted);">Any portrait or talking-head video</div></div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">Add audio or write text</div><div style="font-size:12px;color:var(--muted);">Upload MP3/WAV or type a script</div></div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">Export the result</div><div style="font-size:12px;color:var(--muted);">Download MP4 in seconds</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: AUDIO-TTS (direct link) ════════════ -->
+<div class="page" id="page-audio-tts">
+  <div style="max-width:1300px;margin:0 auto;padding:60px 40px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <div style="width:40px;height:40px;background:var(--blue-dim);border:0.5px solid var(--blue-border);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3A38FF" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:700;">Text to Speech</div>
+    </div>
+    <div style="font-size:15px;color:var(--muted);margin-bottom:12px;">Generate natural-sounding voices from any text. Perfect for voiceovers, narration, and content creation.</div>
+    <button onclick="goTo('audio')" style="background:var(--blue-dim);border:0.5px solid var(--blue-border);color:#a0a0ff;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:28px;">← Open full Audio Studio</button>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">6 AI voices</div><div style="font-size:12px;color:var(--muted);">Natural, professional, energetic</div></div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">Emotion control</div><div style="font-size:12px;color:var(--muted);">Neutral, happy, serious, excited</div></div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:16px;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">1 cr per generation</div><div style="font-size:12px;color:var(--muted);">Up to 5 minutes of audio</div></div>
+    </div>
+  </div>
+</div>
+
+
 <!-- ── SCROLL 3D REVEAL ENGINE v3 — SCROLL-DRIVEN ── -->
 <script>
 (function(){
@@ -4512,5 +5829,438 @@ input.rl-range::-webkit-slider-thumb {
 
 })();
 </script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  VIDEO STUDIO LOGIC
+// ═══════════════════════════════════════════════════════════════
+
+var vidCurrentModel = 'kling';
+var vidCurrentCost = 4;
+
+function closeAllDropdowns() {
+  // Dropdowns close naturally on mouseleave via CSS opacity,
+  // but this can be called after click to force close
+  document.querySelectorAll('.nav-dropdown-menu').forEach(function(m) {
+    m.style.opacity = '0';
+    m.style.pointerEvents = 'none';
+    setTimeout(function(){ m.style.opacity = ''; m.style.pointerEvents = ''; }, 300);
+  });
+}
+
+function selectVidModel(el, model, cost) {
+  document.querySelectorAll('.vid-model-card').forEach(function(c){ c.classList.remove('active'); });
+  var panel = el.closest ? el.closest('.sidebar-panel') : null;
+  if (panel) { panel.querySelectorAll('.sf-item').forEach(function(i){ i.classList.remove('active'); }); }
+  el.classList.add('active');
+  vidCurrentModel = model;
+  var defaultCosts = {seedance:4,kling3:4,'kling3-motion':3,'kling-edit':3,sora2:6,'veo31-lite':3,veo31:5,wan27:4,'minimax-hailuo':3,'seedance-pro':5};
+  vidCurrentCost = cost !== undefined ? parseInt(cost) : (defaultCosts[model] || 4);
+  updateVidCostDisplay();
+  var modelNames = {seedance:'Seedance 2.0',kling3:'Kling 3.0','kling3-motion':'Kling 3.0 Motion','kling-edit':'Kling 01 Edit',sora2:'Sora 2','veo31-lite':'Veo 3.1 Lite',veo31:'Google Veo 3.1',wan27:'Wan 2.7','minimax-hailuo':'Minimax Hailuo 2.3','seedance-pro':'Seedance 1.5 Pro'};
+  if (cost === undefined) showToast('Model: ' + (modelNames[model] || model), 'Selected');
+}
+
+function updateVidCostDisplay() {
+  var dur = parseInt(document.getElementById('vidDurSlider') ? document.getElementById('vidDurSlider').value : 5);
+  var totalCost = Math.max(vidCurrentCost, Math.round(vidCurrentCost * dur / 5));
+  var modelNames = { kling:'Kling 3.0', seedance:'Seedance 2.0', nano:'Nano Pro', veo:'Veo 3.1' };
+  var mName = modelNames[vidCurrentModel] || 'Kling 3.0';
+  var ratioEl = document.querySelector('.vid-ratio-btn.active');
+  var ratio = ratioEl ? ratioEl.textContent : '16:9';
+  var noteEl = document.getElementById('vidCostNote');
+  if (noteEl) noteEl.textContent = mName + ' · ' + dur + 's · ' + ratio;
+  var costEl = document.getElementById('vidCostDisplay');
+  if (costEl) costEl.textContent = totalCost;
+  var btnLabelEl = document.getElementById('vidCostLabel');
+  if (btnLabelEl) btnLabelEl.textContent = '· ' + totalCost + ' cr';
+  var btnLabel2 = document.getElementById('vidCostBtnLabel');
+  if (btnLabel2) btnLabel2.textContent = totalCost + ' cr';
+  // Sync credit display in header
+  var creditDisp = document.getElementById('vidCreditDisplay');
+  if (creditDisp) {
+    var bal = parseInt(localStorage.getItem('frandani_credits') || '0');
+    creditDisp.textContent = bal + ' cr';
+  }
+}
+
+// Duration slider live update
+document.addEventListener('DOMContentLoaded', function() {
+  var slider = document.getElementById('vidDurSlider');
+  if (slider) {
+    slider.addEventListener('input', updateVidCostDisplay);
+  }
+  updateVidCostDisplay();
+
+  // TTS char counter
+  var ttsInput = document.getElementById('ttsTextInput');
+  if (ttsInput) {
+    ttsInput.addEventListener('input', function() {
+      var len = this.value.length;
+      var charEl = document.getElementById('ttsCharCount');
+      var durEl = document.getElementById('ttsDurEst');
+      if (charEl) charEl.textContent = len;
+      if (durEl) durEl.textContent = Math.round(len / 15); // ~15 chars/sec estimate
+    });
+  }
+
+  // Build TTS waveform bars
+  var waveform = document.getElementById('ttsWaveform');
+  if (waveform) {
+    for (var i = 0; i < 60; i++) {
+      var bar = document.createElement('div');
+      bar.className = 'aud-waveform-bar';
+      var h = 8 + Math.random() * 44;
+      bar.style.height = h + 'px';
+      bar.style.opacity = 0.3 + Math.random() * 0.5;
+      waveform.appendChild(bar);
+    }
+  }
+});
+
+function switchVidMode(mode, btn) {
+  document.querySelectorAll('.vid-mode-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  var hint = document.getElementById('vidPreviewHint');
+  if (mode === 't2v') {
+    if (hint) hint.textContent = 'Click to upload a reference image (optional)';
+    document.getElementById('vidPrompt').placeholder = 'A cinematic shot of a woman walking through neon-lit streets at night, rain reflections, slow motion...';
+  } else if (mode === 'i2v') {
+    if (hint) hint.textContent = 'Click to upload your source image (required)';
+    document.getElementById('vidPrompt').placeholder = 'Describe the motion: she slowly turns, leaves blow in the breeze, camera drifts right...';
+  } else if (mode === 'motion') {
+    if (hint) hint.textContent = 'Click to upload your character reference';
+    document.getElementById('vidPrompt').placeholder = 'Describe the movement: walks confidently, raises hand to wave, looks left...';
+  }
+}
+
+function selectRatio(btn) {
+  document.querySelectorAll('.vid-ratio-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  updateVidCostDisplay();
+}
+
+function handleVidFile(input) {
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  var url = URL.createObjectURL(file);
+  var hint = document.getElementById('vidPreviewHint');
+  if (hint) hint.style.display = 'none';
+  if (file.type.startsWith('video/')) {
+    var vid = document.getElementById('vidPreviewVideo');
+    if (vid) { vid.src = url; vid.style.display = 'block'; }
+  } else {
+    var img = document.getElementById('vidPreviewImg');
+    if (img) { img.src = url; img.style.display = 'block'; }
+  }
+}
+
+function generateVideo() {
+  var bal = parseInt(localStorage.getItem('frandani_credits') || '0');
+  if (bal <= 0) {
+    showToast('Not enough credits', 'Get credits in the Pricing tab');
+    return;
+  }
+  var queue = document.getElementById('vidQueueArea');
+  var output = document.getElementById('vidOutputArea');
+  if (output) output.style.display = 'none';
+  if (queue) queue.style.display = 'block';
+  var msgs = ['Initializing models...', 'Rendering frames...', 'Applying cinematic effects...', 'Almost ready...'];
+  var i = 0;
+  var msgEl = document.getElementById('vidQueueMsg');
+  var interval = setInterval(function() {
+    if (msgEl && i < msgs.length) { msgEl.textContent = msgs[i]; i++; }
+  }, 1800);
+  setTimeout(function() {
+    clearInterval(interval);
+    if (queue) queue.style.display = 'none';
+    if (output) output.style.display = 'block';
+    // Deduct credits
+    var cost = vidCurrentCost;
+    localStorage.setItem('frandani_credits', Math.max(0, bal - cost));
+    updateVidCostDisplay();
+    showToast('Video generated!', 'Download available below');
+  }, 7500);
+}
+
+function regenerateVideo() {
+  generateVideo();
+}
+
+function downloadVid() {
+  showToast('Download ready', 'Sign in to save your video');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  AUDIO STUDIO LOGIC
+// ═══════════════════════════════════════════════════════════════
+
+function switchAudMode(mode, btn) {
+  document.querySelectorAll('.aud-mode-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  var lipsync = document.getElementById('audWorkspaceLipsync');
+  var tts = document.getElementById('audWorkspaceTts');
+  if (mode === 'lipsync') {
+    if (lipsync) lipsync.style.display = 'block';
+    if (tts) tts.style.display = 'none';
+  } else {
+    if (lipsync) lipsync.style.display = 'none';
+    if (tts) tts.style.display = 'block';
+  }
+}
+
+function switchLsInput(type, btn) {
+  document.querySelectorAll('.aud-input-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  var panels = { text:'lsInputText', file:'lsInputFile', record:'lsInputRecord' };
+  Object.keys(panels).forEach(function(k) {
+    var el = document.getElementById(panels[k]);
+    if (el) el.style.display = (k === type) ? 'block' : 'none';
+  });
+}
+
+var isRecording = false;
+function toggleRecording(btn) {
+  isRecording = !isRecording;
+  if (isRecording) {
+    btn.textContent = '⏹ Stop Recording';
+    btn.style.background = 'rgba(255,60,60,0.25)';
+  } else {
+    btn.textContent = '⏺ Start Recording';
+    btn.style.background = 'rgba(255,60,60,0.12)';
+    showToast('Recording saved', 'Ready to generate lipsync');
+  }
+}
+
+var selectedTtsVoice = 'aria';
+var ttsPlaying = false;
+
+function selectTtsVoice(el, voice) {
+  document.querySelectorAll('.tts-voice-card').forEach(function(c){ c.classList.remove('active'); });
+  el.classList.add('active');
+  selectedTtsVoice = voice;
+}
+
+function playTtsPreview(voice) {
+  showToast('Voice preview: ' + voice.charAt(0).toUpperCase() + voice.slice(1), 'Sign in to hear full preview');
+}
+
+function generateTts() {
+  var text = document.getElementById('ttsTextInput');
+  if (!text || !text.value.trim()) {
+    showToast('Please enter some text first', '');
+    return;
+  }
+  var bal = parseInt(localStorage.getItem('frandani_credits') || '0');
+  if (bal <= 0) {
+    showToast('Not enough credits', 'Get credits in Pricing');
+    return;
+  }
+  // Animate waveform
+  var bars = document.querySelectorAll('.aud-waveform-bar');
+  var animInterval = setInterval(function() {
+    bars.forEach(function(b) {
+      var h = 8 + Math.random() * 44;
+      b.style.height = h + 'px';
+      b.style.background = 'rgba(58,56,255,' + (0.4 + Math.random() * 0.5) + ')';
+    });
+  }, 120);
+  setTimeout(function() {
+    clearInterval(animInterval);
+    var playerArea = document.getElementById('ttsPlayerArea');
+    if (playerArea) playerArea.style.display = 'block';
+    var voiceNames = { aria:'Aria · Natural', marcus:'Marcus · Professional', luna:'Luna · Energetic', kai:'Kai · Clear', nova:'Nova · Corporate', rex:'Rex · Broadcast' };
+    var nameEl = document.getElementById('ttsVoiceName');
+    if (nameEl) nameEl.textContent = voiceNames[selectedTtsVoice] || 'Aria · Natural';
+    var timeEl = document.getElementById('ttsTime');
+    if (timeEl) {
+      var len = text.value.length;
+      var secs = Math.max(3, Math.round(len / 15));
+      var mm = Math.floor(secs / 60), ss = secs % 60;
+      timeEl.textContent = '0:00 / ' + mm + ':' + (ss < 10 ? '0' : '') + ss;
+    }
+    localStorage.setItem('frandani_credits', Math.max(0, bal - 1));
+    showToast('Audio generated!', 'Press play to listen');
+  }, 2200);
+}
+
+function toggleTtsPlay() {
+  ttsPlaying = !ttsPlaying;
+  var btn = document.getElementById('ttsPlayBtn');
+  if (btn) {
+    btn.innerHTML = ttsPlaying
+      ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>'
+      : '<svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+  }
+  if (!ttsPlaying) return;
+  // Animate waveform while "playing"
+  var bars = document.querySelectorAll('.aud-waveform-bar');
+  var playInterval = setInterval(function() {
+    if (!ttsPlaying) { clearInterval(playInterval); return; }
+    bars.forEach(function(b) {
+      var h = 8 + Math.random() * 44;
+      b.style.height = h + 'px';
+      b.style.background = 'rgba(58,56,255,' + (0.5 + Math.random() * 0.4) + ')';
+    });
+  }, 100);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  REGISTER NEW PAGES IN goTo()
+// ═══════════════════════════════════════════════════════════════
+// Patch goTo to also update nav-tab active state for audio/video
+var _origGoTo = typeof goTo === 'function' ? goTo : null;
+
+function goTo(pageId) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+
+  // Update nav-tab active state
+  document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
+  var rootPage = pageId.split('-')[0];
+  document.querySelectorAll('.nav-tab').forEach(function(t) {
+    var onclick = t.getAttribute('onclick') || '';
+    if (onclick.indexOf("goTo('" + rootPage + "')") !== -1 ||
+        onclick.indexOf("goTo('" + pageId + "')") !== -1) {
+      t.classList.add('active');
+    }
+  });
+
+  // Special: when navigating to 'audio', ensure lipsync is default tab
+  if (pageId === 'audio') {
+    var lipsync = document.getElementById('audWorkspaceLipsync');
+    var tts = document.getElementById('audWorkspaceTts');
+    if (lipsync) lipsync.style.display = 'block';
+    if (tts) tts.style.display = 'none';
+    document.querySelectorAll('.aud-mode-tab').forEach(function(t, i){ t.classList.toggle('active', i === 0); });
+    // Sync credit display
+    var audCred = document.getElementById('audCreditDisplay');
+    if (audCred) {
+      var bal = parseInt(localStorage.getItem('frandani_credits') || '0');
+      audCred.textContent = bal + ' cr';
+    }
+  }
+
+  // When navigating to audio sub-pages, redirect to full audio studio with correct tab
+  if (pageId === 'audio-lipsync') {
+    goTo('audio');
+    return;
+  }
+  if (pageId === 'audio-tts') {
+    goTo('audio');
+    // Switch to TTS tab
+    setTimeout(function() {
+      var tabs = document.querySelectorAll('.aud-mode-tab');
+      if (tabs[1]) switchAudMode('tts', tabs[1]);
+    }, 50);
+    return;
+  }
+
+  // For video sub-pages, show full video studio
+  if (pageId === 'video-generate' || pageId === 'video-i2v' || pageId === 'video-motion') {
+    goTo('video');
+    setTimeout(function() {
+      var modeMap = { 'video-generate': 't2v', 'video-i2v': 'i2v', 'video-motion': 'motion' };
+      var tabs = document.querySelectorAll('.vid-mode-tab');
+      var modes = ['t2v','i2v','motion'];
+      var modeIdx = modes.indexOf(modeMap[pageId]);
+      if (tabs[modeIdx]) switchVidMode(modeMap[pageId], tabs[modeIdx]);
+    }, 50);
+    return;
+  }
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SIDEBAR PANEL FUNCTIONS (Higgsfield-style left panel)
+// ═══════════════════════════════════════════════════════════════
+
+function switchSidebarTab(btn, prefix, tab) {
+  // Update tab buttons
+  var parent = btn.closest('.studio-sidebar-tabs');
+  if (parent) parent.querySelectorAll('.sidebar-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  // Show correct panel
+  var features = document.getElementById(prefix + '-features');
+  var models = document.getElementById(prefix + '-models');
+  if (features) features.classList.toggle('active', tab === 'features');
+  if (models) models.classList.toggle('active', tab === 'models');
+}
+
+function highlightSfItem(el) {
+  // Highlight within its sidebar panel
+  var panel = el.closest('.sidebar-panel');
+  if (panel) panel.querySelectorAll('.sf-item').forEach(function(i){ i.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+function selectImgFeature(el, feature) {
+  highlightSfItem(el);
+  var featureMap = {
+    'generate': 'image',
+    'faceswap': 'image-faceswap',
+    'relight': 'image-relight',
+    'inpaint': 'image-inpaint',
+    'upscale': 'image-upscale',
+    'characterswap': 'image',
+    'draw2edit': 'image'
+  };
+  var page = featureMap[feature] || 'image';
+  // Just stay on image page for most, redirect for specific sub-pages
+  if (page !== 'image') {
+    goTo(page);
+  }
+  // Show a toast indicating the tool
+  var names = {
+    generate:'Create Image', faceswap:'Face Swap', relight:'Relight',
+    inpaint:'Inpaint', upscale:'Image Upscale', characterswap:'Character Swap', draw2edit:'Draw to Edit'
+  };
+  showToast(names[feature] || feature, 'Tool selected');
+}
+
+function selectImgModel(el, model) {
+  highlightSfItem(el);
+  var modelNames = {
+    'nano-banana-pro': 'Nano Banana Pro',
+    'flux-dev': 'FLUX.2',
+    'seedream': 'Seedream 5.0 Lite',
+    'gpt-image': 'GPT Image 1.5',
+    'grok-imagine': 'Grok Imagine',
+    'reve': 'Reve',
+    'z-image': 'Z-Image',
+    'topaz': 'Topaz'
+  };
+  var label = modelNames[model] || model;
+  // Update the bottom bar model selector label
+  var modelLabel = document.getElementById('modelLabel');
+  if (modelLabel) modelLabel.textContent = label;
+  // Update dropdown active state
+  document.querySelectorAll('#ddModel .bar-dd-item').forEach(function(i){ i.classList.remove('active'); });
+  showToast('Model: ' + label, 'Selected for generation');
+}
+
+function selectAudModel(el, model) {
+  highlightSfItem(el);
+  var modelNames = {
+    'eleven-v3': 'Eleven v3',
+    'minimax-speech': 'MiniMax Speech 2.8 HD',
+    'seed-speech': 'Seed Speech',
+    'vibespeech': 'VibeVoice'
+  };
+  var label = modelNames[model] || model;
+  showToast('Voice model: ' + label, 'Selected for generation');
+}
+
+// Mobile sidebar toggle
+function toggleMobileSidebar(prefix) {
+  var sidebar = document.querySelector('#page-' + prefix + ' .studio-sidebar');
+  if (sidebar) sidebar.classList.toggle('mobile-open');
+}
+</script>
+
 </body>
 </html>
